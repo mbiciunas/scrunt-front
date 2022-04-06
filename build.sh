@@ -5,5 +5,6 @@ rm -rf ./dist
 npm run build
 
 # Copy the build directory (dist) to scrunt-back
-cp -rf ./dist ../scrunt-back
+rm -rf ../scrunt-back/embed/frontend
+cp -rf ./dist ../scrunt-back/embed/frontend
 

@@ -16,6 +16,7 @@
         </h1>
       </v-col>
 
+
     </v-row>
   </v-container>
 </template>
@@ -27,7 +28,7 @@ import { defineComponent } from 'vue'
 import logo from '../assets/logo.svg'
 
 export default defineComponent({
-  name: 'HelloWorld',
+  name: 'Frame',
 
   data () {
     return {
