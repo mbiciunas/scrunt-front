@@ -3,11 +3,8 @@
     <AppBar/>
     <NavigationDrawer/>
     <v-main>
-      <v-card height="300px">
-        <HelloWorld/>
-      </v-card>
-      <v-card height="300px">
-        <Frame/>
+      <v-card height="600px">
+        <HelloAPI/>
       </v-card>
     </v-main>
   </v-app>
@@ -15,8 +12,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
-import Frame from './components/Frame.vue'
+import HelloAPI from './components/HelloAPI.vue'
 import AppBar from './components/AppBar.vue'
 import NavigationDrawer from './components/NavigationDrawer.vue'
 
@@ -26,8 +22,7 @@ export default defineComponent({
   components: {
     AppBar,
     NavigationDrawer,
-    HelloWorld,
-    Frame,
+    HelloAPI,
   },
 
   data () {

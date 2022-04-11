@@ -21,18 +21,18 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue'
+  import { defineComponent } from 'vue'
 
-// Logo
-import logo from '../assets/logo.svg'
+  // Logo
+  import logo from '../assets/logo.svg'
 
-export default defineComponent({
-  name: 'HelloWorld',
+  export default defineComponent({
+    name: 'HelloWorld',
 
-  data () {
-    return {
-      logo,
-    }
-  },
-})
+    data () {
+      return {
+        logo,
+      }
+    },
+  })
 </script>
