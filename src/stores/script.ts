@@ -24,7 +24,6 @@ export const useScriptStore = defineStore({
                 alert(error)
                 console.log(error)
             }
-            console.log(this.scripts)
         }
     },
 })
