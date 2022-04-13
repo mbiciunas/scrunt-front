@@ -3,11 +3,11 @@
     <h1>{{ msg }}</h1>
     <h1>Made By Getters</h1>
     <div v-for='gettersScript in getScripts' :key='gettersScript.id'>
-      {{gettersScript.id}} {{gettersScript.name}} {{gettersScript.script}}
+      {{gettersScript.Id}} {{gettersScript.Name}} {{gettersScript.Script}}
     </div>
     <h1>Made By Actions</h1>
-    <div v-for='script in scripts' :key='user.id'>
-      {{script.id}} {{script.name}} {{script.script}}
+    <div v-for='script in scripts' :key='script.Id'>
+      {{script.Id}} {{script.Name}} {{script.Script}}
     </div>
   </div>
 </template>
@@ -20,16 +20,24 @@
 
   export default defineComponent({
     setup() {
-      const script = useScriptStore();
+      const scripts = useScriptStore();
 
-      const msg = ref("Welcome to my Scripts");
+      const msg = ref("Welcome to my Scripts!!");
 
       const getScripts = computed(() => {
-        return script.getScripts
+        // console.log(scripts.getScripts)
+        return scripts.getScripts
       })
+
+      onMounted(() => {
+        scripts.fetchUsers();
+      })
+
+      return {
+        msg,
+        scripts,
+        getScripts,
+      }
     }
-  })
-  onMounted(() => {
-    script.fetchUsers();
   })
 </script>
