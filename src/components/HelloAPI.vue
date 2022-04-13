@@ -2,13 +2,13 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <h1>Made By Getters</h1>
-    <div v-for='gettersUser in getUsers' :key='gettersUser.id'>
-      {{gettersUser.id}} {{gettersUser.name}} {{gettersUser.script}}
+    <div v-for='gettersScript in getScripts' :key='gettersScript.id'>
+      {{gettersScript.id}} {{gettersScript.name}} {{gettersScript.script}}
     </div>
     <h1>Made By Actions</h1>
-<!--    <div v-for='user in users' :key='user.id'>-->
-<!--      {{user.id}} {{user.name}} {{user.address}}-->
-<!--    </div>-->
+    <div v-for='script in scripts' :key='user.id'>
+      {{script.id}} {{script.name}} {{script.script}}
+    </div>
   </div>
 </template>
 
@@ -16,23 +16,20 @@
   // <script setup>
   import { defineComponent } from 'vue'
   import {ref, onMounted, computed} from 'vue';
-  import { useUserStore } from '@/stores/users';
+  import { useScriptStore } from '@/stores/script';
 
   export default defineComponent({
     setup() {
-      const user = useUserStore();
+      const script = useScriptStore();
 
-      const msg = ref("Welcome to my Vuex Store");
+      const msg = ref("Welcome to my Scripts");
 
-      const getUsers = computed(() => {
-        return store.getUsers()
+      const getScripts = computed(() => {
+        return script.getScripts
       })
     }
-      // const users = computed(() => {
-      //   return store.users
-      // })
-    })
-    onMounted(() => {
-      store.fetchUsers();
-    })
+  })
+  onMounted(() => {
+    script.fetchUsers();
+  })
 </script>
