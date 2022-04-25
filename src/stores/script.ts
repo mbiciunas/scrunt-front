@@ -11,12 +11,18 @@ export const useScriptStore = defineStore({
     getters: {
         getScripts(state){
             return state.scripts
-        }
+        },
+        getScriptById: (state) => {
+            return (scriptId: number) => state.scripts.find((script) => script.Id === scriptId)
+        },
+
+        // getScript(state, id: number){
+        //     return state.scripts[id]
+        // }
     },
     actions: {
-        async fetchUsers() {
+        async fetchScripts() {
             try {
-                // const data = await axios.get('https://jsonplaceholder.typicode.com/users')
                 const data = await axios.get('http://localhost:8080/api/scripts')
                 this.scripts = data.data
             }

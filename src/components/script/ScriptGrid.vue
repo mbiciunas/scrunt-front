@@ -2,7 +2,7 @@
   <v-container fluid="fluid">
     <v-row justify="center">
 
-      <v-col v-for="gettersScript in getScripts" :key="gettersScript.id" cols="12" sm="12" md="6" lg="4" xl="3" xxl="2">
+      <v-col v-for="gettersScript in getScripts" :key="gettersScript.Id" cols="12" sm="12" md="6" lg="4" xl="3" xxl="2">
         <v-hover v-slot="{ isHovering, props }">
         <v-card
             class="mx-auto"
@@ -23,6 +23,7 @@
           <v-card-text>
             <v-window v-model="gettersScript.id">
               <v-window-item value="one">
+                {{gettersScript.Id}}
                 {{gettersScript.Name}}
               </v-window-item>
 
@@ -39,11 +40,11 @@
 
           <v-overlay
               :model-value="isHovering"
-              contained="True"
+              contained
               scrim="#339966"
               class="align-center justify-center"
           >
-            <v-btn @click="greet(gettersScript.Id)" flat="true">See more info</v-btn>
+            <v-btn @click="greet(gettersScript)" flat>Quick Run</v-btn>
 
           </v-overlay>
         </v-card>
@@ -66,66 +67,23 @@
     <v-icon>mdi-plus</v-icon>
   </v-btn>
 
-
-
-
-
-
-  <v-hover v-slot="{ isHovering, props }">
-    <v-card
-        class="mx-auto"
-        max-width="344"
-        v-bind="props"
-    >
-      <v-img src="https://cdn.vuetifyjs.com/images/cards/forest-art.jpg"></v-img>
-
-      <v-card-title>
-        <v-rating
-            :value="4"
-            dense
-            color="orange"
-            background-color="orange"
-            hover="true"
-            class="mr-2"
-        ></v-rating>
-        <span class="primary--text text-subtitle-2">64 Reviews</span>
-      </v-card-title>
-
-      <v-card-text>
-        <h2 class="text-h6 primary--text">
-          Magento Forests {{ dialog }}
-        </h2>
-        Travel to the best outdoor experience on planet Earth. A vacation you will never forget!
-      </v-card-text>
-
-      <v-overlay
-          :model-value="isHovering"
-          contained="true"
-          scrim="#036358"
-          class="align-center justify-center"
-      >
-        <v-btn @click="greet(123)" flat="true">See more info</v-btn>
-      </v-overlay>
-    </v-card>
-  </v-hover>
-
+<!--  <RunDialog/>-->
   <v-dialog
       v-model="dialog"
   >
+    <quick-run-card :id=getScriptById.Id :title=getScriptById.Name :script=getScriptById.Script />
     <v-card>
       <v-card-text>
-        {{getScripts[scriptId]}}
+        {{getScriptById.Id}}
+        {{getScriptById.Script}}
+        {{scriptId}}
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
       </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" block="true" @click="dialog = false">Close Dialog</v-btn>
+        <v-btn color="primary" block @click="dialog = false">Close Dialog</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
-
-
-
-<!--Above the {{getScripts[scriptId]}} gets the ordinal entry from scripts.  We need to get the actual id.-->
 
 
 
@@ -135,6 +93,7 @@
   import { defineComponent, ref } from 'vue'
   import {onMounted, computed } from 'vue';
   import { useScriptStore } from '@/stores/script';
+  import QuickRunCard from "@/components/script/QuickRunCard.vue";
 
   export default defineComponent({
     setup() {
@@ -144,27 +103,26 @@
         return scripts.getScripts
       })
 
+      const getScriptById = computed(() => {
+        return scripts.getScriptById(scriptId.value)
+      })
+
       let dialog = ref(false)
       let scriptId = ref(0)
 
-      const greet = (id: number) => {
-        alert(`Hello ${id} dialog is ${dialog}!`)
+      const greet = (gettersScript: any) => {
+        scriptId.value = gettersScript.Id
         dialog.value = true
-        scriptId.value = id
-        // alert(`Hello ${id} dialog is ${dialog}!`)
-        // `event` is the native DOM event
-        // if (event) {
-        //   alert(event.target.tagName)
-        // }
       }
 
       onMounted(() => {
-        scripts.fetchUsers();
+        scripts.fetchScripts();
       })
 
       return {
         scripts,
         getScripts,
+        getScriptById,
         greet,
         dialog,
         scriptId
@@ -172,6 +130,7 @@
     },
 
     components: {
+      QuickRunCard
       // ScriptDialog,
     },
 
