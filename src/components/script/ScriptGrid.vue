@@ -67,22 +67,8 @@
     <v-icon>mdi-plus</v-icon>
   </v-btn>
 
-<!--  <RunDialog/>-->
-  <v-dialog
-      v-model="dialog"
-  >
-    <quick-run-card :id=getScriptById.Id :title=getScriptById.Name :script=getScriptById.Script />
-    <v-card>
-      <v-card-text>
-        {{getScriptById.Id}}
-        {{getScriptById.Script}}
-        {{scriptId}}
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      </v-card-text>
-      <v-card-actions>
-        <v-btn color="primary" block @click="dialog = false">Close Dialog</v-btn>
-      </v-card-actions>
-    </v-card>
+  <v-dialog v-model="dialog">
+    <quick-run-card :id=getScriptById.Id :title=getScriptById.Name :script=getScriptById.Script v-on:close="dialog = false" />
   </v-dialog>
 
 
