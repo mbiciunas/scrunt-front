@@ -5,7 +5,7 @@
       {{props.title}}
     </v-card-title>
     <v-card-text>
-      {{props.script}}
+      {{props.code}}
     </v-card-text>
     <v-card-actions>
       <v-btn color="primary" block @click="$emit('close')">Close Dialog</v-btn>
@@ -14,26 +14,26 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, ref } from 'vue'
+  import { defineComponent, ref } from 'vue'
 
-export default defineComponent({
-  props: {
-    id: Number,
-    title: String,
-    script: String
-  },
+  export default defineComponent({
+    props: {
+      id: Number,
+      title: String,
+      code: String
+    },
 
-  setup(props) {
+    setup(props) {
 
-    return {
-      props
-    }
-  },
+      return {
+        props
+      }
+    },
 
-  components: {
-    // RunDialog
-    // ScriptDialog,
-  },
+    components: {
+      // RunDialog
+      // ScriptDialog,
+    },
 
-})
+  })
 </script>

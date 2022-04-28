@@ -3,52 +3,43 @@
     <v-row justify="center">
 
       <v-col v-for="gettersScript in getScripts" :key="gettersScript.Id" cols="12" sm="12" md="6" lg="4" xl="3" xxl="2">
-        <v-hover v-slot="{ isHovering, props }">
         <v-card
             class="mx-auto"
             max-width="344"
-            v-bind="props"
             dark>
 
-          <v-tabs
-              v-model="gettersScript.id"
-              background-color="primary"
-              density="compact"
-          >
-            <v-tab value="one">Home</v-tab>
-            <v-tab value="two">Script</v-tab>
-            <v-tab value="three">Output</v-tab>
-          </v-tabs>
-
           <v-card-text>
-            <v-window v-model="gettersScript.id">
-              <v-window-item value="one">
-                {{gettersScript.Id}}
-                {{gettersScript.Name}}
-              </v-window-item>
+            <v-hover v-slot="{ isHovering, props }">
+              <v-card
+                  class="mx-auto"
+                  max-width="344"
+                  v-bind="props"
+                  dark>
 
-              <v-window-item value="two">
-                {{gettersScript.Script}}
-              </v-window-item>
+                <v-card-title>
+                  {{gettersScript.Id}}
+                  {{gettersScript.Name}}
+                </v-card-title>
 
-              <v-window-item value="three">
-                Three
-              </v-window-item>
-            </v-window>
+                <v-card-text>
+                  {{gettersScript.Code}}
+                </v-card-text>
 
+                <v-overlay
+                    :model-value="isHovering"
+                    contained
+                    scrim="#339966"
+                    class="align-center justify-center"
+                >
+                  <v-btn @click="greet(gettersScript)" flat>Quick Run</v-btn>
+                </v-overlay>
+              </v-card>
+            </v-hover>
           </v-card-text>
 
-          <v-overlay
-              :model-value="isHovering"
-              contained
-              scrim="#339966"
-              class="align-center justify-center"
-          >
-            <v-btn @click="greet(gettersScript)" flat>Quick Run</v-btn>
 
-          </v-overlay>
-        </v-card>
-        </v-hover>
+
+         </v-card>
       </v-col>
 
     </v-row>
@@ -62,13 +53,17 @@
       absolute
       bottom
       right
-      @click="dialog = true"
+      @click="addDialog = true"
   >
     <v-icon>mdi-plus</v-icon>
   </v-btn>
 
-  <v-dialog v-model="dialog">
-    <quick-run-card :id=getScriptById.Id :title=getScriptById.Name :script=getScriptById.Script v-on:close="dialog = false" />
+  <v-dialog v-model="quickRunDialog">
+    <quick-run-card :id=getScriptById.Id :title=getScriptById.Name :code=getScriptById.Code v-on:close="quickRunDialog = false" />
+  </v-dialog>
+
+  <v-dialog v-model="addDialog">
+    <add-card v-on:close="addDialog = false" />
   </v-dialog>
 
 
@@ -80,12 +75,14 @@
   import {onMounted, computed } from 'vue';
   import { useScriptStore } from '@/stores/script';
   import QuickRunCard from "@/components/script/QuickRunCard.vue";
+  import AddCard from "@/components/script/AddCard.vue";
 
   export default defineComponent({
     setup() {
       const scripts = useScriptStore();
 
       const getScripts = computed(() => {
+        console.log(scripts.getScripts)
         return scripts.getScripts
       })
 
@@ -93,12 +90,13 @@
         return scripts.getScriptById(scriptId.value)
       })
 
-      let dialog = ref(false)
+      let quickRunDialog = ref(false)
+      let addDialog = ref(false)
       let scriptId = ref(0)
 
       const greet = (gettersScript: any) => {
         scriptId.value = gettersScript.Id
-        dialog.value = true
+        quickRunDialog.value = true
       }
 
       onMounted(() => {
@@ -110,14 +108,15 @@
         getScripts,
         getScriptById,
         greet,
-        dialog,
-        scriptId
+        quickRunDialog,
+        addDialog,
+        scriptId,
       }
     },
 
     components: {
-      QuickRunCard
-      // ScriptDialog,
+      QuickRunCard,
+      AddCard
     },
 
   })

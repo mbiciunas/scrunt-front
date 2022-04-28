@@ -1,11 +1,12 @@
 <template>
   <v-app>
     <AppBar/>
-    <NavigationDrawer expand-on-hover rail/>
+    <NavigationDrawer rail/>
     <v-main>
       <v-card>
-        <ScriptGrid/>
-<!--        <PlayDialog/>-->
+        <PlayForm/>
+<!--        <AddCard/>-->
+<!--        <ScriptGrid/>-->
       </v-card>
     </v-main>
   </v-app>
@@ -13,6 +14,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import PlayForm from './components/script/PlayForm.vue'
+import AddCard from './components/script/AddCard.vue'
 import ScriptGrid from './components/script/ScriptGrid.vue'
 import AppBar from './components/AppBar.vue'
 import NavigationDrawer from './components/NavigationDrawer.vue'
@@ -24,6 +27,8 @@ export default defineComponent({
     AppBar,
     NavigationDrawer,
     ScriptGrid,
+    AddCard,
+    PlayForm,
   },
 
   data () {

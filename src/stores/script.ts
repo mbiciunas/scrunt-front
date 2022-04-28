@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from "axios"
 
-export type Script = { Id: number; Name: string; Script: string }
+export type Script = { Id: number; Name: string; Description: string; Code: string }
 
 export const useScriptStore = defineStore({
     id: "script",
