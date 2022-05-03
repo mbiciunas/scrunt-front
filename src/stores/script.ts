@@ -30,6 +30,15 @@ export const useScriptStore = defineStore({
                 alert(error)
                 console.log(error)
             }
-        }
+        },
+        async postScripts() {
+            try {
+                const data = await axios.post('http://localhost:8080/api/scripts')
+            }
+            catch (error) {
+                alert(error)
+                console.log(error)
+            }
+        },
     },
 })

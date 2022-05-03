@@ -1,22 +1,22 @@
 <template>
   <v-card>
-<!--    <v-card-title>-->
-<!--      Add Script-->
-<!--    </v-card-title>-->
+    <v-card-title>
+      Add Script
+    </v-card-title>
     <v-card-text>
-      <v-form>
+      <v-form @submit.prevent="onSubmit" id="add-script-form">
         <v-container>
         <v-text-field
             label="Name"
             v-model="scriptName"></v-text-field>
-<!--        <v-textarea label="Description" v-model="scriptDescription"></v-textarea>-->
-<!--        <v-textarea label="Code" v-model="scriptCode"></v-textarea>-->
+        <v-textarea label="Description" v-model="scriptDescription"></v-textarea>
+        <v-textarea label="Code" v-model="scriptCode"></v-textarea>
         </v-container>
       </v-form>
     </v-card-text>
     <v-card-actions>
-<!--      <v-btn color="primary">Add Script</v-btn>-->
-<!--      <v-btn color="primary" @click="$emit('close')">Close Dialog</v-btn>-->
+      <v-btn type="submit" color="primary" form="add-script-form">Add Script</v-btn>
+      <v-btn color="primary" @click="$emit('close')">Close Dialog</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -25,15 +25,23 @@
   import { defineComponent, ref } from 'vue'
 
   export default defineComponent({
-    setup() {
+    setup(props, context) {
       let scriptName = ref("")
       let scriptDescription = ref("")
       let scriptCode = ref("")
+
+      const onSubmit = () => {
+        console.log("Name = ", scriptName)
+        console.log("Description = ", scriptDescription)
+        console.log("Code = ", scriptCode)
+        context.emit('close')
+      }
 
       return {
         scriptName,
         scriptDescription,
         scriptCode,
+        onSubmit,
       }
     },
 

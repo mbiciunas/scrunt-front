@@ -82,7 +82,6 @@
       const scripts = useScriptStore();
 
       const getScripts = computed(() => {
-        console.log(scripts.getScripts)
         return scripts.getScripts
       })
 
