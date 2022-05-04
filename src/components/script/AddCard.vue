@@ -23,9 +23,11 @@
 
 <script lang='ts'>
   import { defineComponent, ref } from 'vue'
+  import { useScriptStore } from '@/stores/script';
 
   export default defineComponent({
     setup(props, context) {
+      const scripts = useScriptStore();
       let scriptName = ref("")
       let scriptDescription = ref("")
       let scriptCode = ref("")
@@ -34,6 +36,7 @@
         console.log("Name = ", scriptName)
         console.log("Description = ", scriptDescription)
         console.log("Code = ", scriptCode)
+        scripts.postScripts(scriptName.value, scriptDescription.value, scriptCode.value)
         context.emit('close')
       }
 

@@ -25,15 +25,26 @@ export const useScriptStore = defineStore({
             try {
                 const data = await axios.get('http://localhost:8080/api/scripts')
                 this.scripts = data.data
+                console.log(this.scripts)
             }
             catch (error) {
                 alert(error)
                 console.log(error)
             }
         },
-        async postScripts() {
+        async postScripts(name : string, description : string, code : string) {
+            const post = <JSON><unknown>{
+                "Name": name,
+                "Description": description,
+                "Code": code
+            }
+
             try {
-                const data = await axios.post('http://localhost:8080/api/scripts')
+                const data = await axios.post('http://localhost:8080/api/scripts', post)
+
+                const newScript: Script = {Id: data.data, Name: name, Description: description, Code: code}
+
+                this.scripts.push(newScript)
             }
             catch (error) {
                 alert(error)
