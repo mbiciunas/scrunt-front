@@ -6,8 +6,8 @@
     <v-card-text>
       <v-form @submit.prevent="onSubmit" id="delete-script-form">
         <v-container>
-          <v-text-field label="Name" v-model="scriptName" disabled>{{props.title}}</v-text-field>
-          <v-textarea label="Description" v-model="scriptDescription"></v-textarea>
+          <v-text-field label="Name" disabled>{{props.title}}</v-text-field>
+          <v-textarea label="Description" disabled>{{props.description}}</v-textarea>
 <!--          <v-textarea label="Code" v-model="scriptCode"></v-textarea>-->
         </v-container>
       </v-form>
@@ -32,8 +32,7 @@
     setup(props, context) {
       const scripts = useScriptStore();
       // let scriptName = ref("")
-      let scriptDescription = ref("")
-      // let scriptCode = ref("")
+      // let scriptDescription = ref("")
 
       const onSubmit = () => {
         // scripts.postScripts(scriptName.value, scriptDescription.value, scriptCode.value)
@@ -43,7 +42,7 @@
       return {
         props,
         // scriptName,
-        scriptDescription,
+        // scriptDescription,
         // scriptCode,
         onSubmit,
       }

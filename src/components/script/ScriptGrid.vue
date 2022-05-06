@@ -98,10 +98,10 @@
         return scripts.getScriptById(scriptId.value)
       })
 
-      let quickRunDialog = ref(false)
-      let addDialog = ref(false)
-      let deleteDialog = ref(false)
-      let scriptId = ref(0)
+      const quickRunDialog = ref(false)
+      const addDialog = ref(false)
+      const deleteDialog = ref(false)
+      const scriptId = ref(0)
 
       const runScript = (gettersScript: any) => {
         scriptId.value = gettersScript.Id
