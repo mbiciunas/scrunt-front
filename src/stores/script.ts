@@ -24,6 +24,13 @@ export const useScriptStore = defineStore({
         async fetchScripts() {
             try {
                 const data = await axios.get('http://localhost:8080/api/scripts')
+                // Remove everything from this.scripts.
+                // Build Script type with data from data...
+                // Push into this.scripts.
+                // Use map to traverse data and arrow function to transform data into type Script.
+
+                // Add type to axios.get<???>
+                // May need @types/axios plugin as developer dependency.
                 this.scripts = data.data
                 console.log(this.scripts)
             }
@@ -45,6 +52,10 @@ export const useScriptStore = defineStore({
                 const newScript: Script = {Id: data.data, Name: name, Description: description, Code: code}
 
                 this.scripts.push(newScript)
+
+                //
+                // Use a fetch from above to reload the scripts store instead of pushing.
+                //
             }
             catch (error) {
                 alert(error)

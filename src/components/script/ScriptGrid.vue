@@ -14,7 +14,7 @@
                   class="mx-auto"
                   max-width="344"
                   v-bind="props"
-                  dark>
+                  flat>
 
                 <v-card-title>
                   {{gettersScript.Id}}
@@ -31,13 +31,18 @@
                     scrim="#339966"
                     class="align-center justify-center"
                 >
-                  <v-btn @click="greet(gettersScript)" flat>Quick Run</v-btn>
+                  <v-btn @click="runScript(gettersScript)" flat>Quick Run</v-btn>
                 </v-overlay>
               </v-card>
             </v-hover>
           </v-card-text>
 
-
+          <v-card-actions>
+            <v-btn color="primary">Open</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn icon="mdi-pencil"></v-btn>
+            <v-btn icon="mdi-delete" @click="deleteScript(gettersScript)"></v-btn>
+          </v-card-actions>
 
          </v-card>
       </v-col>
@@ -59,16 +64,19 @@
   </v-btn>
 
   <v-dialog v-model="quickRunDialog">
-    <quick-run-card :id=getScriptById.Id :title=getScriptById.Name :code=getScriptById.Code v-on:close="quickRunDialog = false" />
+    <quick-run-card :id=getScriptById?.Id :title=getScriptById?.Name :code=getScriptById?.Code v-on:close="quickRunDialog = false" />
   </v-dialog>
 
   <v-dialog v-model="addDialog">
     <add-card v-on:close="addDialog = false" />
   </v-dialog>
 
-
+  <v-dialog v-model="deleteDialog">
+    <delete-card :id=getScriptById.Id :title=getScriptById.Name :description=getScriptById.Description v-on:close="deleteDialog = false" />
+  </v-dialog>
 
 </template>
+
 
 <script lang='ts'>
   import { defineComponent, ref } from 'vue'
@@ -76,6 +84,7 @@
   import { useScriptStore } from '@/stores/script';
   import QuickRunCard from "@/components/script/QuickRunCard.vue";
   import AddCard from "@/components/script/AddCard.vue";
+  import DeleteCard from "@/components/script/DeleteCard.vue";
 
   export default defineComponent({
     setup() {
@@ -91,11 +100,17 @@
 
       let quickRunDialog = ref(false)
       let addDialog = ref(false)
+      let deleteDialog = ref(false)
       let scriptId = ref(0)
 
-      const greet = (gettersScript: any) => {
+      const runScript = (gettersScript: any) => {
         scriptId.value = gettersScript.Id
         quickRunDialog.value = true
+      }
+
+      const deleteScript = (gettersScript: any) => {
+        scriptId.value = gettersScript.Id
+        deleteDialog.value = true
       }
 
       onMounted(() => {
@@ -106,16 +121,19 @@
         scripts,
         getScripts,
         getScriptById,
-        greet,
+        runScript,
+        deleteScript,
         quickRunDialog,
         addDialog,
+        deleteDialog,
         scriptId,
       }
     },
 
     components: {
       QuickRunCard,
-      AddCard
+      AddCard,
+      DeleteCard,
     },
 
   })
