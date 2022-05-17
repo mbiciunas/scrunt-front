@@ -49,13 +49,37 @@ export const useScriptStore = defineStore({
             try {
                 const data = await axios.post('http://localhost:8080/api/scripts', post)
 
-                const newScript: Script = {Id: data.data, Name: name, Description: description, Code: code}
+                // const newScript: Script = {Id: data.data, Name: name, Description: description, Code: code}
 
-                this.scripts.push(newScript)
+                // this.scripts.push(newScript)
 
                 //
-                // Use a fetch from above to reload the scripts store instead of pushing.
+                // Rebuild store from fetch
                 //
+                await this.fetchScripts()
+            }
+            catch (error) {
+                alert(error)
+                console.log(error)
+            }
+        },
+        async deleteScript(id : number) {
+            try {
+                const data = await axios.delete('http://localhost:8080/api/scripts/' + id)
+
+                //
+                // Rebuild store from fetch
+                //
+                await this.fetchScripts()
+            }
+            catch (error) {
+                alert(error)
+                console.log(error)
+            }
+        },
+        async runScript(id : number) {
+            try {
+                const data = await axios.post('http://localhost:8080/api/scripts/' + id + '/run')
             }
             catch (error) {
                 alert(error)

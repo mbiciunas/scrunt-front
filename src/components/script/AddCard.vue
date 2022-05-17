@@ -5,13 +5,11 @@
     </v-card-title>
     <v-card-text>
       <v-form @submit.prevent="onSubmit" id="add-script-form">
-        <v-container>
         <v-text-field
             label="Name"
             v-model="scriptName"></v-text-field>
         <v-textarea label="Description" v-model="scriptDescription"></v-textarea>
         <v-textarea label="Code" v-model="scriptCode"></v-textarea>
-        </v-container>
       </v-form>
     </v-card-text>
     <v-card-actions>

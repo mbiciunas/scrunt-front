@@ -5,16 +5,17 @@
     </v-card-title>
     <v-card-text>
       <v-form @submit.prevent="onSubmit" id="delete-script-form">
-        <v-container>
-          <v-text-field label="Name" disabled>{{props.title}}</v-text-field>
-          <v-textarea label="Description" disabled>{{props.description}}</v-textarea>
-<!--          <v-textarea label="Code" v-model="scriptCode"></v-textarea>-->
-        </v-container>
+          <v-text-field label="Name" v-model="props.title" disabled></v-text-field>
+          <v-textarea label="Description" v-model="props.description" disabled></v-textarea>
+          <v-checkbox
+              v-model="deleteScript"
+              label="Delete Script"
+          ></v-checkbox>
       </v-form>
     </v-card-text>
     <v-card-actions>
-      <v-btn type="submit" color="primary" form="delete-script-form">Delete Script</v-btn>
-      <v-btn color="primary" @click="$emit('close')">Close Dialog</v-btn>
+      <v-btn type="submit" form="delete-script-form" :disabled="!deleteScript" >Delete Script</v-btn>
+      <v-btn color="primary" @click="$emit('close')">Cancel</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -30,20 +31,21 @@
       description: String
     },
     setup(props, context) {
+      console.log("id", props.id)
+      console.log("title", props.title)
+      console.log("description", props.description)
       const scripts = useScriptStore();
-      // let scriptName = ref("")
+      let deleteScript = ref(false)
       // let scriptDescription = ref("")
 
       const onSubmit = () => {
-        // scripts.postScripts(scriptName.value, scriptDescription.value, scriptCode.value)
+        scripts.deleteScript(<number>props.id)
         context.emit('close')
       }
 
       return {
         props,
-        // scriptName,
-        // scriptDescription,
-        // scriptCode,
+        deleteScript,
         onSubmit,
       }
     },

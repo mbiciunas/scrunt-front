@@ -22,6 +22,10 @@
                 </v-card-title>
 
                 <v-card-text>
+                  {{gettersScript.Description}}
+                </v-card-text>
+
+                <v-card-text>
                   {{gettersScript.Code}}
                 </v-card-text>
 
@@ -38,7 +42,7 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-btn color="primary">Open</v-btn>
+            <v-btn color="primary" @click="viewScript(gettersScript)">View</v-btn>
             <v-spacer></v-spacer>
             <v-btn icon="mdi-pencil"></v-btn>
             <v-btn icon="mdi-delete" @click="deleteScript(gettersScript)"></v-btn>
@@ -72,7 +76,11 @@
   </v-dialog>
 
   <v-dialog v-model="deleteDialog">
-    <delete-card :id=getScriptById.Id :title=getScriptById.Name :description=getScriptById.Description v-on:close="deleteDialog = false" />
+    <delete-card :id=getScriptById?.Id :title=getScriptById?.Name :description=getScriptById?.Description v-on:close="deleteDialog = false" />
+  </v-dialog>
+
+  <v-dialog v-model="viewDialog">
+    <view-card :id=getScriptById?.Id :title=getScriptById?.Name :description=getScriptById?.Description v-on:close="viewDialog = false" />
   </v-dialog>
 
 </template>
@@ -85,6 +93,7 @@
   import QuickRunCard from "@/components/script/QuickRunCard.vue";
   import AddCard from "@/components/script/AddCard.vue";
   import DeleteCard from "@/components/script/DeleteCard.vue";
+  import ViewCard from "@/components/script/ViewCard.vue";
 
   export default defineComponent({
     setup() {
@@ -101,6 +110,7 @@
       const quickRunDialog = ref(false)
       const addDialog = ref(false)
       const deleteDialog = ref(false)
+      const viewDialog = ref(false)
       const scriptId = ref(0)
 
       const runScript = (gettersScript: any) => {
@@ -113,6 +123,11 @@
         deleteDialog.value = true
       }
 
+      const viewScript = (gettersScript: any) => {
+        scriptId.value = gettersScript.Id
+        viewDialog.value = true
+      }
+
       onMounted(() => {
         scripts.fetchScripts();
       })
@@ -123,9 +138,11 @@
         getScriptById,
         runScript,
         deleteScript,
+        viewScript,
         quickRunDialog,
         addDialog,
         deleteDialog,
+        viewDialog,
         scriptId,
       }
     },
@@ -134,6 +151,7 @@
       QuickRunCard,
       AddCard,
       DeleteCard,
+      ViewCard,
     },
 
   })

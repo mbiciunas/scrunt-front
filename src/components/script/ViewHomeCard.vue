@@ -1,18 +1,8 @@
 <template>
-  <v-card width="500px">
+  <v-card>
     <v-card-title>
-      {{props.id}}
-      {{props.title}}
+      One
     </v-card-title>
-    <v-card-text>
-      <v-form @submit.prevent="onSubmit" id="run-script-form">
-        {{props.code}}
-      </v-form>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn type="submit" color="primary" form="run-script-form">Run</v-btn>
-      <v-btn color="primary" @click="$emit('close')">Cancel</v-btn>
-    </v-card-actions>
   </v-card>
 </template>
 
@@ -29,9 +19,10 @@
 
     setup(props, context) {
       const scripts = useScriptStore();
+      const tab = ref('home')
 
       const onSubmit = () => {
-        console.log("Quick Run Card - Clicked on run button")
+        console.log("View Card - Clicked on run button")
         scripts.runScript(<number>props.id)
         context.emit('close')
       }
@@ -39,6 +30,7 @@
       return {
         props,
         onSubmit,
+        tab,
       }
     },
 
