@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from "axios"
 
-export type Script = { id: number; Name: string; Description: string; Code: string }
+export type Script = { Id: number; Name: string; Description: string; Code: string }
 
 export const useScriptStore = defineStore({
     id: "scripts",
@@ -24,7 +24,7 @@ export const useScriptStore = defineStore({
                 console.log("Raw data", data.data)
                 this.scripts = data.data.map(data => {
                     console.log("id: " + data.Id, "name: " + data.Name)
-                    const newScript: Script = {id: data.Id, Name: data.Name, Description: data.Description, Code: data.Code}
+                    const newScript: Script = {Id: data.Id, Name: data.Name, Description: data.Description, Code: data.Code}
                     console.log("newScript", newScript)
                     return newScript
                 })
