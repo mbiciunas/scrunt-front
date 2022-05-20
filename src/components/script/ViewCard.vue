@@ -20,7 +20,7 @@
         <v-window-item value="script">
           <v-card>
             <v-card-title>
-              Two
+              {{props.id}}
             </v-card-title>
           </v-card>
         </v-window-item>
@@ -53,26 +53,38 @@
 </template>
 
 <script lang='ts'>
-  import { defineComponent, ref } from 'vue'
-  import { useScriptStore } from '@/stores/script';
+import {defineComponent, onMounted, ref} from 'vue'
+  import { useScriptStore } from '@/stores/scripts';
   import ViewHomeCard from "@/components/script/ViewHomeCard.vue";
 
   export default defineComponent({
     props: {
       id: Number,
       title: String,
-      code: String
+      description: String
     },
 
     setup(props, context) {
       const scripts = useScriptStore();
       const tab = ref('home')
+      let scriptData: Promise<any>
 
       const onSubmit = () => {
         console.log("View Card - Clicked on run button")
         scripts.runScript(<number>props.id)
         context.emit('close')
       }
+
+      onMounted(() => {
+        console.log("Mounted id", props.id)
+        console.log("Mounted title", props.title)
+        console.log("Mounted description", props.description)
+        // scriptData = scripts.fetchScript(<number>props.id)
+        // scriptData = scripts.fetchScript(<number>props.id)
+        console.log("Mounted scriptData", scriptData)
+
+
+      })
 
       return {
         props,

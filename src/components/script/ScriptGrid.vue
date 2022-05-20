@@ -89,7 +89,7 @@
 <script lang='ts'>
   import { defineComponent, ref } from 'vue'
   import {onMounted, computed } from 'vue';
-  import { useScriptStore } from '@/stores/script';
+  import { useScriptStore } from '@/stores/scripts';
   import QuickRunCard from "@/components/script/QuickRunCard.vue";
   import AddCard from "@/components/script/AddCard.vue";
   import DeleteCard from "@/components/script/DeleteCard.vue";

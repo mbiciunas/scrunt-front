@@ -18,7 +18,7 @@
 
 <script lang='ts'>
   import { defineComponent, ref } from 'vue'
-  import { useScriptStore } from '@/stores/script';
+  import { useScriptStore } from '@/stores/scripts';
 
   export default defineComponent({
     props: {
