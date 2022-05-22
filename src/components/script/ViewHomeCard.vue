@@ -8,7 +8,7 @@
 
 <script lang='ts'>
   import { defineComponent, ref } from 'vue'
-  import { useScriptStore } from '@/stores/scripts';
+  import { useAllScriptsStore } from '@/stores/allScripts';
 
   export default defineComponent({
     props: {
@@ -18,12 +18,12 @@
     },
 
     setup(props, context) {
-      const scripts = useScriptStore();
+      const allScripts = useAllScriptsStore();
       const tab = ref('home')
 
       const onSubmit = () => {
         console.log("View Card - Clicked on run button")
-        scripts.runScript(<number>props.id)
+        allScripts.runScript(<number>props.id)
         context.emit('close')
       }
 

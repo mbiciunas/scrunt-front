@@ -89,7 +89,7 @@
 <script lang='ts'>
   import { defineComponent, ref } from 'vue'
   import {onMounted, computed } from 'vue';
-  import { useScriptStore } from '@/stores/scripts';
+  import { useAllScriptsStore } from '@/stores/allScripts';
   import QuickRunCard from "@/components/script/QuickRunCard.vue";
   import AddCard from "@/components/script/AddCard.vue";
   import DeleteCard from "@/components/script/DeleteCard.vue";
@@ -97,14 +97,14 @@
 
   export default defineComponent({
     setup() {
-      const scripts = useScriptStore();
+      const allScripts = useAllScriptsStore();
 
       const getScripts = computed(() => {
-        return scripts.getScripts
+        return allScripts.getScripts
       })
 
       const getScriptById = computed(() => {
-        return scripts.getScriptById(scriptId.value)
+        return allScripts.getScriptById(scriptId.value)
       })
 
       const quickRunDialog = ref(false)
@@ -129,11 +129,11 @@
       }
 
       onMounted(() => {
-        scripts.fetchScripts();
+        allScripts.fetchScripts();
       })
 
       return {
-        scripts,
+        scripts: allScripts,
         getScripts,
         getScriptById,
         runScript,

@@ -22,7 +22,7 @@
 
 <script lang='ts'>
   import { defineComponent, ref } from 'vue'
-  import { useScriptStore } from '@/stores/scripts';
+  import { useAllScriptsStore } from '@/stores/allScripts';
 
   export default defineComponent({
     props: {
@@ -34,12 +34,12 @@
       console.log("id", props.id)
       console.log("title", props.title)
       console.log("description", props.description)
-      const scripts = useScriptStore();
+      const allScripts = useAllScriptsStore();
       let deleteScript = ref(false)
       // let scriptDescription = ref("")
 
       const onSubmit = () => {
-        scripts.deleteScript(<number>props.id)
+        allScripts.deleteScript(<number>props.id)
         context.emit('close')
       }
 

@@ -54,7 +54,7 @@
 
 <script lang='ts'>
 import {defineComponent, onMounted, ref} from 'vue'
-  import { useScriptStore } from '@/stores/scripts';
+  import { useAllScriptsStore } from '@/stores/allScripts';
   import ViewHomeCard from "@/components/script/ViewHomeCard.vue";
 
   export default defineComponent({
@@ -65,13 +65,13 @@ import {defineComponent, onMounted, ref} from 'vue'
     },
 
     setup(props, context) {
-      const scripts = useScriptStore();
+      const allScripts = useAllScriptsStore();
       const tab = ref('home')
       let scriptData: Promise<any>
 
       const onSubmit = () => {
         console.log("View Card - Clicked on run button")
-        scripts.runScript(<number>props.id)
+        allScripts.runScript(<number>props.id)
         context.emit('close')
       }
 
