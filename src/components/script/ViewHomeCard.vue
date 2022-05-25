@@ -78,7 +78,7 @@ import {useScriptStore} from "@/stores/script";
       const onSubmit = () => {
         console.log("Name = ", scriptName)
         console.log("Description = ", scriptDescription)
-        // script.postScripts(scriptName.value, scriptDescription.value)
+        script.putScript(scriptName.value, scriptDescription.value)
         context.emit('close')
       }
 
