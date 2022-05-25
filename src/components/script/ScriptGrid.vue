@@ -80,7 +80,7 @@
   </v-dialog>
 
   <v-dialog v-model="viewDialog">
-    <view-card :id=getScriptById?.Id :title=getScriptById?.Name :description=getScriptById?.Description v-on:close="viewDialog = false" />
+    <view-card :id=getScriptById?.Id v-on:close="viewDialog = false" />
   </v-dialog>
 
 </template>
@@ -133,7 +133,7 @@
       })
 
       return {
-        scripts: allScripts,
+        allScripts,
         getScripts,
         getScriptById,
         runScript,

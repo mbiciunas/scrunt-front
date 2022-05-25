@@ -1,5 +1,5 @@
 <template>
-  <v-sheet width="800px">
+  <v-sheet width="800">
     <v-tabs
         v-model="tab"
         background-color="primary"
@@ -11,18 +11,21 @@
       <v-tab value="comments">Comments</v-tab>
     </v-tabs>
 
+<!--    <v-card-text>-->
+<!--      {{script.getId}}-->
+<!--      {{script.getName}}-->
+<!--      {{script.getDescription}}-->
+<!--      {{script.getCode}}-->
+<!--    </v-card-text>-->
+
     <v-card-text>
       <v-window v-model="tab">
         <v-window-item value="home">
-          <view-home-card></view-home-card>
+          <view-home-card :id=props.id></view-home-card>
         </v-window-item>
 
         <v-window-item value="script">
-          <v-card>
-            <v-card-title>
-              {{props.id}}
-            </v-card-title>
-          </v-card>
+          <view-script-card :id=props.id></view-script-card>
         </v-window-item>
 
         <v-window-item value="run">
@@ -53,48 +56,44 @@
 </template>
 
 <script lang='ts'>
-import {defineComponent, onMounted, ref} from 'vue'
-  import { useAllScriptsStore } from '@/stores/allScripts';
-  import ViewHomeCard from "@/components/script/ViewHomeCard.vue";
+import {defineComponent, ref} from 'vue'
+import ViewHomeCard from "@/components/script/ViewHomeCard.vue";
+import ViewScriptCard from "@/components/script/ViewScriptCard.vue";
 
   export default defineComponent({
     props: {
       id: Number,
-      title: String,
-      description: String
     },
 
-    setup(props, context) {
-      const allScripts = useAllScriptsStore();
+    setup(props) {
+      // const script = useScriptStore();
       const tab = ref('home')
-      let scriptData: Promise<any>
+      // let scriptData: Promise<any>
 
-      const onSubmit = () => {
-        console.log("View Card - Clicked on run button")
-        allScripts.runScript(<number>props.id)
-        context.emit('close')
-      }
+      // const onSubmit = () => {
+      //   console.log("View Card - Clicked on run button")
+      //   allScripts.runScript(<number>props.id)
+      //   context.emit('close')
+      // }
 
-      onMounted(() => {
-        console.log("Mounted id", props.id)
-        console.log("Mounted title", props.title)
-        console.log("Mounted description", props.description)
-        // scriptData = scripts.fetchScript(<number>props.id)
-        // scriptData = scripts.fetchScript(<number>props.id)
-        console.log("Mounted scriptData", scriptData)
-
-
-      })
+      // onMounted(() => {
+      //   console.log("ViewCard props.id", props.id)
+      //   script.fetchScript(<number>props.id)
+      //   // scriptData = scripts.fetchScript(<number>props.id)
+      //   console.log("ViewCard script.id", script.id)
+      // })
 
       return {
         props,
-        onSubmit,
+        // script,
+        // onSubmit,
         tab,
       }
     },
 
     components: {
-      ViewHomeCard
+      ViewHomeCard,
+      ViewScriptCard,
     },
   })
 </script>

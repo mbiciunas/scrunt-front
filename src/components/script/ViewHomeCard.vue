@@ -1,36 +1,100 @@
 <template>
-  <v-card>
+  <v-card v-if="!edit">
     <v-card-title>
-      One
+      Display Home
     </v-card-title>
+    <v-card-text>
+      {{scriptName}}
+    </v-card-text>
+    <v-card-text>
+      {{scriptDescription}}
+    </v-card-text>
+
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn icon="mdi-pencil" @click="edit = !edit"></v-btn>
+    </v-card-actions>
+  </v-card>
+
+  <v-card v-if="edit">
+    <v-card-title>
+      Edit Home
+    </v-card-title>
+
+    <v-card-text>
+      <v-form @submit.prevent="onSubmit" id="edit-script-form">
+        <v-text-field
+            label="Name"
+            v-model="scriptName"></v-text-field>
+        <v-textarea label="Description" v-model="scriptDescription"></v-textarea>
+      </v-form>
+    </v-card-text>
+
+    <v-card-actions>
+      <v-btn type="submit" color="primary" form="edit-script-form">Save</v-btn>
+      <v-btn color="primary" @click="$emit('close')">Cancel</v-btn>
+    </v-card-actions>
+
+    <v-card-text>
+      {{scriptName}}
+    </v-card-text>
+    <v-card-text>
+      {{scriptDescription}}
+    </v-card-text>
+
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn icon="mdi-pencil" @click="edit = !edit"></v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
 <script lang='ts'>
-  import { defineComponent, ref } from 'vue'
-  import { useAllScriptsStore } from '@/stores/allScripts';
+import {defineComponent, onMounted, ref} from 'vue'
+import {useScriptStore} from "@/stores/script";
 
   export default defineComponent({
     props: {
       id: Number,
-      title: String,
-      code: String
     },
 
     setup(props, context) {
-      const allScripts = useAllScriptsStore();
-      const tab = ref('home')
+      const script = useScriptStore();
+      // const tab = ref('home')
+      const edit = ref(false)
+      let scriptName = ref("")
+      let scriptDescription = ref("")
+
+      onMounted(async () => {
+            console.log("onMounted props.id", props.id)
+            await script.fetchScript(<number>props.id)
+            scriptName.value = script.getName
+            scriptDescription.value = script.getDescription
+            console.log("onMounted script.getId", script.getId)
+            console.log("onMounted script.getName", script.getName)
+            console.log("onMounted script.getDescription", script.getDescription)
+      })
 
       const onSubmit = () => {
-        console.log("View Card - Clicked on run button")
-        allScripts.runScript(<number>props.id)
+        console.log("Name = ", scriptName)
+        console.log("Description = ", scriptDescription)
+        // script.postScripts(scriptName.value, scriptDescription.value)
         context.emit('close')
       }
 
+      // const onSubmit = () => {
+      //   console.log("View Card - Clicked on run button")
+      //   context.emit('close')
+      // }
+
       return {
-        props,
+        scriptName,
+        scriptDescription,
+        // props,
+        // script,
+        // tab,
+        edit,
         onSubmit,
-        tab,
       }
     },
 

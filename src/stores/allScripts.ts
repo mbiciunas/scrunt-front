@@ -22,7 +22,7 @@ export const useAllScriptsStore = defineStore({
                 const data = await axios.get('http://localhost:8080/api/scripts')
                 console.log("Original scripts", this.scripts)
                 console.log("Raw data", data.data)
-                this.scripts = data.data.map(data => {
+                this.scripts = data.data.map((data: any) => {
                     console.log("id: " + data.Id, "name: " + data.Name)
                     const newScript: Script = {Id: data.Id, Name: data.Name, Description: data.Description, Code: data.Code}
                     console.log("newScript", newScript)

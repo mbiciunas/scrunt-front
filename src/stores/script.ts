@@ -1,43 +1,51 @@
 import { defineStore } from 'pinia'
 import axios from "axios"
 
-export type Script = { Id: number; Name: string; Description: string; Code: string }
-
 export const useScriptStore = defineStore({
-    id: "scripts",
+    id: "script",
     state: () => ({
-        scripts: [] as Script[],
+        id: 0,
+        name: "",
+        description: "",
+        code: "",
     }),
     getters: {
-        getScripts(state){
-            return state.scripts
+        getId(state){
+            return state.id
         },
-        getScriptById: (state) => {
-            return (scriptId: number) => state.scripts.find((script) => script.Id === scriptId)
+        getName(state){
+            return state.name
+        },
+        getDescription(state){
+            return state.description
+        },
+        getCode(state){
+            return state.code
         },
     },
     actions: {
-        async fetchScripts() {
+        async fetchScript(id: number) {
             try {
-                const data = await axios.get('http://localhost:8080/api/scripts')
-                console.log("Original scripts", this.scripts)
-                console.log("Raw data", data.data)
-                this.scripts = data.data.map(data => {
-                    console.log("id: " + data.Id, "name: " + data.Name)
-                    const newScript: Script = {Id: data.Id, Name: data.Name, Description: data.Description, Code: data.Code}
-                    console.log("newScript", newScript)
-                    return newScript
-                })
+                await console.log("fetchScript start get")
 
-                // this.scripts = data.data
-                console.log("new scripts", this.scripts)
+                const data = await axios.get('http://localhost:8080/api/scripts/' + id)
+                await console.log("fetchScript end get")
+                this.id = await data.data.Id
+                this.name = await data.data.Name
+                this.description = await data.data.Description
+                this.code = await data.data.Code
+
+                console.log("New Id", this.id)
+                console.log("New Name", this.name)
+                console.log("New Description", this.description)
+                console.log("New Code", this.code)
             }
             catch (error) {
                 alert(error)
                 console.log(error)
             }
         },
-        async postScripts(name : string, description : string, code : string) {
+        async postScript(name: string, description: string, code: string) {
             const post = <JSON><unknown>{
                 "Name": name,
                 "Description": description,
@@ -47,25 +55,14 @@ export const useScriptStore = defineStore({
             try {
                 await axios.post('http://localhost:8080/api/scripts', post)
 
-                await this.fetchScripts()
+                await this.fetchScript(this.id)
             }
             catch (error) {
                 alert(error)
                 console.log(error)
             }
         },
-        async deleteScript(id : number) {
-            try {
-                await axios.delete('http://localhost:8080/api/scripts/' + id)
-
-                await this.fetchScripts()
-            }
-            catch (error) {
-                alert(error)
-                console.log(error)
-            }
-        },
-        async runScript(id : number) {
+        async runScript(id: number) {
             try {
                 await axios.post('http://localhost:8080/api/scripts/' + id + '/run')
             }
