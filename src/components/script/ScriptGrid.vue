@@ -80,7 +80,7 @@
   </v-dialog>
 
   <v-dialog v-model="viewDialog">
-    <view-card :id=getScriptById?.Id v-on:close="viewDialog = false" />
+    <view-card :id=getScriptById?.Id v-on:close="viewDialog = false; allScripts.fetchScripts()" />
   </v-dialog>
 
 </template>

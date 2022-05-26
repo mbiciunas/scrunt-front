@@ -21,7 +21,7 @@
     <v-card-text>
       <v-window v-model="tab">
         <v-window-item value="home">
-          <view-home-card :id=props.id></view-home-card>
+          <view-home-card :id=props.id  v-on:close="$emit('close')"></view-home-card>
         </v-window-item>
 
         <v-window-item value="script">

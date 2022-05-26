@@ -13,6 +13,7 @@
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn icon="mdi-pencil" @click="edit = !edit"></v-btn>
+      <v-btn icon="mdi-close" @click="$emit('close')"></v-btn>
     </v-card-actions>
   </v-card>
 
@@ -32,20 +33,13 @@
 
     <v-card-actions>
       <v-btn type="submit" color="primary" form="edit-script-form">Save</v-btn>
-      <v-btn color="primary" @click="$emit('close')">Cancel</v-btn>
+      <v-btn color="primary" @click="edit = !edit">Cancel</v-btn>
     </v-card-actions>
 
-    <v-card-text>
-      {{scriptName}}
-    </v-card-text>
-    <v-card-text>
-      {{scriptDescription}}
-    </v-card-text>
-
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn icon="mdi-pencil" @click="edit = !edit"></v-btn>
-    </v-card-actions>
+<!--    <v-card-actions>-->
+<!--      <v-spacer></v-spacer>-->
+<!--      <v-btn icon="mdi-pencil" @click="edit = !edit"></v-btn>-->
+<!--    </v-card-actions>-->
   </v-card>
 </template>
 
@@ -79,7 +73,8 @@ import {useScriptStore} from "@/stores/script";
         console.log("Name = ", scriptName)
         console.log("Description = ", scriptDescription)
         script.putScript(scriptName.value, scriptDescription.value)
-        context.emit('close')
+        edit.value = false
+        // context.emit('close')
       }
 
       // const onSubmit = () => {
