@@ -42,9 +42,8 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-btn color="primary" @click="viewScript(gettersScript)">View</v-btn>
+            <v-btn color="primary" @click="viewScript(gettersScript)">Open</v-btn>
             <v-spacer></v-spacer>
-            <v-btn icon="mdi-pencil"></v-btn>
             <v-btn icon="mdi-delete" @click="deleteScript(gettersScript)"></v-btn>
           </v-card-actions>
 

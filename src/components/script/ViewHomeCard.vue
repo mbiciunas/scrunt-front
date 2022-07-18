@@ -1,5 +1,5 @@
 <template>
-  <v-card v-if="!edit">
+  <v-card v-if="!editScript">
     <v-card-title>
       Display Home
     </v-card-title>
@@ -12,18 +12,18 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn icon="mdi-pencil" @click="edit = !edit"></v-btn>
+      <v-btn icon="mdi-pencil" @click="editScript = !editScript"></v-btn>
       <v-btn icon="mdi-close" @click="$emit('close')"></v-btn>
     </v-card-actions>
   </v-card>
 
-  <v-card v-if="edit">
+  <v-card v-if="editScript">
     <v-card-title>
       Edit Home
     </v-card-title>
 
     <v-card-text>
-      <v-form @submit.prevent="onSubmit" id="edit-script-form">
+      <v-form @submit.prevent="onSubmit" id="edit-home-form">
         <v-text-field
             label="Name"
             v-model="scriptName"></v-text-field>
@@ -32,14 +32,9 @@
     </v-card-text>
 
     <v-card-actions>
-      <v-btn type="submit" color="primary" form="edit-script-form">Save</v-btn>
-      <v-btn color="primary" @click="edit = !edit">Cancel</v-btn>
+      <v-btn type="submit" color="primary" form="edit-home-form">Save</v-btn>
+      <v-btn color="primary" @click="editScript = !editScript">Cancel</v-btn>
     </v-card-actions>
-
-<!--    <v-card-actions>-->
-<!--      <v-spacer></v-spacer>-->
-<!--      <v-btn icon="mdi-pencil" @click="edit = !edit"></v-btn>-->
-<!--    </v-card-actions>-->
   </v-card>
 </template>
 
@@ -52,10 +47,10 @@ import {useScriptStore} from "@/stores/script";
       id: Number,
     },
 
-    setup(props, context) {
+    emits: ["close"],
+    setup(props) {
       const script = useScriptStore();
-      // const tab = ref('home')
-      const edit = ref(false)
+      const editScript = ref(false)
       let scriptName = ref("")
       let scriptDescription = ref("")
 
@@ -72,8 +67,8 @@ import {useScriptStore} from "@/stores/script";
       const onSubmit = () => {
         console.log("Name = ", scriptName)
         console.log("Description = ", scriptDescription)
-        script.putScript(scriptName.value, scriptDescription.value)
-        edit.value = false
+        script.putNameDescription(scriptName.value, scriptDescription.value)
+        editScript.value = false
         // context.emit('close')
       }
 
@@ -88,7 +83,7 @@ import {useScriptStore} from "@/stores/script";
         // props,
         // script,
         // tab,
-        edit,
+        editScript,
         onSubmit,
       }
     },

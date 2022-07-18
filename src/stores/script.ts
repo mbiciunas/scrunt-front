@@ -45,7 +45,7 @@ export const useScriptStore = defineStore({
                 console.log(error)
             }
         },
-        async putScript(name: string, description: string) {
+        async putNameDescription(name: string, description: string) {
             const data = <JSON><unknown>{
                 "Name": name,
                 "Description": description,
@@ -62,9 +62,46 @@ export const useScriptStore = defineStore({
                 console.log(error)
             }
         },
+        async putCode(code: string) {
+            console.log("script.ts:putCode")
+            const data = <JSON><unknown>{
+                "Name": this.name,
+                "Description": this.description,
+                "Code": code
+            }
+
+            console.log(data)
+
+            try {
+                await axios.put('http://localhost:8080/api/scripts/' + this.id, data)
+
+                await this.fetchScript(this.id)
+            }
+            catch (error) {
+                alert(error)
+                console.log(error)
+            }
+        },
         async runScript(id: number) {
             try {
                 await axios.post('http://localhost:8080/api/scripts/' + id + '/run')
+            }
+            catch (error) {
+                alert(error)
+                console.log(error)
+            }
+        },
+        async putOutput(scriptId: number, output: string, log: string) {
+            const data = <JSON><unknown>{
+                "script_id": scriptId,
+                "output": output,
+                "log": log
+            }
+
+            try {
+                await axios.post('http://localhost:8080/api/outputs', data)
+
+                await this.fetchScript(this.id)
             }
             catch (error) {
                 alert(error)
