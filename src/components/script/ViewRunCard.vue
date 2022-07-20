@@ -27,8 +27,8 @@ export default defineComponent({
     id: Number,
   },
 
-  emits: ["close"],
-  setup(props) {
+  emits: ["close", "setOutput"],
+  setup(props, context) {
     const script = useScriptStore();
     let scriptCode = ref("")
 
@@ -43,6 +43,7 @@ export default defineComponent({
     const onSubmit = () => {
       console.log("View Run Card - Clicked on run button")
       script.runScript(<number>props.id)
+      context.emit("setOutput")
       // script.putOutput(<number>props.id, "This is the output", "This is the log")
     }
 

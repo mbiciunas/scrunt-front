@@ -22,7 +22,7 @@
         </v-window-item>
 
         <v-window-item value="run">
-          <view-run-card :id=props.id v-on:close="$emit('close')"></view-run-card>
+          <view-run-card :id=props.id v-on:setOutput="setOutput" v-on:close="$emit('close')"></view-run-card>
         </v-window-item>
       </v-window>
     </v-card-text>
@@ -43,16 +43,22 @@ import ViewRunCard from "@/components/script/ViewRunCard.vue";
     setup(props) {
       const tab = ref('home')
 
+      const setOutput = () => {
+        console.log("run setOutput")
+        tab.value = 'script'
+      }
+
       return {
         props,
         tab,
+        setOutput,
       }
     },
 
     components: {
       ViewHomeCard,
       ViewScriptCard,
-      ViewRunCard,
+      ViewRunCard
     },
   })
 </script>
