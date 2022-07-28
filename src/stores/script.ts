@@ -91,22 +91,5 @@ export const useScriptStore = defineStore({
                 console.log(error)
             }
         },
-        async putOutput(scriptId: number, output: string, log: string) {
-            const data = <JSON><unknown>{
-                "script_id": scriptId,
-                "output": output,
-                "log": log
-            }
-
-            try {
-                await axios.post('http://localhost:8080/api/outputs', data)
-
-                await this.fetchScript(this.id)
-            }
-            catch (error) {
-                alert(error)
-                console.log(error)
-            }
-        },
     },
 })
