@@ -1,16 +1,24 @@
 <template>
-  <v-sheet width="800">
-    <v-tabs
-        v-model="tab"
-        background-color="primary"
-    >
-      <v-tab value="home">Home</v-tab>
-      <v-tab value="edit">Edit</v-tab>
-      <v-tab value="run">Run</v-tab>
-      <v-tab value="comments">Comments</v-tab>
-    </v-tabs>
+  <v-sheet width="800" height="500">
+    <v-toolbar color="primary" density="compact">
+      <v-toolbar-title>Your Dashboard</v-toolbar-title>
 
-    <v-card-text>
+      <v-spacer></v-spacer>
+
+      <v-btn icon="mdi-close" @click="$emit('close')"></v-btn>
+
+      <template v-slot:extension>
+        <v-tabs v-model="tab" align-with-title background-color="primary" slider-color="white">
+          <v-tabs-slider color="white"></v-tabs-slider>
+          <v-tab value="home">Home</v-tab>
+          <v-tab value="edit">Edit</v-tab>
+          <v-tab value="run">Run</v-tab>
+          <v-tab value="comments">Comments</v-tab>
+        </v-tabs>
+      </template>
+    </v-toolbar>
+
+<!--    <v-card-text>-->
       <v-window v-model="tab">
         <v-window-item value="home">
           <view-home-card :id=props.id v-on:close="$emit('close')"></view-home-card>
@@ -24,9 +32,13 @@
           <view-run-card :id=props.id v-on:setOutput="setOutput" v-on:close="$emit('close')"></view-run-card>
         </v-window-item>
       </v-window>
-    </v-card-text>
+<!--    </v-card-text>-->
   </v-sheet>
 </template>
+
+<style>
+  html { overflow-y: auto }
+</style>
 
 <script lang='ts'>
 import {defineComponent, ref} from 'vue'

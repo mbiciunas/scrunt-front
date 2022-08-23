@@ -13,7 +13,6 @@
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn icon="mdi-pencil" @click="editScript = !editScript"></v-btn>
-      <v-btn icon="mdi-close" @click="$emit('close')"></v-btn>
     </v-card-actions>
   </v-card>
 

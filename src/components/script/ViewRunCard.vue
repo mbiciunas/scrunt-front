@@ -1,17 +1,18 @@
 <style scoped>
-html {
-  /*overflow: hidden !important;*/
-}
+  html {
+    /*overflow: hidden !important;*/
+  }
 
-.v-card {
-  display: flex !important;
-  flex-direction: column;
-}
+  .v-card {
+    display: flex !important;
+    flex-direction: column;
+  }
 
-.v-card-text_scroll {
-  flex-grow: 1;
-  overflow: auto;
-}</style>
+  .v-card-text_scroll {
+    flex-grow: 1;
+    overflow: auto;
+  }
+</style>
 
 <template>
   <v-card height="300px">
@@ -27,16 +28,16 @@ html {
     </v-card-text>
 
     <v-card-text class="v-card-text_scroll">
-      {{scriptCode}}
+      <pre>{{scriptCode}}</pre>
 <!--      <v-sheet color="green lighten-3" height="300"><pre>{{scriptCode}}</pre></v-sheet>-->
 <!--      <pre height="200" class="height: 200px;">{{scriptCode}}</pre>-->
     </v-card-text>
 
-    <v-card-actions>
-<!--      <v-btn type="submit" color="primary" form="run-script-form">Run</v-btn>-->
-      <v-spacer></v-spacer>
-      <v-btn icon="mdi-close" @click="$emit('close')"></v-btn>
-    </v-card-actions>
+<!--    <v-card-actions>-->
+<!--&lt;!&ndash;      <v-btn type="submit" color="primary" form="run-script-form">Run</v-btn>&ndash;&gt;-->
+<!--      <v-spacer></v-spacer>-->
+<!--      <v-btn icon="mdi-close" @click="$emit('close')"></v-btn>-->
+<!--    </v-card-actions>-->
   </v-card>
 </template>
 
@@ -78,7 +79,7 @@ export default defineComponent({
 
     const runScript = () => {
       console.log("View Run Card - Clicked on run button")
-      // scriptCode.value = ""
+      scriptCode.value = ""
       script.runScript(<number>props.id)
       // context.emit("setOutput")
       // script.putOutput(<number>props.id, "This is the output", "This is the log")

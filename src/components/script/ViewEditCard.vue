@@ -114,6 +114,6 @@ export default defineComponent({
 <style scoped>
 #root {
   /*width: 50vw;*/
-  height: 50vh;
+  height: 20vh;
 }
 </style>
