@@ -3,6 +3,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import {createVuetify} from "vuetify";
 import App from './App.vue'
+import router from './router/index'
 import { loadFonts } from './plugins/webfontloader'
 import '@mdi/font/css/materialdesignicons.css'
 
@@ -16,7 +17,8 @@ const vuetify = createVuetify({
 })
 
 createApp(App)
-  .use(vuetify)
-  .use(createPinia())
-  .mount('#app')
+    .use(router)
+    .use(vuetify)
+    .use(createPinia())
+    .mount('#app')
 

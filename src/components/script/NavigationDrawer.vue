@@ -1,5 +1,6 @@
 <template>
-  <v-navigation-drawer permanent>
+  <v-navigation-drawer permanent rail-width="250">
+    <h1>Scripts</h1>
   </v-navigation-drawer>
 </template>
 

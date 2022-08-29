@@ -1,28 +1,29 @@
 <template>
   <v-app>
-    <AppBar/>
-    <NavigationDrawer rail/>
-    <v-main>
-      <v-card>
-        <ScriptGrid/>
-      </v-card>
-    </v-main>
+    <v-app-bar color="primary" dark>
+      <v-app-bar-title>Scrunt</v-app-bar-title>
+        <v-tabs>
+          <v-tab to="/script">Scripts</v-tab>
+          <v-tab to="/service">Services</v-tab>
+          <v-tab to="/credential">Credentials</v-tab>
+        </v-tabs>
+    </v-app-bar>
+
+    <router-view></router-view>
   </v-app>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import ScriptGrid from './components/script/ScriptGrid.vue'
-import AppBar from './components/AppBar.vue'
-import NavigationDrawer from './components/NavigationDrawer.vue'
+import AppBar from '@/components/AppBar.vue'
 
 export default defineComponent({
   name: 'App',
 
   components: {
     AppBar,
-    NavigationDrawer,
-    ScriptGrid,
+    // NavigationDrawer,
+    // ScriptGrid,
   },
 
   data () {
