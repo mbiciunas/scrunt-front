@@ -22,6 +22,7 @@
 
       <v-divider class="mt-2"></v-divider>
     </template>
+    <template v-slot:selection>class="bg-green"</template>
   </v-select>
 </template>
 
@@ -67,3 +68,7 @@ export default defineComponent({
   },
 })
 </script>
+
+<style>
+.v-select-list:hover::before { opacity: 1; }
+</style>

@@ -2,20 +2,20 @@
   <NavigationDrawer rail/>
   <v-main>
     <v-card>
-<!--      <ScriptGrid/>-->
+      <ServiceGrid/>
     </v-card>
   </v-main>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import ScriptGrid from '@/components/script/ScriptGrid.vue'
+import ServiceGrid from '@/components/service/ServiceGrid.vue'
 import NavigationDrawer from '@/components/service/navigation/NavigationDrawer.vue'
 
 export default defineComponent({
   components: {
     NavigationDrawer,
-    ScriptGrid,
+    ServiceGrid,
   },
 
   data () {
