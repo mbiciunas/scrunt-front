@@ -1,9 +1,7 @@
 <template>
   <NavigationDrawer rail/>
   <v-main>
-    <v-card>
-      <ScriptGrid/>
-    </v-card>
+    <ScriptGrid/>
   </v-main>
 </template>
 

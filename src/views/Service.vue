@@ -1,9 +1,7 @@
 <template>
   <NavigationDrawer rail/>
   <v-main>
-    <v-card>
-      <ServiceGrid/>
-    </v-card>
+    <ServiceGrid/>
   </v-main>
 </template>
 

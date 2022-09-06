@@ -3,7 +3,8 @@ import axios from "axios"
 
 export type Project = {
     Id: number;
-    Name: string }
+    Name: string
+}
 
 export type Service = {
     Id: number;
@@ -15,7 +16,8 @@ export type Service = {
     service_type_name: string;
     cloud_id: number;
     cloud_name: string;
-    projects: Array<Project>}
+    projects: Array<Project>
+}
 
 export const useAllServicesStore = defineStore({
     id: "services",

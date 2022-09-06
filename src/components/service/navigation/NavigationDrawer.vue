@@ -6,19 +6,42 @@
       <cloud-select></cloud-select>
       <project-select></project-select>
     </v-container>
+    <template v-slot:append>
+      <div class="pa-2">
+        <v-btn
+            color="blue"
+            fab
+            dark
+            size="x-large"
+            block
+            @click="addDialog = true"
+        >
+          <v-icon>mdi-plus</v-icon>Add Service
+        </v-btn>
+
+      </div>
+    </template>
   </v-navigation-drawer>
+
+  <v-dialog v-model="addDialog">
+    <add-card v-on:close="addDialog = false" />
+  </v-dialog>
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue'
+import {defineComponent, ref} from 'vue'
 import ServiceTypeSelect from "@/components/service/navigation/ServiceTypeSelect.vue";
 import CloudSelect from "@/components/service/navigation/CloudSelect.vue";
 import ProjectSelect from "@/components/service/navigation/ProjectSelect.vue";
+import AddCard from "@/components/service/AddCard.vue";
 
 export default defineComponent({
   setup() {
 
+    const addDialog = ref(false)
+
     return {
+      addDialog,
     }
   },
 
@@ -26,6 +49,7 @@ export default defineComponent({
     ServiceTypeSelect,
     CloudSelect,
     ProjectSelect,
+    AddCard,
   },
 })
 </script>
