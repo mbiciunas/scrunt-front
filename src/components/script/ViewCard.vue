@@ -18,7 +18,6 @@
       </template>
     </v-toolbar>
 
-<!--    <v-card-text>-->
       <v-window v-model="tab">
         <v-window-item value="home">
           <view-home-card :id=props.id v-on:close="$emit('close')"></view-home-card>
@@ -31,8 +30,11 @@
         <v-window-item value="run">
           <view-run-card :id=props.id v-on:setOutput="setOutput" v-on:close="$emit('close')"></view-run-card>
         </v-window-item>
+
+        <v-window-item value="comments">
+          <view-comment-card :id=props.id v-on:setOutput="setOutput" v-on:close="$emit('close')"></view-comment-card>
+        </v-window-item>
       </v-window>
-<!--    </v-card-text>-->
   </v-sheet>
 </template>
 
@@ -45,6 +47,7 @@ import {defineComponent, ref} from 'vue'
 import ViewHomeCard from "@/components/script/ViewHomeCard.vue";
 import ViewEditCard from "@/components/script/ViewEditCard.vue";
 import ViewRunCard from "@/components/script/ViewRunCard.vue";
+import ViewCommentCard from "@/components/script/ViewCommentCard.vue";
 
   export default defineComponent({
     props: {
@@ -69,7 +72,8 @@ import ViewRunCard from "@/components/script/ViewRunCard.vue";
     components: {
       ViewHomeCard,
       ViewEditCard,
-      ViewRunCard
+      ViewRunCard,
+      ViewCommentCard
     },
   })
 </script>
