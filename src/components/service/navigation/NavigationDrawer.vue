@@ -18,7 +18,6 @@
         >
           <v-icon>mdi-plus</v-icon>Add Service
         </v-btn>
-
       </div>
     </template>
   </v-navigation-drawer>

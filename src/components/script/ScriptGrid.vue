@@ -53,25 +53,8 @@
     </v-row>
   </v-container>
 
-  <v-btn
-      color="blue"
-      fab
-      dark
-      size="x-large"
-      absolute
-      bottom
-      right
-      @click="addDialog = true"
-  >
-    <v-icon>mdi-plus</v-icon>
-  </v-btn>
-
   <v-dialog v-model="quickRunDialog">
     <quick-run-card :id=getScriptById?.Id :title=getScriptById?.Name :code=getScriptById?.Code v-on:close="quickRunDialog = false" />
-  </v-dialog>
-
-  <v-dialog v-model="addDialog">
-    <add-card v-on:close="addDialog = false" />
   </v-dialog>
 
   <v-dialog v-model="deleteDialog">
@@ -90,7 +73,6 @@
   import {onMounted, computed } from 'vue';
   import { useAllScriptsStore } from '@/stores/allScripts';
   import QuickRunCard from "@/components/script/QuickRunCard.vue";
-  import AddCard from "@/components/script/AddCard.vue";
   import DeleteCard from "@/components/script/DeleteCard.vue";
   import ViewCard from "@/components/script/ViewCard.vue";
 
@@ -107,7 +89,6 @@
       })
 
       const quickRunDialog = ref(false)
-      const addDialog = ref(false)
       const deleteDialog = ref(false)
       const viewDialog = ref(false)
       const scriptId = ref(0)
@@ -139,7 +120,6 @@
         deleteScript,
         viewScript,
         quickRunDialog,
-        addDialog,
         deleteDialog,
         viewDialog,
         scriptId,
@@ -148,7 +128,6 @@
 
     components: {
       QuickRunCard,
-      AddCard,
       DeleteCard,
       ViewCard,
     },
