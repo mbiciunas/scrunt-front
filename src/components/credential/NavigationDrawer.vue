@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer permanent rail-width="256">
+  <v-navigation-drawer permanent>
     <h1>Credentials</h1>
   </v-navigation-drawer>
 </template>

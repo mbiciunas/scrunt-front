@@ -27,18 +27,23 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, computed, ref } from 'vue'
+import {defineComponent, computed, ref, onMounted} from 'vue'
+import {useServiceTypeStore} from "@/stores/serviceTypes";
 
 export default defineComponent({
-  setup() {
-    const services: Array<string> = [
-      'Database',
-      'Web Server',
-      'Servlet',
-      'Network',
-      'Compute',
-      'Cloud',
-    ]
+  setup: function () {
+    const serviceTypes = useServiceTypeStore();
+    let services: Array<string> = []
+
+    onMounted(() => {
+      serviceTypes.fetchServiceTypes();
+    })
+
+    // onMounted(async () => {
+    //   await serviceTypes.fetchServiceTypes()
+    //   // services = serviceTypes.getServiceTypes
+    //   console.log("Service Types", serviceTypes.getServiceTypes)
+    // })
 
     let selectedServices = ref([])
 
@@ -50,7 +55,7 @@ export default defineComponent({
         selectedServices.value.length > 0
     )
 
-    function toggle () {
+    function toggle() {
       if (allServices.value) {
         selectedServices.value = []
       } else {

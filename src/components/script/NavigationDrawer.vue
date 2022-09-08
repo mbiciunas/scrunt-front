@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer permanent rail-width="250">
+  <v-navigation-drawer permanent>
     <h1>Scripts</h1>
     <template v-slot:append>
       <div class="pa-2">

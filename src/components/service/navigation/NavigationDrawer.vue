@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer permanent expand-on-hover rail-width="256">
+  <v-navigation-drawer permanent>
     <v-container fluid>
       <h1>Services</h1>
       <service-type-select></service-type-select>

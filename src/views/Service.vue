@@ -1,5 +1,5 @@
 <template>
-  <NavigationDrawer rail/>
+  <NavigationDrawer/>
   <v-main>
     <ServiceGrid/>
   </v-main>
