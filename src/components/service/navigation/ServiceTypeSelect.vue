@@ -36,17 +36,6 @@ export default defineComponent({
   setup: function () {
     const serviceTypes = useServiceTypeStore();
     const services = ref()
-    // let services: string | any[] = [
-    //   // { Id: 1, Name: 'Florida', Icon: '' },
-    //   // { Id: 2, Name: 'Georgia', Icon: '' },
-    //   // { Id: 3, Name: 'Nebraska', Icon: '' },
-    //   // { Id: 4, Name: 'California', Icon: '' },
-    //   // { Id: 5, Name: 'New York', Icon: '' },
-    // ]
-
-    // onMounted(() => {
-    //   serviceTypes.fetchServiceTypes();
-    // })
 
     onMounted(async () => {
       await serviceTypes.fetchServiceTypes()

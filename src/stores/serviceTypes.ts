@@ -25,7 +25,6 @@ export const useServiceTypeStore = defineStore({
                     return newServiceType
                 })
 
-                // this.scripts = data.data
                 console.log("new serviceTypes outputs", this.serviceTypes)
             }
             catch (error) {

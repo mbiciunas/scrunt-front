@@ -2,6 +2,8 @@
   <v-select
       v-model="selectedClouds"
       :items="clouds"
+      item-title="Name"
+      item-value="Id"
       chips
       label="Clouds"
       multiple
@@ -27,13 +29,16 @@
 
 <script lang='ts'>
 import { defineComponent, computed, ref } from 'vue'
+import {useCloudStore} from "@/stores/clouds";
 
 export default defineComponent({
   setup() {
-    const clouds: Array<string> = [
-      'AWS',
-      'On Premise',
-    ]
+    const cloudStore = useCloudStore();
+    const clouds = ref()
+    // const clouds: Array<string> = [
+    //   'AWS',
+    //   'On Premise',
+    // ]
 
     let selectedClouds = ref([])
 

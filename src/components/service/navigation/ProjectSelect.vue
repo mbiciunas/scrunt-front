@@ -2,6 +2,8 @@
   <v-select
       v-model="selectedProjects"
       :items="projects"
+      item-title="Name"
+      item-value="Id"
       chips
       label="Projects"
       multiple
@@ -26,19 +28,24 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, computed, ref } from 'vue'
+import {defineComponent, computed, ref, onMounted} from 'vue'
+import {useProjectStore} from "@/stores/projects";
 
 export default defineComponent({
   setup() {
-    const projects: Array<string> = [
-      'Our Application',
-      'Internal Website',
-    ]
+    const projectStore = useProjectStore();
+    const projects = ref()
+
+    onMounted(async () => {
+      await projectStore.fetchProjects()
+      projects.value = projectStore.getProjects
+      console.log("Projects", projects)
+    })
 
     let selectedProjects = ref([])
 
     const allProjects = computed(() =>
-        selectedProjects.value.length === projects.length
+        selectedProjects.value.length === projects.value.length
     )
 
     const someProjects = computed(() =>
@@ -49,7 +56,7 @@ export default defineComponent({
       if (allProjects.value) {
         selectedProjects.value = []
       } else {
-        selectedProjects.value = projects.slice() as any
+        selectedProjects.value = projects.value.slice() as any
       }
     }
 

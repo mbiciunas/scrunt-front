@@ -1,35 +1,34 @@
 import { defineStore } from 'pinia'
 import axios from "axios"
 
-export type ServiceType = { Id: number; Name: string; Icon: string }
+export type Project = { Id: number; Name: string; Description: string; Icon: string }
 
-export const useServiceTypeStore = defineStore({
-    id: "servicetypes",
+export const useProjectStore = defineStore({
+    id: "projects",
     state: () => ({
-        serviceTypes: [] as ServiceType[],
+        projects: [] as Project[],
     }),
     getters: {
-        getServiceTypes(state){
-            return state.serviceTypes
+        getProjects(state){
+            return state.projects
         },
-        getServiceTypeById: (state) => {
-            return (id: number) => state.serviceTypes.find((serviceTypes) => serviceTypes.Id === id)
+        getProjectById: (state) => {
+            return (id: number) => state.projects.find((projects) => projects.Id === id)
         },
     },
     actions: {
-        async fetchServiceTypes() {
+        async fetchProjects() {
             try {
-                const data = await axios.get('http://localhost:8080/api/servicetypes')
-                this.serviceTypes = data.data.map((data: any) => {
-                    const newServiceType: ServiceType = {Id: data.Id, Name: data.Name, Icon: data.Icon}
-                    return newServiceType
+                const data = await axios.get('http://localhost:8080/api/projects')
+                this.projects = data.data.map((data: any) => {
+                    const newProject: Project = {Id: data.Id, Name: data.Name, Description: data.Description, Icon: data.Icon}
+                    return newProject
                 })
 
-                // this.scripts = data.data
-                console.log("new serviceTypes outputs", this.serviceTypes)
+                console.log("new projects outputs", this.projects)
             }
             catch (error) {
-                alert("ServiceTypes: " + error)
+                alert("Projects: " + error)
                 console.log(error)
             }
         },
