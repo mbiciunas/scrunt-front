@@ -28,7 +28,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, computed, ref } from 'vue'
+import {defineComponent, computed, ref, onMounted} from 'vue'
 import {useCloudStore} from "@/stores/clouds";
 
 export default defineComponent({
@@ -40,10 +40,16 @@ export default defineComponent({
     //   'On Premise',
     // ]
 
+    onMounted(async () => {
+      await cloudStore.fetchClouds()
+      clouds.value = cloudStore.getClouds
+      console.log("Clouds", clouds)
+    })
+
     let selectedClouds = ref([])
 
     const allClouds = computed(() =>
-        selectedClouds.value.length === clouds.length
+        selectedClouds.value.length === clouds.value.length
     )
 
     const someClouds = computed(() =>
@@ -55,7 +61,7 @@ export default defineComponent({
       if (allClouds.value) {
         selectedClouds.value = []
       } else {
-        selectedClouds.value = clouds.slice() as any
+        selectedClouds.value = clouds.value.slice() as any
       }
       console.log(allClouds.value, selectedClouds)
     }
