@@ -37,7 +37,7 @@ export const useAllServicesStore = defineStore({
             try {
                 const data = await axios.get('http://localhost:8080/api/services')
                 console.log("Original services", this.services)
-                console.log("Raw data", data.data)
+                console.log("Raw services data", data.data)
                 this.services = data.data.map((data: any) => {
                     console.log("id: " + data.Id, "name: " + data.Name)
                     const newService: Service = {
@@ -61,7 +61,7 @@ export const useAllServicesStore = defineStore({
             }
             catch (error) {
                 alert(error)
-                console.log(error)
+                console.log("AllServices", error)
             }
         },
         async postServices(name : string, description : string, code : string) {

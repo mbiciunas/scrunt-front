@@ -2,6 +2,8 @@
   <v-select
       v-model="selectedServices"
       :items="services"
+      item-title="Name"
+      item-value="Id"
       chips
       label="Service Types"
       multiple
@@ -33,22 +35,29 @@ import {useServiceTypeStore} from "@/stores/serviceTypes";
 export default defineComponent({
   setup: function () {
     const serviceTypes = useServiceTypeStore();
-    let services: Array<string> = []
+    const services = ref()
+    // let services: string | any[] = [
+    //   // { Id: 1, Name: 'Florida', Icon: '' },
+    //   // { Id: 2, Name: 'Georgia', Icon: '' },
+    //   // { Id: 3, Name: 'Nebraska', Icon: '' },
+    //   // { Id: 4, Name: 'California', Icon: '' },
+    //   // { Id: 5, Name: 'New York', Icon: '' },
+    // ]
 
-    onMounted(() => {
-      serviceTypes.fetchServiceTypes();
-    })
-
-    // onMounted(async () => {
-    //   await serviceTypes.fetchServiceTypes()
-    //   // services = serviceTypes.getServiceTypes
-    //   console.log("Service Types", serviceTypes.getServiceTypes)
+    // onMounted(() => {
+    //   serviceTypes.fetchServiceTypes();
     // })
+
+    onMounted(async () => {
+      await serviceTypes.fetchServiceTypes()
+      services.value = serviceTypes.getServiceTypes
+      console.log("Service Types", services)
+    })
 
     let selectedServices = ref([])
 
     const allServices = computed(() =>
-        selectedServices.value.length === services.length
+        selectedServices.value.length === services.value.length
     )
 
     const someServices = computed(() =>
@@ -59,7 +68,7 @@ export default defineComponent({
       if (allServices.value) {
         selectedServices.value = []
       } else {
-        selectedServices.value = services.slice() as any
+        selectedServices.value = services.value.slice() as any
       }
     }
 
@@ -73,7 +82,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style>
-.v-select-list:hover::before { opacity: 1; }
-</style>

@@ -125,9 +125,13 @@
         viewDialog.value = true
       }
 
-      onMounted(() => {
-        allServices.fetchServices();
+      onMounted(async () => {
+        await allServices.fetchServices()
       })
+
+      // onMounted(() => {
+        // allServices.fetchServices();
+      // })
 
       return {
         allServices,
