@@ -28,21 +28,26 @@
 </template>
 
 <script lang='ts'>
-import {defineComponent, computed, ref, onMounted} from 'vue'
-import {useProjectStore} from "@/stores/projects";
+import {defineComponent, computed, ref, onMounted, toRefs} from 'vue'
+// import {useProjectStore} from "@/stores/projects";
+import {useAllServicesStore} from "@/stores/allServices";
 
 export default defineComponent({
   setup() {
-    const projectStore = useProjectStore();
-    const projects = ref()
+    // const projectStore = useProjectStore();
+    const allSerivces = useAllServicesStore();
+    // const projects = ref()
+    // const selectedProjects = ref([])
+    const { projects, selectedProjects } = toRefs(allSerivces)
+    // const { selectedProjects } = toRefs(allSerivces)
 
     onMounted(async () => {
-      await projectStore.fetchProjects()
-      projects.value = projectStore.getProjects
-      console.log("Projects", projects)
+      await allSerivces.fetchProjects()
+      // projects.value = allSerivces.getProjects
+      // selectedProjects.value = allSerivces.getSelectedProjects
+      // console.log("Projects", projects)
+      // console.log("SelectedProjects", selectedProjects)
     })
-
-    let selectedProjects = ref([])
 
     const allProjects = computed(() =>
         selectedProjects.value.length === projects.value.length
@@ -65,8 +70,13 @@ export default defineComponent({
       someProjects,
       toggle,
       projects,
-      selectedProjects,
+      selectedProjects
     }
   },
+  // watch: {
+  //   selectedProjects(val) {
+  //     console.log("Watch selectedProjects", val)
+  //   }
+  // }
 })
 </script>

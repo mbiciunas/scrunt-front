@@ -98,7 +98,8 @@
       const allServices = useAllServicesStore();
 
       const getServices = computed(() => {
-        return allServices.getServices
+        // return allServices.getServices
+        return allServices.getFilterServices
       })
 
       const getServiceById = computed(() => {
@@ -111,6 +112,11 @@
       const serviceId = ref(0)
 
       const runService = (gettersService: any) => {
+        // console.log("Selected Clouds", allServices.getSelectedClouds)
+        // console.log("Selected Projects", allServices.getSelectedProjects)
+        // console.log("Selected Services", allServices.getFilterServices)
+        const value = allServices.getFilterServices
+        console.log("ServiceGrid.runService", value)
         serviceId.value = gettersService.Id
         quickRunDialog.value = true
       }
