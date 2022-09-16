@@ -29,27 +29,16 @@
 
 <script lang='ts'>
 import {defineComponent, computed, ref, onMounted, toRefs} from 'vue'
-import {useCloudStore} from "@/stores/clouds";
 import {useAllServicesStore} from "@/stores/allServices";
 
 export default defineComponent({
   setup: function () {
-    // const cloudStore = useCloudStore();
-    const allSerivces = useAllServicesStore();
-    const {clouds, selectedClouds} = toRefs(allSerivces)
-    // const clouds = ref()
-    // const clouds: Array<string> = [
-    //   'AWS',
-    //   'On Premise',
-    // ]
+    const allServices = useAllServicesStore();
+    const {clouds, selectedClouds} = toRefs(allServices)
 
     onMounted(async () => {
-      await allSerivces.fetchClouds()
-      // clouds.value = allSerivces.getClouds
-      // console.log("Clouds", clouds)
+      await allServices.fetchClouds()
     })
-
-    // let selectedClouds = ref([])
 
     const allClouds = computed(() =>
         selectedClouds.value.length === clouds.value.length
@@ -60,15 +49,11 @@ export default defineComponent({
     )
 
     function toggle() {
-      console.log("CloudSelect.toggle1", allClouds.value, selectedClouds)
       if (allClouds.value) {
         selectedClouds.value = []
       } else {
-        console.log("CloudSelect.toggle2", clouds.value.map(({Id}) => Id))
-        // selectedClouds.value = clouds.value.slice() as any
         selectedClouds.value = clouds.value.map(({Id}) => Id)
       }
-      console.log(allClouds.value, selectedClouds)
     }
 
     return {

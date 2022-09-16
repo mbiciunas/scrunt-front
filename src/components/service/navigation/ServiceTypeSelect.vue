@@ -1,7 +1,7 @@
 <template>
   <v-select
-      v-model="selectedServices"
-      :items="services"
+      v-model="selectedServiceTypes"
+      :items="serviceTypes"
       item-title="Name"
       item-value="Id"
       chips
@@ -24,40 +24,35 @@
 
       <v-divider class="mt-2"></v-divider>
     </template>
-    <template v-slot:selection>class="bg-green"</template>
   </v-select>
 </template>
 
 <script lang='ts'>
-import {defineComponent, computed, ref, onMounted} from 'vue'
-import {useServiceTypeStore} from "@/stores/serviceTypes";
+import {defineComponent, computed, ref, onMounted, toRefs} from 'vue'
+import {useAllServicesStore} from "@/stores/allServices";
 
 export default defineComponent({
   setup: function () {
-    const serviceTypes = useServiceTypeStore();
-    const services = ref()
+    const allSerivces = useAllServicesStore();
+    const {serviceTypes, selectedServiceTypes} = toRefs(allSerivces)
 
     onMounted(async () => {
-      await serviceTypes.fetchServiceTypes()
-      services.value = serviceTypes.getServiceTypes
-      console.log("Service Types", services)
+      await allSerivces.fetchServiceTypes()
     })
 
-    let selectedServices = ref([])
-
     const allServices = computed(() =>
-        selectedServices.value.length === services.value.length
+        selectedServiceTypes.value.length === serviceTypes.value.length
     )
 
     const someServices = computed(() =>
-        selectedServices.value.length > 0
+        selectedServiceTypes.value.length > 0
     )
 
     function toggle() {
       if (allServices.value) {
-        selectedServices.value = []
+        selectedServiceTypes.value = []
       } else {
-        selectedServices.value = services.value.slice() as any
+        selectedServiceTypes.value = serviceTypes.value.map(({Id}) => Id)
       }
     }
 
@@ -65,8 +60,8 @@ export default defineComponent({
       allServices,
       someServices,
       toggle,
-      services,
-      selectedServices,
+      serviceTypes,
+      selectedServiceTypes,
     }
   },
 })

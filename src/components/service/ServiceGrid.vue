@@ -38,9 +38,9 @@
                         <td>{{gettersService.cloud_name}}</td>
                       </tr>
                       <tr>
-                        <td><b>Project</b></td>
+                        <td><b>Service Type</b></td>
                         <td>&nbsp;&nbsp;&nbsp;</td>
-                        <td>{{gettersService.cloud_name}}</td>
+                        <td>{{gettersService.service_type_name}}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -98,7 +98,6 @@
       const allServices = useAllServicesStore();
 
       const getServices = computed(() => {
-        // return allServices.getServices
         return allServices.getFilterServices
       })
 
@@ -112,11 +111,6 @@
       const serviceId = ref(0)
 
       const runService = (gettersService: any) => {
-        // console.log("Selected Clouds", allServices.getSelectedClouds)
-        // console.log("Selected Projects", allServices.getSelectedProjects)
-        // console.log("Selected Services", allServices.getFilterServices)
-        const value = allServices.getFilterServices
-        console.log("ServiceGrid.runService", value)
         serviceId.value = gettersService.Id
         quickRunDialog.value = true
       }
@@ -134,10 +128,6 @@
       onMounted(async () => {
         await allServices.fetchServices()
       })
-
-      // onMounted(() => {
-        // allServices.fetchServices();
-      // })
 
       return {
         allServices,

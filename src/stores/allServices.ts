@@ -1,5 +1,11 @@
-import { defineStore } from 'pinia'
+import {defineStore} from 'pinia'
 import axios from "axios"
+
+export type ServiceType = {
+    Id: number;
+    Name: string;
+    Icon: string
+}
 
 export type Cloud = {
     Id: number;
@@ -38,10 +44,12 @@ export const useAllServicesStore = defineStore({
 
     state: () => ({
         services: [] as Service[],
+        serviceTypes: [] as ServiceType[],
+        selectedServiceTypes: [] as number[],
         clouds: [] as Cloud[],
         selectedClouds: [] as number[],
         projects: [] as Project[],
-        selectedProjects: []
+        selectedProjects: [] as number[]
     }),
 
     getters: {
@@ -49,30 +57,74 @@ export const useAllServicesStore = defineStore({
             return state.services
         },
         getFilterServices(state) {
-            if (state.selectedClouds.length == 0) {
-                return state.services
-            }
-            else {
-                console.log("allServices.GetFilterServices - services", this.services)
-                console.log("allServices.GetFilterServices - selectedClouds", state.selectedClouds)
-                let res = [];
-                res = state.services.filter(el => {
-                    console.log("allServices.GetFilterServices - el.cloud_id", el.cloud_id)
-                    return state.selectedClouds.find(element => {
-                        return element == el.cloud_id;
-                        // return element.Id === el.cloud_id;
-                    });
-                });
-                console.log("allServices.GetFilterServices - result", res)
-                return res;
-            }
-        },
+            function filterClouds(services: Service[], selectedClouds: number[]) {
+                let result = [];
 
-        // getFilterServices(state){
-        //     return state.services
-        // },
+                if (selectedClouds.length == 0) {
+                    return services
+                }
+                else {
+                    result = services.filter((el:Service) => {
+                        return selectedClouds.find((element:number) => {
+                            return element == el.cloud_id;
+                        });
+                    });
+                }
+
+                return result;
+            }
+
+            function filterServicetypes(services: Service[], selectedServicetypes: number[]) {
+                let result = [];
+
+                if (selectedServicetypes.length == 0) {
+                    return services
+                }
+                else {
+                    result = services.filter((el:Service) => {
+                        return selectedServicetypes.find((element:number) => {
+                            return element == el.service_type_id;
+                        });
+                    });
+                }
+
+                return result;
+            }
+
+            function filterProjects(services: Service[], selectedProjects: number[]) {
+                let result = [];
+
+                if (selectedProjects.length == 0) {
+                    return services
+                }
+                else {
+                    result = services.filter((service:Service) => {
+                        return selectedProjects.find((element:number) => {
+                            return service.projects.find((serviceProject: ServiceProject) => {
+                                return element == serviceProject.Id
+                            });
+                        });
+                    });
+                }
+
+                console.log("filter projects - result", result)
+                return result;
+            }
+
+            let filterCloud = filterClouds(state.services, state.selectedClouds)
+
+            let filterServiceType = filterServicetypes(filterCloud, state.selectedServiceTypes);
+
+            return filterProjects(filterServiceType, state.selectedProjects)
+        },
         getServiceById: (service) => {
             return (serviceId: number) => service.services.find((service) => service.Id === serviceId)
+        },
+        getServiceTypes(state){
+            return state.serviceTypes
+        },
+        getSelectedServiceTypes(state) {
+            return state.selectedServiceTypes
         },
         getClouds(state){
             return state.clouds
@@ -87,7 +139,6 @@ export const useAllServicesStore = defineStore({
             return state.projects
         },
         getSelectedProjects(state) {
-            console.log("Filter Projects", state.selectedProjects)
             return state.selectedProjects
         }
     },
@@ -95,10 +146,7 @@ export const useAllServicesStore = defineStore({
         async fetchServices() {
             try {
                 const data = await axios.get('http://localhost:8080/api/services')
-                console.log("Original services", this.services)
-                console.log("Raw services data", data.data)
                 this.services = data.data.map((data: any) => {
-                    console.log("id: " + data.Id, "name: " + data.Name)
                     const newService: Service = {
                         Id: data.Id,
                         Name: data.Name,
@@ -111,27 +159,44 @@ export const useAllServicesStore = defineStore({
                         cloud_name: data.CloudName,
                         projects: data.Projects
                     }
-                    // console.log("newService", newService.projects)
+
                     return newService
                 })
-
-                // this.scripts = data.data
-                console.log("new services", this.services)
             }
             catch (error) {
                 alert(error)
                 console.log("AllServices", error)
             }
         },
+        async fetchServiceTypes() {
+            try {
+                const data = await axios.get('http://localhost:8080/api/servicetypes')
+                this.serviceTypes = data.data.map((data: any) => {
+                    const newServiceType: ServiceType = {
+                        Id: data.Id,
+                        Name: data.Name,
+                        Icon: data.Icon
+                    }
+                    return newServiceType
+                })
+            }
+            catch (error) {
+                alert("ServiceTypes: " + error)
+                console.log(error)
+            }
+        },
         async fetchClouds() {
             try {
                 const data = await axios.get('http://localhost:8080/api/clouds')
                 this.clouds = data.data.map((data: any) => {
-                    const newCloud: Cloud = {Id: data.Id, Name: data.Name, Description: data.Description, CloudTypeId: data.CloudTypeId}
+                    const newCloud: Cloud = {
+                        Id: data.Id,
+                        Name: data.Name,
+                        Description: data.Description,
+                        CloudTypeId: data.CloudTypeId
+                    }
                     return newCloud
                 })
-
-                console.log("new clouds outputs", this.clouds)
             }
             catch (error) {
                 alert("Clouds: " + error)
@@ -142,11 +207,13 @@ export const useAllServicesStore = defineStore({
             try {
                 const data = await axios.get('http://localhost:8080/api/projects')
                 this.projects = data.data.map((data: any) => {
-                    const newProject: Project = {Id: data.Id, Name: data.Name, Description: data.Description, Icon: data.Icon}
+                    const newProject: Project = {
+                        Id: data.Id,
+                        Name: data.Name,
+                        Description: data.Description,
+                        Icon: data.Icon}
                     return newProject
                 })
-
-                console.log("new projects outputs", this.projects)
             }
             catch (error) {
                 alert("Projects: " + error)
