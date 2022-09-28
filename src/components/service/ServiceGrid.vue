@@ -42,6 +42,15 @@
                         <td>&nbsp;&nbsp;&nbsp;</td>
                         <td>{{gettersService.service_type_name}}</td>
                       </tr>
+                      <tr>
+                        <td style="vertical-align:top;"><b>Projects</b></td>
+                        <td>&nbsp;&nbsp;&nbsp;</td>
+                        <td>
+                          <template v-for="project in gettersService.projects">
+                            {{project.Name}}<br>
+                          </template>
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 </v-card-text>

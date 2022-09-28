@@ -33,11 +33,11 @@ import {useAllServicesStore} from "@/stores/allServices";
 
 export default defineComponent({
   setup: function () {
-    const allSerivces = useAllServicesStore();
-    const {serviceTypes, selectedServiceTypes} = toRefs(allSerivces)
+    const allServicesStore = useAllServicesStore();
+    const {serviceTypes, selectedServiceTypes} = toRefs(allServicesStore)
 
     onMounted(async () => {
-      await allSerivces.fetchServiceTypes()
+      await allServicesStore.fetchServiceTypes()
     })
 
     const allServices = computed(() =>

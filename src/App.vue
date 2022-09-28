@@ -5,7 +5,7 @@
         <v-tabs>
           <v-tab to="/script">Scripts</v-tab>
           <v-tab to="/service">Services</v-tab>
-          <v-tab to="/credential">Credentials</v-tab>
+          <v-tab to="/key">Keys</v-tab>
         </v-tabs>
     </v-app-bar>
 
@@ -22,8 +22,6 @@ export default defineComponent({
 
   components: {
     AppBar,
-    // NavigationDrawer,
-    // ScriptGrid,
   },
 
   data () {
