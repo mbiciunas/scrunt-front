@@ -83,9 +83,9 @@
   import {onMounted, computed } from 'vue';
   import { useAllKeysStore } from '@/stores/allKeys';
   import QuickRunCard from "@/components/script/QuickRunCard.vue";
-  import AddCard from "@/components/service/AddCard.vue";
-  import DeleteCard from "@/components/service/DeleteCard.vue";
-  import ViewCard from "@/components/service/ViewCard.vue";
+  import AddCard from "@/components/key/AddCard.vue";
+  import DeleteCard from "@/components/key/DeleteCard.vue";
+  import ViewCard from "@/components/key/ViewCard.vue";
 
   export default defineComponent({
     setup() {

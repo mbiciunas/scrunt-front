@@ -210,33 +210,36 @@ export const useAllKeysStore = defineStore({
         //         console.log(error)
         //     }
         // },
-        // async postKeys(name : string, description : string, code : string) {
-        //     const post = <JSON><unknown>{
-        //         "Name": name,
-        //         "Description": description,
-        //         "Code": code
-        //     }
-        //
-        //     try {
-        //         await axios.post('http://localhost:8080/api/keys', post)
-        //
-        //         await this.fetchKeys()
-        //     }
-        //     catch (error) {
-        //         alert(error)
-        //         console.log(error)
-        //     }
-        // },
-        // async deleteKey(id : number) {
-        //     try {
-        //         await axios.delete('http://localhost:8080/api/keys/' + id)
-        //
-        //         await this.fetchKeys()
-        //     }
-        //     catch (error) {
-        //         alert(error)
-        //         console.log(error)
-        //     }
-        // },
+        async postKeys(name : string, description : string, keyType : number, keyPrivate : string, keyPublic : string) {
+            const post = <JSON><unknown>{
+                "name": name,
+                "description": description,
+                "keytype": keyType,
+                "keyprivate": keyPrivate,
+                "keypublic": keyPublic
+            }
+            console.log(post)
+
+            try {
+                await axios.post('http://localhost:8080/api/keys', post)
+
+                await this.fetchKeys()
+            }
+            catch (error) {
+                alert(error)
+                console.log(error)
+            }
+        },
+        async deleteKey(id : number) {
+            try {
+                await axios.delete('http://localhost:8080/api/keys/' + id)
+
+                await this.fetchKeys()
+            }
+            catch (error) {
+                alert(error)
+                console.log(error)
+            }
+        },
     },
 })

@@ -32,7 +32,7 @@ import {defineComponent, ref} from 'vue'
 import KeyTypeSelect from "@/components/key/navigation/KeyTypeSelect.vue";
 import CloudSelect from "@/components/service/navigation/CloudSelect.vue";
 import ProjectSelect from "@/components/service/navigation/ProjectSelect.vue";
-import AddCard from "@/components/service/AddCard.vue";
+import AddCard from "@/components/key/AddCard.vue";
 
 export default defineComponent({
   setup() {
