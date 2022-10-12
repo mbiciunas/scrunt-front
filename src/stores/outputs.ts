@@ -21,17 +21,17 @@ export const useOutputStore = defineStore({
             console.log('http://localhost:8080/api/outputs/script/' + runId + '/' + id)
             try {
                 const data = await axios.get('http://localhost:8080/api/outputs/script/' + runId + '/' + id)
-                console.log("Original scripts", this.outputs)
-                console.log("Raw data", data.data)
+                // console.log("Original scripts", this.outputs)
+                // console.log("Raw data", data.data)
                 this.outputs = data.data.map((data: any) => {
-                    console.log("id: " + data.Id, "name: " + data.OutputValue)
+                    // console.log("id: " + data.Id, "name: " + data.OutputValue)
                     const newOutput: Output = {Id: data.Id, RunId: data.RunId, OutputType: data.OutputType, OutputValue: data.OutputValue}
-                    console.log("newOutput", newOutput)
+                    // console.log("newOutput", newOutput)
                     return newOutput
                 })
 
                 // this.scripts = data.data
-                console.log("new outputs", this.outputs)
+                // console.log("new outputs", this.outputs)
             }
             catch (error) {
                 alert(error)

@@ -1,22 +1,22 @@
 <template>
-  <v-card v-if="!editScript">
+  <v-card v-if="!editKey">
     <v-card-title>
       Key Home
     </v-card-title>
     <v-card-text>
-      {{scriptName}}
+      {{keyName}}
     </v-card-text>
     <v-card-text>
-      {{scriptDescription}}
+      {{keyDescription}}
     </v-card-text>
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn icon="mdi-pencil" @click="editScript = !editScript"></v-btn>
+      <v-btn icon="mdi-pencil" @click="editKey = !editKey"></v-btn>
     </v-card-actions>
   </v-card>
 
-  <v-card v-if="editScript">
+  <v-card v-if="editKey">
     <v-card-title>
       Edit Home
     </v-card-title>
@@ -25,21 +25,21 @@
       <v-form @submit.prevent="onSubmit" id="edit-home-form">
         <v-text-field
             label="Name"
-            v-model="scriptName"></v-text-field>
-        <v-textarea label="Description" v-model="scriptDescription"></v-textarea>
+            v-model="keyName"></v-text-field>
+        <v-textarea label="Description" v-model="keyDescription"></v-textarea>
       </v-form>
     </v-card-text>
 
     <v-card-actions>
       <v-btn type="submit" color="primary" form="edit-home-form">Save</v-btn>
-      <v-btn color="primary" @click="editScript = !editScript">Cancel</v-btn>
+      <v-btn color="primary" @click="editKey = !editKey">Cancel</v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script lang='ts'>
 import {defineComponent, onMounted, ref} from 'vue'
-import {useScriptStore} from "@/stores/script";
+import {useKeyStore} from "@/stores/key";
 
   export default defineComponent({
     props: {
@@ -48,26 +48,26 @@ import {useScriptStore} from "@/stores/script";
 
     emits: ["close"],
     setup(props) {
-      const script = useScriptStore();
-      const editScript = ref(false)
-      let scriptName = ref("")
-      let scriptDescription = ref("")
+      const key = useKeyStore();
+      const editKey = ref(false)
+      let keyName = ref("")
+      let keyDescription = ref("")
 
       onMounted(async () => {
             console.log("onMounted props.id", props.id)
-            await script.fetchScript(<number>props.id)
-            scriptName.value = script.getName
-            scriptDescription.value = script.getDescription
-            console.log("onMounted script.getId", script.getId)
-            console.log("onMounted script.getName", script.getName)
-            console.log("onMounted script.getDescription", script.getDescription)
+            await key.fetchKey(<number>props.id)
+            keyName.value = key.getName
+            keyDescription.value = key.getDescription
+            console.log("onMounted script.getId", key.getId)
+            console.log("onMounted script.getName", key.getName)
+            console.log("onMounted script.getDescription", key.getDescription)
       })
 
       const onSubmit = () => {
-        console.log("Name = ", scriptName)
-        console.log("Description = ", scriptDescription)
-        script.putNameDescription(scriptName.value, scriptDescription.value)
-        editScript.value = false
+        console.log("Name = ", keyName)
+        console.log("Description = ", keyDescription)
+        key.putNameDescription(keyName.value, keyDescription.value)
+        editKey.value = false
         // context.emit('close')
       }
 
@@ -77,12 +77,12 @@ import {useScriptStore} from "@/stores/script";
       // }
 
       return {
-        scriptName,
-        scriptDescription,
+        keyName,
+        keyDescription,
         // props,
         // script,
         // tab,
-        editScript,
+        editKey,
         onSubmit,
       }
     },

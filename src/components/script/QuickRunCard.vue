@@ -18,7 +18,7 @@
 
 <script lang='ts'>
   import { defineComponent } from 'vue'
-  import { useAllScriptsStore } from '@/stores/allScripts';
+  import {useScriptStore} from "@/stores/script";
 
   export default defineComponent({
     props: {
@@ -28,11 +28,12 @@
     },
 
     setup(props, context) {
-      const allScripts = useAllScriptsStore();
+      const script = useScriptStore();
+      // const allScripts = useAllScriptsStore();
 
       const onSubmit = () => {
         console.log("Quick Run Card - Clicked on run button")
-        allScripts.runScript(<number>props.id)
+        script.runScript(<number>props.id)
         context.emit('close')
       }
 

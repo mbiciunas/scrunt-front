@@ -65,14 +65,14 @@ export const useAllScriptsStore = defineStore({
                 console.log(error)
             }
         },
-        async runScript(id : number) {
-            try {
-                await axios.post('http://localhost:8080/api/scripts/' + id + '/run')
-            }
-            catch (error) {
-                alert(error)
-                console.log(error)
-            }
-        },
+        // async runScript(id : number) {
+        //     try {
+        //         await axios.post('http://localhost:8080/api/scripts/' + id + '/run')
+        //     }
+        //     catch (error) {
+        //         alert(error)
+        //         console.log(error)
+        //     }
+        // },
     },
 })

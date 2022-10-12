@@ -67,8 +67,9 @@ export default defineComponent({
     })
 
     const addOutput = async () => {
-      console.log("View Run Card - addOutput")
-      await output.fetchOutputs(<number>props.id, 0)
+      console.log("View Run Card - addOutput", script.getRunId)
+      // await output.fetchOutputs(<number>props.id, script.getRunId)
+      await output.fetchOutputs(script.getRunId, 0)
 
       for (const value of output.getOutputs) {
         scriptCode.value += value.OutputValue + "\n"
@@ -77,15 +78,16 @@ export default defineComponent({
       // scriptCode.value += "\nTis is a new line\n"
     }
 
-    const runScript = () => {
+    const runScript = async () => {
       console.log("View Run Card - Clicked on run button")
       scriptCode.value = ""
-      script.runScript(<number>props.id)
+      await script.runScript(<number>props.id)
+      await console.log("ViewRunCard.runScript - getRunId", script.getRunId)
       // context.emit("setOutput")
       // script.putOutput(<number>props.id, "This is the output", "This is the log")
 
       // setInterval(addOutput, 1000)
-      addOutput()
+      await addOutput()
     }
 
     return {
