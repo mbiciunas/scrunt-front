@@ -70,6 +70,7 @@ export default defineComponent({
       console.log("View Run Card - addOutput", script.getRunId)
       // await output.fetchOutputs(<number>props.id, script.getRunId)
       await output.fetchOutputs(script.getRunId, 0)
+      console.log("After fetchOutputs", output.getOutputs)
 
       for (const value of output.getOutputs) {
         scriptCode.value += value.OutputValue + "\n"

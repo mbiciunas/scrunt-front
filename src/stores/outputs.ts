@@ -22,14 +22,18 @@ export const useOutputStore = defineStore({
             try {
                 const data = await axios.get('http://localhost:8080/api/outputs/script/' + runId + '/' + id)
                 // console.log("Original scripts", this.outputs)
-                // console.log("Raw data", data.data)
-                this.outputs = data.data.map((data: any) => {
-                    // console.log("id: " + data.Id, "name: " + data.OutputValue)
-                    const newOutput: Output = {Id: data.Id, RunId: data.RunId, OutputType: data.OutputType, OutputValue: data.OutputValue}
-                    // console.log("newOutput", newOutput)
-                    return newOutput
-                })
-
+                console.log("Raw data", data.data)
+                if (data.data == null) {
+                    return ""
+                }
+                else {
+                    this.outputs = data.data.map((data: any) => {
+                        // console.log("id: " + data.Id, "name: " + data.OutputValue)
+                        const newOutput: Output = {Id: data.Id, RunId: data.RunId, OutputType: data.OutputType, OutputValue: data.OutputValue}
+                        // console.log("newOutput", newOutput)
+                        return newOutput
+                    })
+                }
                 // this.scripts = data.data
                 // console.log("new outputs", this.outputs)
             }
