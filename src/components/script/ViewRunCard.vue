@@ -15,7 +15,7 @@
 </style>
 
 <template>
-  <v-card height="300px">
+  <v-card height="400px">
     <v-card-title>
       Run Code
     </v-card-title>
@@ -33,16 +33,26 @@
 <!--      <pre height="200" class="height: 200px;">{{scriptCode}}</pre>-->
     </v-card-text>
 
-<!--    <v-card-actions>-->
-<!--&lt;!&ndash;      <v-btn type="submit" color="primary" form="run-script-form">Run</v-btn>&ndash;&gt;-->
+    <v-card-actions>
+<!--      <v-btn type="submit" color="primary" form="run-script-form">Run</v-btn>-->
 <!--      <v-spacer></v-spacer>-->
+      <v-range-slider
+          v-model="modelLogLevel"
+          :ticks="tickLabels"
+          :min="10"
+          :max="50"
+          step="10"
+          show-ticks="always"
+          tick-size="4"
+          v-on:click="logLevelChange"
+      ></v-range-slider>
 <!--      <v-btn icon="mdi-close" @click="$emit('close')"></v-btn>-->
-<!--    </v-card-actions>-->
+    </v-card-actions>
   </v-card>
 </template>
 
 <script lang='ts'>
-import {defineComponent, onMounted, ref} from 'vue'
+import {defineComponent, onMounted, ref, type Ref} from 'vue'
 import {useScriptStore} from "@/stores/script";
 import {useOutputStore} from "@/stores/outputs";
 
@@ -52,11 +62,21 @@ export default defineComponent({
   },
 
   emits: ["close", "setOutput"],
-  setup(props, context) {
+  setup(props) {
     const script = useScriptStore();
     const output = useOutputStore();
 
     let scriptCode = ref("")
+
+    let modelLogLevel = ref([20,50])
+
+    const tickLabels = {
+      10: 'Debug',
+      20: 'Info',
+      30: 'Warning',
+      40: 'Error',
+      50: 'Critical',
+    }
 
     onMounted(async () => {
       console.log("onMounted props.id", props.id)
@@ -73,7 +93,11 @@ export default defineComponent({
       console.log("After fetchOutputs", output.getOutputs)
 
       for (const value of output.getOutputs) {
-        scriptCode.value += value.OutputValue + "\n"
+        console.log("value.OutputType: ", value.OutputType, "  modelLogLevel.value[0]: ", modelLogLevel.value[0])
+        if (value.OutputType >= modelLogLevel.value[0] && value.OutputType <= modelLogLevel.value[1]) {
+          console.log("Display the Element!!!", value.OutputValue)
+          scriptCode.value += value.OutputValue + "\n"
+        }
       }
       // scriptCode.value = output.getOutputs
       // scriptCode.value += "\nTis is a new line\n"
@@ -91,9 +115,17 @@ export default defineComponent({
       await addOutput()
     }
 
+    const logLevelChange = () => {
+      console.log("LogLevelChange", modelLogLevel)
+      scriptCode.value = ""
+      addOutput()
+    }
     return {
       scriptCode,
       runScript,
+      modelLogLevel,
+      tickLabels,
+      logLevelChange
     }
   },
 
