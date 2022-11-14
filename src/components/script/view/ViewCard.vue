@@ -44,10 +44,10 @@
 
 <script lang='ts'>
 import {defineComponent, ref} from 'vue'
-import ViewHomeCard from "@/components/script/ViewHomeCard.vue";
-import ViewEditCard from "@/components/script/ViewEditCard.vue";
-import ViewRunCard from "@/components/script/ViewRunCard.vue";
-import ViewCommentCard from "@/components/script/ViewCommentCard.vue";
+import ViewHomeCard from "@/components/script/view/ViewHomeCard.vue";
+import ViewEditCard from "@/components/script/view/ViewEditCard.vue";
+import ViewRunCard from "@/components/script/view/ViewRunCard.vue";
+import ViewCommentCard from "@/components/script/view/ViewCommentCard.vue";
 
   export default defineComponent({
     props: {

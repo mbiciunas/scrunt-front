@@ -27,6 +27,8 @@
             label="Name"
             v-model="scriptName"></v-text-field>
         <v-textarea label="Description" v-model="scriptDescription"></v-textarea>
+<!--        <service-type-select></service-type-select>-->
+        <RequiredService initial-description="scriptName1"></RequiredService>
       </v-form>
     </v-card-text>
 
@@ -40,6 +42,8 @@
 <script lang='ts'>
 import {defineComponent, onMounted, ref} from 'vue'
 import {useScriptStore} from "@/stores/script";
+// import ServiceTypeSelect from "@/components/script/view/HomeServiceTypeSelect.vue";
+import RequiredService from "@/components/script/view/RequiredServices.vue";
 
   export default defineComponent({
     props: {
@@ -66,6 +70,7 @@ import {useScriptStore} from "@/stores/script";
       const onSubmit = () => {
         console.log("Name = ", scriptName)
         console.log("Description = ", scriptDescription)
+        // ServiceTypeSelect
         script.putNameDescription(scriptName.value, scriptDescription.value)
         editScript.value = false
         // context.emit('close')
@@ -88,6 +93,8 @@ import {useScriptStore} from "@/stores/script";
     },
 
     components: {
+      // ServiceTypeSelect,
+      RequiredService,
       // RunDialog
       // ScriptDialog,
     },

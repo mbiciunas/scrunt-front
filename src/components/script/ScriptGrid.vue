@@ -74,7 +74,7 @@
   import { useAllScriptsStore } from '@/stores/allScripts';
   import QuickRunCard from "@/components/script/QuickRunCard.vue";
   import DeleteCard from "@/components/script/DeleteCard.vue";
-  import ViewCard from "@/components/script/ViewCard.vue";
+  import ViewCard from "@/components/script/view/ViewCard.vue";
 
   export default defineComponent({
     setup() {
