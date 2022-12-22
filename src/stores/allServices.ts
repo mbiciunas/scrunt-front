@@ -171,14 +171,17 @@ export const useAllServicesStore = defineStore({
         async fetchServiceTypes() {
             try {
                 const data = await axios.get('http://localhost:8080/api/servicetypes')
-                this.serviceTypes = data.data.map((data: any) => {
+                const blankServiceType: ServiceType = { Id: 0, Name: "Select a Service", Icon: "" }
+                this.serviceTypes = []
+                this.serviceTypes.push({ Id: 0, Name: "Select a Service", Icon: "" })
+                this.serviceTypes = this.serviceTypes.concat(data.data.map((data: any) => {
                     const newServiceType: ServiceType = {
                         Id: data.Id,
                         Name: data.Name,
                         Icon: data.Icon
                     }
                     return newServiceType
-                })
+                }))
             }
             catch (error) {
                 alert("ServiceTypes: " + error)

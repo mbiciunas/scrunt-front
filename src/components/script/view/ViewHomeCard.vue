@@ -27,8 +27,6 @@
             label="Name"
             v-model="scriptName"></v-text-field>
         <v-textarea label="Description" v-model="scriptDescription"></v-textarea>
-<!--        <service-type-select></service-type-select>-->
-        <RequiredService initial-description="scriptName1"></RequiredService>
       </v-form>
     </v-card-text>
 
@@ -39,65 +37,31 @@
   </v-card>
 </template>
 
-<script lang='ts'>
-import {defineComponent, onMounted, ref} from 'vue'
-import {useScriptStore} from "@/stores/script";
-// import ServiceTypeSelect from "@/components/script/view/HomeServiceTypeSelect.vue";
-import RequiredService from "@/components/script/view/RequiredServices.vue";
+<script setup lang='ts'>
+  import {onMounted, ref} from 'vue'
+  import {useScriptStore} from "@/stores/script";
 
-  export default defineComponent({
-    props: {
-      id: Number,
-    },
+  const props = defineProps(
+      {id: Number}
+  )
 
-    emits: ["close"],
-    setup(props) {
-      const script = useScriptStore();
-      const editScript = ref(false)
-      let scriptName = ref("")
-      let scriptDescription = ref("")
+  const emit = defineEmits(
+      ['close']
+  )
 
-      onMounted(async () => {
-            console.log("onMounted props.id", props.id)
-            await script.fetchScript(<number>props.id)
-            scriptName.value = script.getName
-            scriptDescription.value = script.getDescription
-            console.log("onMounted script.getId", script.getId)
-            console.log("onMounted script.getName", script.getName)
-            console.log("onMounted script.getDescription", script.getDescription)
-      })
+  const script = useScriptStore();
+  const editScript = ref(false)
+  let scriptName = ref("")
+  let scriptDescription = ref("")
 
-      const onSubmit = () => {
-        console.log("Name = ", scriptName)
-        console.log("Description = ", scriptDescription)
-        // ServiceTypeSelect
-        script.putNameDescription(scriptName.value, scriptDescription.value)
-        editScript.value = false
-        // context.emit('close')
-      }
-
-      // const onSubmit = () => {
-      //   console.log("View Card - Clicked on run button")
-      //   context.emit('close')
-      // }
-
-      return {
-        scriptName,
-        scriptDescription,
-        // props,
-        // script,
-        // tab,
-        editScript,
-        onSubmit,
-      }
-    },
-
-    components: {
-      // ServiceTypeSelect,
-      RequiredService,
-      // RunDialog
-      // ScriptDialog,
-    },
-
+  onMounted(async () => {
+        await script.fetchScript(<number>props.id)
+        scriptName.value = script.getName
+        scriptDescription.value = script.getDescription
   })
+
+  const onSubmit = () => {
+    script.putNameDescription(scriptName.value, scriptDescription.value)
+    editScript.value = false
+  }
 </script>
