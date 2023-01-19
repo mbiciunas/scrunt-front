@@ -3,11 +3,6 @@
     /*overflow: hidden !important;*/
   }
 
-  .v-card {
-    display: flex !important;
-    flex-direction: column;
-  }
-
   .v-card-text_scroll {
     flex-grow: 1;
     overflow: auto;
@@ -19,6 +14,13 @@
     <v-card-title>
       Run Code
     </v-card-title>
+
+    <v-card-text>
+      {{ testModel }}
+<!--      <v-form @submit.prevent="onSubmit" id="edit-home-form">-->
+        <RunService v-model="testModel"  v-model:service-types="serviceTypes" v-model:new-script-service="newScriptService"></RunService>
+<!--      </v-form>-->
+    </v-card-text>
 
     <v-card-text>
       <!--      <v-form @submit.prevent="onSubmit" id="run-script-form">-->
@@ -51,88 +53,89 @@
   </v-card>
 </template>
 
-<script lang='ts'>
-import {defineComponent, onMounted, ref, type Ref} from 'vue'
-import {useScriptStore} from "@/stores/script";
-import {useOutputStore} from "@/stores/outputs";
+<script setup lang='ts'>
+  import {ref} from 'vue'
+  import {useScriptStore} from "@/stores/script";
+  import {useOutputStore} from "@/stores/outputs";
+  import RunService from "@/components/script/view/RunServices.vue";
+  import {useAllServicesStore} from "@/stores/allServices";
+  import type {ScriptServiceTypes} from "@/stores/script";
 
-export default defineComponent({
-  props: {
-    id: Number,
-  },
+  const props = defineProps(
+      {id: Number}
+  )
 
-  emits: ["close", "setOutput"],
-  setup(props) {
-    const script = useScriptStore();
-    const output = useOutputStore();
+  const emit = defineEmits(
+      ['close', 'setOutput']
+  )
 
-    let scriptCode = ref("")
+  const output = useOutputStore();
 
-    let modelLogLevel = ref([20,50])
+  const testModel = ref([])
 
-    const tickLabels = {
-      10: 'Debug',
-      20: 'Info',
-      30: 'Warning',
-      40: 'Error',
-      50: 'Critical',
-    }
+  let scriptCode = ref("")
 
-    onMounted(async () => {
-      console.log("onMounted props.id", props.id)
-      await script.fetchScript(<number>props.id)
-      // scriptCode.value = script.getCode
-      console.log("onMounted script.getId", script.getId)
-      console.log("onMounted script.getCode", script.getCode)
-    })
+  let modelLogLevel = ref([20,50])
 
-    const addOutput = async () => {
-      console.log("View Run Card - addOutput", script.getRunId)
-      // await output.fetchOutputs(<number>props.id, script.getRunId)
-      await output.fetchOutputs(script.getRunId, 0)
-      console.log("After fetchOutputs", output.getOutputs)
+  const tickLabels = {
+    10: 'Debug',
+    20: 'Info',
+    30: 'Warning',
+    40: 'Error',
+    50: 'Critical',
+  }
 
-      for (const value of output.getOutputs) {
-        console.log("value.OutputType: ", value.OutputType, "  modelLogLevel.value[0]: ", modelLogLevel.value[0])
-        if (value.OutputType >= modelLogLevel.value[0] && value.OutputType <= modelLogLevel.value[1]) {
-          console.log("Display the Element!!!", value.OutputValue)
-          scriptCode.value += value.OutputValue + "\n"
-        }
+  // Get the script from the script store
+  const scriptStore = useScriptStore();
+  await scriptStore.fetchScript(<number>props.id)
+  await scriptStore.fetchScriptServices()
+  const scriptService = scriptStore.getScriptService
+
+  // Get service types from the all services store
+  const allServicesStore = useAllServicesStore();
+  await allServicesStore.fetchServiceTypes()
+  const serviceTypes = await allServicesStore.getServiceTypes
+
+  // Get the services from the all services store
+  // const allServicesStore = useAllServicesStore();
+  await allServicesStore.fetchServices()
+
+  console.log("ViewRunCard.setup - scriptService", scriptService)
+
+  const newScriptService = scriptService.map((scriptServiceTypes: ScriptServiceTypes) => ({
+    Id: scriptServiceTypes.Id,
+    Name: scriptServiceTypes.Name,
+    ServiceTypeId: scriptServiceTypes.ServiceTypeId,
+    SelectedValue: scriptServiceTypes.ServiceTypeId,
+    Services: allServicesStore.getServiceByType(scriptServiceTypes.ServiceTypeId)
+  }))
+
+  const addOutput = async () => {
+    await output.fetchOutputs(scriptStore.getRunId, 0)
+
+    for (const value of output.getOutputs) {
+      if (value.OutputType >= modelLogLevel.value[0] && value.OutputType <= modelLogLevel.value[1]) {
+        scriptCode.value += value.OutputValue + "\n"
       }
-      // scriptCode.value = output.getOutputs
-      // scriptCode.value += "\nTis is a new line\n"
     }
+  }
 
-    const runScript = async () => {
-      console.log("View Run Card - Clicked on run button")
-      scriptCode.value = ""
-      await script.runScript(<number>props.id)
-      await console.log("ViewRunCard.runScript - getRunId", script.getRunId)
-      // context.emit("setOutput")
-      // script.putOutput(<number>props.id, "This is the output", "This is the log")
+  const runScript = async () => {
+    console.log("ViewRunCard - Clicked on run button")
+    console.log("TestModel: ", testModel.value)
+    scriptCode.value = ""
+    await scriptStore.runScript(<number>props.id)
+    await console.log("ViewRunCard.runScript - getRunId", scriptStore.getRunId)
+    // context.emit("setOutput")
+    // script.putOutput(<number>props.id, "This is the output", "This is the log")
 
-      // setInterval(addOutput, 1000)
-      await addOutput()
-    }
+    // setInterval(addOutput, 1000)
+    await addOutput()
+  }
 
-    const logLevelChange = () => {
-      console.log("LogLevelChange", modelLogLevel)
-      scriptCode.value = ""
-      addOutput()
-    }
-    return {
-      scriptCode,
-      runScript,
-      modelLogLevel,
-      tickLabels,
-      logLevelChange
-    }
-  },
-
-  components: {
-    // RunDialog
-    // ScriptDialog,
-  },
-
-})
+  const logLevelChange = () => {
+    console.log("LogLevelChange", modelLogLevel)
+    scriptCode.value = ""
+    addOutput()
+  }
 </script>

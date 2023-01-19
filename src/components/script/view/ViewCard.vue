@@ -35,7 +35,9 @@
         </v-window-item>
 
         <v-window-item value="run">
-          <view-run-card :id=props.id v-on:setOutput="setOutput" v-on:close="$emit('close')"></view-run-card>
+          <suspense>
+            <view-run-card :id=props.id v-on:setOutput="setOutput" v-on:close="$emit('close')"></view-run-card>
+          </suspense>
         </v-window-item>
 
         <v-window-item value="comments">

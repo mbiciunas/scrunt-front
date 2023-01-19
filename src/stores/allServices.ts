@@ -120,6 +120,9 @@ export const useAllServicesStore = defineStore({
         getServiceById: (service) => {
             return (serviceId: number) => service.services.find((service) => service.Id === serviceId)
         },
+        getServiceByType: (service) => {
+            return (typeId: number) => service.services.filter((service) => service.service_type_id === typeId)
+        },
         getServiceTypes(state){
             return state.serviceTypes
         },
