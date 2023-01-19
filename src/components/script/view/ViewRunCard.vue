@@ -16,28 +16,18 @@
     </v-card-title>
 
     <v-card-text>
-      {{ testModel }}
-<!--      <v-form @submit.prevent="onSubmit" id="edit-home-form">-->
-        <RunService v-model="testModel"  v-model:service-types="serviceTypes" v-model:new-script-service="newScriptService"></RunService>
-<!--      </v-form>-->
+        <RunService v-model="newScriptService"  v-model:service-types="serviceTypes"></RunService>
     </v-card-text>
 
     <v-card-text>
-      <!--      <v-form @submit.prevent="onSubmit" id="run-script-form">-->
-      <!--        <v-textarea label="Code" v-model="scriptCode"></v-textarea>-->
-      <!--      </v-form>-->
       <v-btn v-on:click="runScript" color="primary">Run</v-btn>
     </v-card-text>
 
     <v-card-text class="v-card-text_scroll">
       <pre>{{scriptCode}}</pre>
-<!--      <v-sheet color="green lighten-3" height="300"><pre>{{scriptCode}}</pre></v-sheet>-->
-<!--      <pre height="200" class="height: 200px;">{{scriptCode}}</pre>-->
     </v-card-text>
 
     <v-card-actions>
-<!--      <v-btn type="submit" color="primary" form="run-script-form">Run</v-btn>-->
-<!--      <v-spacer></v-spacer>-->
       <v-range-slider
           v-model="modelLogLevel"
           :ticks="tickLabels"
@@ -48,7 +38,6 @@
           tick-size="4"
           v-on:click="logLevelChange"
       ></v-range-slider>
-<!--      <v-btn icon="mdi-close" @click="$emit('close')"></v-btn>-->
     </v-card-actions>
   </v-card>
 </template>
@@ -71,7 +60,7 @@
 
   const output = useOutputStore();
 
-  const testModel = ref([])
+  // const testModel = ref([])
 
   let scriptCode = ref("")
 
@@ -106,7 +95,7 @@
     Id: scriptServiceTypes.Id,
     Name: scriptServiceTypes.Name,
     ServiceTypeId: scriptServiceTypes.ServiceTypeId,
-    SelectedValue: scriptServiceTypes.ServiceTypeId,
+    SelectedValue: null,
     Services: allServicesStore.getServiceByType(scriptServiceTypes.ServiceTypeId)
   }))
 
@@ -121,8 +110,8 @@
   }
 
   const runScript = async () => {
-    console.log("ViewRunCard - Clicked on run button")
-    console.log("TestModel: ", testModel.value)
+    console.log("ViewRunCard.runScript - Clicked on run button")
+    console.log("ViewRunCard.runScript - newScriptService: ", newScriptService)
     scriptCode.value = ""
     await scriptStore.runScript(<number>props.id)
     await console.log("ViewRunCard.runScript - getRunId", scriptStore.getRunId)

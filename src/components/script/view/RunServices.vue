@@ -15,15 +15,16 @@
     </thead>
 
     <tbody> 
-      <tr v-for="service in newScriptService" :key="service.Id" >
+      <tr v-for="service in modelValue" :key="service.Id" >
         <td>
-          {{serviceTypes[serviceTypes.findIndex(x => x.Id === service.ServiceTypeId)].Name}} - {{service.Id}}- {{service.Name}} - {{service.ServiceTypeId}}
+          {{serviceTypes[serviceTypes.findIndex(x => x.Id === service.ServiceTypeId)].Name}} - {{service.Id}}- {{service.Name}} - {{service.SelectedValue}}
         </td>
         <td>
+          {{ service.SelectedValue }}
           <v-select
-              v-model="modelValue[service.Id]"
+              v-model="service.SelectedValue"
               :items="service.Services"
-              item-title="Name"
+              item-title="Id"
               item-value="Id"
               density="compact"
               @update:modelValue="onChange"
@@ -53,8 +54,7 @@
 
   const props = defineProps(
       {serviceTypes: {type: Object as PropType<Array<ServiceType>>, required: true},
-        modelValue: { type: Array as PropType<Array<number>>, required: true },
-        newScriptService: {type: Array as PropType<Array<NewScriptServiceTypes>>, required: true}
+        modelValue: { type: Array as PropType<Array<NewScriptServiceTypes>>, required: true },
       }
   )
 
@@ -70,7 +70,7 @@
   const onChange = (event: Event) => {
     // props.modelValue = 321
     console.log("RunServices.onChange - event", event)
-    console.log("RunServices.onChange - result", props.modelValue)
+    console.log("RunServices.onChange - modelValue", props.modelValue)
     emit('update:modelValue', props.modelValue)
   }
 </script>
