@@ -24,10 +24,11 @@
           <v-select
               v-model="service.SelectedValue"
               :items="service.Services"
-              item-title="Id"
+              item-title="Name"
               item-value="Id"
               density="compact"
               @update:modelValue="onChange"
+              return-object
           ></v-select>
         </td>
         <td class="text-right">

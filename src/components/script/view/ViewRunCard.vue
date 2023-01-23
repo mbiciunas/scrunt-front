@@ -89,15 +89,13 @@
   // const allServicesStore = useAllServicesStore();
   await allServicesStore.fetchServices()
 
-  console.log("ViewRunCard.setup - scriptService", scriptService)
-
-  const newScriptService = scriptService.map((scriptServiceTypes: ScriptServiceTypes) => ({
+  const newScriptService = ref(scriptService.map((scriptServiceTypes: ScriptServiceTypes) => ({
     Id: scriptServiceTypes.Id,
     Name: scriptServiceTypes.Name,
     ServiceTypeId: scriptServiceTypes.ServiceTypeId,
     SelectedValue: null,
     Services: allServicesStore.getServiceByType(scriptServiceTypes.ServiceTypeId)
-  }))
+  })))
 
   const addOutput = async () => {
     await output.fetchOutputs(scriptStore.getRunId, 0)
@@ -110,15 +108,10 @@
   }
 
   const runScript = async () => {
-    console.log("ViewRunCard.runScript - Clicked on run button")
-    console.log("ViewRunCard.runScript - newScriptService: ", newScriptService)
+    console.log("ViewRunCard.runScript - newScriptService: ", newScriptService.value)
     scriptCode.value = ""
     await scriptStore.runScript(<number>props.id)
-    await console.log("ViewRunCard.runScript - getRunId", scriptStore.getRunId)
-    // context.emit("setOutput")
-    // script.putOutput(<number>props.id, "This is the output", "This is the log")
 
-    // setInterval(addOutput, 1000)
     await addOutput()
   }
 
