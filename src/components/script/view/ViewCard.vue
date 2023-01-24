@@ -9,7 +9,7 @@
 
       <template v-slot:extension>
         <v-tabs v-model="tab" align-with-title background-color="primary" slider-color="white">
-          <v-tabs-slider color="white"></v-tabs-slider>
+<!--          <v-tabs-slider color="white"></v-tabs-slider>-->
           <v-tab value="home">Home</v-tab>
           <v-tab value="prerequisite">Prerequisites</v-tab>
           <v-tab value="edit">Edit</v-tab>

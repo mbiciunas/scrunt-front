@@ -107,7 +107,6 @@ export const useAllServicesStore = defineStore({
                     });
                 }
 
-                console.log("filter projects - result", result)
                 return result;
             }
 
@@ -174,7 +173,6 @@ export const useAllServicesStore = defineStore({
         async fetchServiceTypes() {
             try {
                 const data = await axios.get('http://localhost:8080/api/servicetypes')
-                const blankServiceType: ServiceType = { Id: 0, Name: "Select a Service", Icon: "" }
                 this.serviceTypes = []
                 this.serviceTypes.push({ Id: 0, Name: "Select a Service", Icon: "" })
                 this.serviceTypes = this.serviceTypes.concat(data.data.map((data: any) => {

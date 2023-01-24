@@ -1,8 +1,4 @@
 <style scoped>
-  html {
-    /*overflow: hidden !important;*/
-  }
-
   .v-card-text_scroll {
     flex-grow: 1;
     overflow: auto;

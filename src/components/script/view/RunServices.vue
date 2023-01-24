@@ -17,10 +17,9 @@
     <tbody> 
       <tr v-for="service in modelValue" :key="service.Id" >
         <td>
-          {{serviceTypes[serviceTypes.findIndex(x => x.Id === service.ServiceTypeId)].Name}} - {{service.Id}}- {{service.Name}} - {{service.SelectedValue}}
+          {{serviceTypes[serviceTypes.findIndex(x => x.Id === service.ServiceTypeId)].Name}} - {{service.Name}}
         </td>
         <td>
-          {{ service.SelectedValue }}
           <v-select
               v-model="service.SelectedValue"
               :items="service.Services"
@@ -28,7 +27,6 @@
               item-value="Id"
               density="compact"
               @update:modelValue="onChange"
-              return-object
           ></v-select>
         </td>
         <td class="text-right">
@@ -43,7 +41,6 @@
 <script setup lang='ts'>
   import type {PropType} from 'vue'
   import type {ServiceType, Service} from "@/stores/allServices";
-  import {ref} from "vue";
 
   type NewScriptServiceTypes = {
     Id: number,
