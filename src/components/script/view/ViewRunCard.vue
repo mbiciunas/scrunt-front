@@ -6,36 +6,72 @@
 </style>
 
 <template>
-  <v-card height="400px">
-    <v-card-title>
-      Run Code
-    </v-card-title>
+  <div class="d-flex flex-grow-1 flex-shrink-0" style="background-color: lightyellow;">
+    <v-tabs
+        v-model="tab"
+        direction="vertical"
+        bg-color="secondary"
+        class="flex-shrink-0"
+    >
+      <v-tab value="option-1">
+        <v-icon start>
+          mdi-account
+        </v-icon>
+        Setup
+      </v-tab>
+      <v-tab value="option-2">
+        <v-icon start>
+          mdi-lock
+        </v-icon>
+        Run
+      </v-tab>
+      <v-tab value="option-3">
+        <v-icon start>
+          mdi-access-point
+        </v-icon>
+        Error
+      </v-tab>
+    </v-tabs>
+    <v-window v-model="tab" class="d-flex flex-grow-1 flex-shrink-0" style="color: lightsalmon;">
+      <v-window-item value="option-1" selected-class="d-flex flex-grow-1 flex-shrink-0">
+        <v-card flat class="d-flex flex-grow-1 flex-shrink-0  flex-column">
+          <v-card-text class="d-flex flex-grow-1 flex-shrink-0">
+            <RunService v-model="newScriptService"  v-model:service-types="serviceTypes"></RunService>
+          </v-card-text>
+          <v-card-text>
+            <v-btn v-on:click="runScript" color="primary">Run</v-btn>
+          </v-card-text>
+        </v-card>
+      </v-window-item>
+      <v-window-item value="option-2" selected-class="d-flex flex-grow-1 flex-shrink-0">
+        <v-card flat>
+          <v-card-text>
+            <p>Put script output here...</p>
+          </v-card-text>
+        </v-card>
+      </v-window-item>
+      <v-window-item value="option-3" selected-class="d-flex flex-grow-1 flex-shrink-0">
+        <v-card class="grow" height="100%" style="position: relative">
+          <v-card-text class="v-card-text_scroll" style="background:#aeaeae; height:70%">
+            <pre>{{scriptCode}}</pre>
+          </v-card-text>
 
-    <v-card-text>
-        <RunService v-model="newScriptService"  v-model:service-types="serviceTypes"></RunService>
-    </v-card-text>
-
-    <v-card-text>
-      <v-btn v-on:click="runScript" color="primary">Run</v-btn>
-    </v-card-text>
-
-    <v-card-text class="v-card-text_scroll">
-      <pre>{{scriptCode}}</pre>
-    </v-card-text>
-
-    <v-card-actions>
-      <v-range-slider
-          v-model="modelLogLevel"
-          :ticks="tickLabels"
-          :min="10"
-          :max="50"
-          step="10"
-          show-ticks="always"
-          tick-size="4"
-          v-on:click="logLevelChange"
-      ></v-range-slider>
-    </v-card-actions>
-  </v-card>
+          <v-card-actions>
+            <v-range-slider
+                v-model="modelLogLevel"
+                :ticks="tickLabels"
+                :min="10"
+                :max="50"
+                step="10"
+                show-ticks="always"
+                tick-size="4"
+                v-on:click="logLevelChange"
+            ></v-range-slider>
+          </v-card-actions>
+        </v-card>
+      </v-window-item>
+    </v-window>
+  </div>
 </template>
 
 <script setup lang='ts'>
@@ -53,6 +89,8 @@
   const emit = defineEmits(
       ['close', 'setOutput']
   )
+
+  const tab = ref("option-1")
 
   const output = useOutputStore();
 

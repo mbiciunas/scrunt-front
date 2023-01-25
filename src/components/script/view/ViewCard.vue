@@ -1,6 +1,6 @@
 <template>
-  <v-sheet width="800" height="500">
-    <v-toolbar color="primary" density="compact">
+  <v-sheet class="d-flex flex-column" width="800" height="500">
+    <v-toolbar class="d-flex" color="primary" density="compact">
       <v-toolbar-title>{{ name }}</v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -19,31 +19,31 @@
       </template>
     </v-toolbar>
 
-      <v-window v-model="tab">
-        <v-window-item value="home">
-          <view-home-card :id=props.id v-on:close="$emit('close')"></view-home-card>
-        </v-window-item>
+    <v-window class="d-flex flex-grow-1 flex-shrink-0" style="background-color: lightgrey" v-model="tab">
+      <v-window-item value="home" selected-class="d-flex flex-grow-1 flex-shrink-0">
+        <view-home-card :id=props.id v-on:close="$emit('close')"></view-home-card>
+      </v-window-item>
 
-        <v-window-item value="prerequisite">
-          <suspense>
-            <view-prerequisite-card :id=props.id v-on:close="$emit('close')"></view-prerequisite-card>
-          </suspense>
-        </v-window-item>
+      <v-window-item value="prerequisite" selected-class="d-flex flex-grow-1 flex-shrink-0">
+        <suspense>
+          <view-prerequisite-card :id=props.id v-on:close="$emit('close')"></view-prerequisite-card>
+        </suspense>
+      </v-window-item>
 
-        <v-window-item value="edit">
-          <view-edit-card :id=props.id v-on:close="$emit('close')"></view-edit-card>
-        </v-window-item>
+      <v-window-item value="edit" selected-class="d-flex flex-grow-1 flex-shrink-0">
+        <view-edit-card :id=props.id v-on:close="$emit('close')"></view-edit-card>
+      </v-window-item>
 
-        <v-window-item value="run">
-          <suspense>
-            <view-run-card :id=props.id v-on:setOutput="setOutput" v-on:close="$emit('close')"></view-run-card>
-          </suspense>
-        </v-window-item>
+      <v-window-item value="run" selected-class="d-flex flex-grow-1 flex-shrink-0" style="background-color: lightgreen; padding: 10px;" >
+        <suspense>
+          <view-run-card :id=props.id v-on:setOutput="setOutput" v-on:close="$emit('close')"></view-run-card>
+        </suspense>
+      </v-window-item>
 
-        <v-window-item value="comments">
-          <view-comment-card :id=props.id v-on:setOutput="setOutput" v-on:close="$emit('close')"></view-comment-card>
-        </v-window-item>
-      </v-window>
+      <v-window-item value="comments" selected-class="d-flex flex-grow-1 flex-shrink-0">
+        <view-comment-card :id=props.id v-on:setOutput="setOutput" v-on:close="$emit('close')"></view-comment-card>
+      </v-window-item>
+    </v-window>
   </v-sheet>
 </template>
 

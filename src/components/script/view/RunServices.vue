@@ -1,7 +1,7 @@
 <template>
-  <v-table fixed-header height="150px">
+  <v-table fixed-header class="d-flex flex-grow-1 flex-shrink-0" style="background-color: lightskyblue; max-width: 100%;">
     <thead>
-      <tr>
+      <tr style="background-color: lightpink;">
         <th class="text-left">
           Service
         </th>
