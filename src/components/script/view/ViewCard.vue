@@ -9,7 +9,6 @@
 
       <template v-slot:extension>
         <v-tabs v-model="tab" align-with-title background-color="primary" slider-color="white">
-<!--          <v-tabs-slider color="white"></v-tabs-slider>-->
           <v-tab value="home">Home</v-tab>
           <v-tab value="prerequisite">Prerequisites</v-tab>
           <v-tab value="edit">Edit</v-tab>
@@ -60,13 +59,13 @@
   import ViewCommentCard from "@/components/script/view/ViewCommentCard.vue";
 
   const props = defineProps({
-    id: Number, name: String
+    id: {type: Number, required: true},
+    name: {type: String, required: true},
   })
 
   const tab = ref('home')
 
   const setOutput = () => {
-    console.log("run setOutput")
     tab.value = 'script'
   }
 </script>

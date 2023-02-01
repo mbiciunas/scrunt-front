@@ -67,69 +67,45 @@
 </template>
 
 
-<script lang='ts'>
-  import { defineComponent, ref } from 'vue'
-  import {onMounted, computed } from 'vue';
-  import { useAllScriptsStore } from '@/stores/allScripts';
+<script setup lang='ts'>
+  import {ref} from 'vue'
+  import {onMounted, computed} from 'vue';
+  import {useAllScriptsStore} from '@/stores/allScripts';
   import QuickRunCard from "@/components/script/QuickRunCard.vue";
   import DeleteCard from "@/components/script/DeleteCard.vue";
   import ViewCard from "@/components/script/view/ViewCard.vue";
 
-  export default defineComponent({
-    setup() {
-      const allScripts = useAllScriptsStore();
+  const allScripts = useAllScriptsStore();
 
-      const getScripts = computed(() => {
-        return allScripts.getScripts
-      })
+  const getScripts = computed(() => {
+    return allScripts.getScripts
+  })
 
-      const getScriptById = computed(() => {
-        return allScripts.getScriptById(scriptId.value)
-      })
+  const getScriptById = computed(() => {
+    return allScripts.getScriptById(scriptId.value)
+  })
 
-      const quickRunDialog = ref(false)
-      const deleteDialog = ref(false)
-      const viewDialog = ref(false)
-      const scriptId = ref(0)
+  const quickRunDialog = ref(false)
+  const deleteDialog = ref(false)
+  const viewDialog = ref(false)
+  const scriptId = ref(0)
 
-      const runScript = (gettersScript: any) => {
-        scriptId.value = gettersScript.Id
-        quickRunDialog.value = true
-      }
+  const runScript = (gettersScript: any) => {
+    scriptId.value = gettersScript.Id
+    quickRunDialog.value = true
+  }
 
-      const deleteScript = (gettersScript: any) => {
-        scriptId.value = gettersScript.Id
-        deleteDialog.value = true
-      }
+  const deleteScript = (gettersScript: any) => {
+    scriptId.value = gettersScript.Id
+    deleteDialog.value = true
+  }
 
-      const viewScript = (gettersScript: any) => {
-        scriptId.value = gettersScript.Id
-        viewDialog.value = true
-      }
+  const viewScript = (gettersScript: any) => {
+    scriptId.value = gettersScript.Id
+    viewDialog.value = true
+  }
 
-      onMounted(() => {
-        allScripts.fetchScripts();
-      })
-
-      return {
-        allScripts,
-        getScripts,
-        getScriptById,
-        runScript,
-        deleteScript,
-        viewScript,
-        quickRunDialog,
-        deleteDialog,
-        viewDialog,
-        scriptId,
-      }
-    },
-
-    components: {
-      QuickRunCard,
-      DeleteCard,
-      ViewCard,
-    },
-
+  onMounted(() => {
+    allScripts.fetchScripts();
   })
 </script>

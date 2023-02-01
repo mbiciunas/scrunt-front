@@ -39,7 +39,7 @@
 
 <script setup lang='ts'>
   import {onMounted, ref} from 'vue'
-  import {useScriptStore} from "@/stores/script";
+  import {useServiceStore} from "@/stores/service";
 
   const props = defineProps({
     id: Number,

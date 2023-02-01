@@ -87,7 +87,7 @@
   </v-dialog>
 
   <v-dialog v-model="viewDialog">
-    <view-card :id=getServiceById?.Id v-on:close="viewDialog = false; allServices.fetchServices()" />
+    <view-card :id=getServiceById?.Id :name=getServiceById?.Name v-on:close="viewDialog = false; allServices.fetchServices()" />
   </v-dialog>
 
 </template>

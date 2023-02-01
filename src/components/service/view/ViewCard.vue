@@ -1,7 +1,7 @@
 <template>
   <v-sheet width="800" height="500">
     <v-toolbar color="primary" density="compact">
-      <v-toolbar-title>Your Service</v-toolbar-title>
+      <v-toolbar-title>{{ name }}</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -43,7 +43,8 @@
   import ViewHistoryCard from "@/components/service/view/ViewHistoryCard.vue";
 
   const props = defineProps({
-    id: Number,
+    id: {type: Number, required: true},
+    name: {type: String, required: true},
   })
 
   const tab = ref('home')

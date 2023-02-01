@@ -1,7 +1,7 @@
 <template>
   <v-card v-if="!editScript">
     <v-card-title>
-      Display Home
+      Home
     </v-card-title>
     <v-card-text>
       {{scriptName}}
@@ -41,13 +41,13 @@
   import {onMounted, ref} from 'vue'
   import {useScriptStore} from "@/stores/script";
 
-  const props = defineProps(
-      {id: Number}
-  )
+  const props = defineProps({
+    id: Number,
+  })
 
-  const emit = defineEmits(
-      ['close']
-  )
+  const emit = defineEmits([
+    'close'
+  ])
 
   const script = useScriptStore();
   const editScript = ref(false)
