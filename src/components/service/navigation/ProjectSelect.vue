@@ -27,42 +27,30 @@
   </v-select>
 </template>
 
-<script lang='ts'>
-import {defineComponent, computed, ref, onMounted, toRefs} from 'vue'
-import {useAllServicesStore} from "@/stores/allServices";
+<script setup lang='ts'>
+  import {computed, onMounted, toRefs} from 'vue'
+  import {useAllServicesStore} from "@/stores/allServices";
 
-export default defineComponent({
-  setup() {
-    const allSerivces = useAllServicesStore();
-    const { projects, selectedProjects } = toRefs(allSerivces)
+  const allServices = useAllServicesStore();
+  const { projects, selectedProjects } = toRefs(allServices)
 
-    onMounted(async () => {
-      await allSerivces.fetchProjects()
-    })
+  onMounted(async () => {
+    await allServices.fetchProjects()
+  })
 
-    const allProjects = computed(() =>
-        selectedProjects.value.length === projects.value.length
-    )
+  const allProjects = computed(() =>
+      selectedProjects.value.length === projects.value.length
+  )
 
-    const someProjects = computed(() =>
-        selectedProjects.value.length > 0
-    )
+  const someProjects = computed(() =>
+      selectedProjects.value.length > 0
+  )
 
-    function toggle () {
-      if (allProjects.value) {
-        selectedProjects.value = []
-      } else {
-        selectedProjects.value = projects.value.map(({Id}) => Id)
-      }
+  function toggle () {
+    if (allProjects.value) {
+      selectedProjects.value = []
+    } else {
+      selectedProjects.value = projects.value.map(({Id}) => Id)
     }
-
-    return {
-      allProjects,
-      someProjects,
-      toggle,
-      projects,
-      selectedProjects
-    }
-  },
-})
+  }
 </script>

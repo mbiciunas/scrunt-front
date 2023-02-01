@@ -224,24 +224,26 @@ export const useAllServicesStore = defineStore({
                 console.log(error)
             }
         },
-        // async postServices(name : string, description : string, code : string) {
-        //     const post = <JSON><unknown>{
-        //         "Name": name,
-        //         "Description": description,
-        //         "Code": code
-        //     }
-        //
-        //     try {
-        //         await axios.post('http://localhost:8080/api/services', post)
-        //
-        //         await this.fetchServices()
-        //     }
-        //     catch (error) {
-        //         alert(error)
-        //         console.log(error)
-        //     }
-        // },
-        async deleteService(id : number) {
+        async postServices(name: string, description: string, address: string, port: number, serviceType: number) {
+            const post = <JSON><unknown>{
+                "Name": name,
+                "Description": description,
+                "Address": address,
+                "Port": port,
+                "ServiceType": serviceType,
+            }
+            console.log("allServices.postServices - post:", post)
+            try {
+                await axios.post('http://localhost:8080/api/services', post)
+
+                await this.fetchServices()
+            }
+            catch (error) {
+                alert(error)
+                console.log(error)
+            }
+        },
+        async deleteService(id: number) {
             try {
                 await axios.delete('http://localhost:8080/api/services/' + id)
 

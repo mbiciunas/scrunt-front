@@ -20,34 +20,25 @@
   </v-card>
 </template>
 
-<script lang='ts'>
-  import { defineComponent, ref } from 'vue'
+<script setup lang='ts'>
+  import { ref } from 'vue'
   import { useAllServicesStore } from '@/stores/allServices';
 
-  export default defineComponent({
-    props: {
-      id: Number,
-      title: String,
-      description: String
-    },
-    setup(props, context) {
-      console.log("id", props.id)
-      console.log("title", props.title)
-      console.log("description", props.description)
-      const allServices = useAllServicesStore();
-      let deleteService = ref(false)
-
-      const onSubmit = () => {
-        allServices.deleteService(<number>props.id)
-        context.emit('close')
-      }
-
-      return {
-        props,
-        deleteService,
-        onSubmit,
-      }
-    },
-
+  const props = defineProps({
+    id: Number,
+    title: String,
+    description: String
   })
+
+  const emit = defineEmits([
+    'close'
+  ])
+
+  const allServices = useAllServicesStore();
+  let deleteService = ref(false)
+
+  const onSubmit = () => {
+    allServices.deleteService(<number>props.id)
+    emit('close')
+  }
 </script>

@@ -17,7 +17,6 @@
                   flat>
 
                 <v-card-title>
-                  {{gettersScript.Id}}
                   {{gettersScript.Name}}
                 </v-card-title>
 

@@ -1,7 +1,7 @@
 <template>
-  <v-table fixed-header class="d-flex flex-grow-1 flex-shrink-0" style="background-color: lightskyblue; max-width: 100%;">
+  <v-table fixed-header>
     <thead>
-      <tr style="background-color: lightpink;">
+      <tr>
         <th class="text-left">
           Service
         </th>
@@ -50,25 +50,16 @@
     Services: Service[];
   }
 
-  const props = defineProps(
-      {serviceTypes: {type: Object as PropType<Array<ServiceType>>, required: true},
-        modelValue: { type: Array as PropType<Array<NewScriptServiceTypes>>, required: true },
-      }
-  )
+  const props = defineProps({
+    serviceTypes: {type: Object as PropType<Array<ServiceType>>, required: true},
+    modelValue: { type: Array as PropType<Array<NewScriptServiceTypes>>, required: true },
+  })
 
-  const emit = defineEmits(
-      ['update:modelValue']
-  )
-
-  // let result = ref([13,13])
-
-  console.log("RunServices.setup - modelValue: ", props.modelValue)
-  // console.log("RunServices.setup - result: ", result.value)
+  const emit = defineEmits([
+    'update:modelValue'
+  ])
 
   const onChange = (event: Event) => {
-    // props.modelValue = 321
-    console.log("RunServices.onChange - event", event)
-    console.log("RunServices.onChange - modelValue", props.modelValue)
     emit('update:modelValue', props.modelValue)
   }
 </script>

@@ -93,71 +93,45 @@
 </template>
 
 
-<script lang='ts'>
-  import { defineComponent, ref } from 'vue'
+<script setup lang='ts'>
+  import { ref } from 'vue'
   import {onMounted, computed } from 'vue';
   import { useAllServicesStore } from '@/stores/allServices';
   import QuickRunCard from "@/components/script/QuickRunCard.vue";
-  import AddCard from "@/components/service/AddCard.vue";
   import DeleteCard from "@/components/service/DeleteCard.vue";
-  import ViewCard from "@/components/service/ViewCard.vue";
+  import ViewCard from "@/components/service/view/ViewCard.vue";
 
-  export default defineComponent({
-    setup() {
-      const allServices = useAllServicesStore();
+  const allServices = useAllServicesStore();
 
-      const getServices = computed(() => {
-        return allServices.getFilterServices
-      })
+  const getServices = computed(() => {
+    return allServices.getFilterServices
+  })
 
-      const getServiceById = computed(() => {
-        return allServices.getServiceById(serviceId.value)
-      })
+  const getServiceById = computed(() => {
+    return allServices.getServiceById(serviceId.value)
+  })
 
-      const quickRunDialog = ref(false)
-      const deleteDialog = ref(false)
-      const viewDialog = ref(false)
-      const serviceId = ref(0)
+  const quickRunDialog = ref(false)
+  const deleteDialog = ref(false)
+  const viewDialog = ref(false)
+  const serviceId = ref(0)
 
-      const runService = (gettersService: any) => {
-        serviceId.value = gettersService.Id
-        quickRunDialog.value = true
-      }
+  const runService = (gettersService: any) => {
+    serviceId.value = gettersService.Id
+    quickRunDialog.value = true
+  }
 
-      const deleteService = (gettersService: any) => {
-        serviceId.value = gettersService.Id
-        deleteDialog.value = true
-      }
+  const deleteService = (gettersService: any) => {
+    serviceId.value = gettersService.Id
+    deleteDialog.value = true
+  }
 
-      const viewService = (gettersService: any) => {
-        serviceId.value = gettersService.Id
-        viewDialog.value = true
-      }
+  const viewService = (gettersService: any) => {
+    serviceId.value = gettersService.Id
+    viewDialog.value = true
+  }
 
-      onMounted(async () => {
-        await allServices.fetchServices()
-      })
-
-      return {
-        allServices,
-        getServices,
-        getServiceById,
-        runService,
-        deleteService,
-        viewService,
-        quickRunDialog,
-        deleteDialog,
-        viewDialog,
-        serviceId,
-      }
-    },
-
-    components: {
-      QuickRunCard,
-      AddCard,
-      DeleteCard,
-      ViewCard,
-    },
-
+  onMounted(async () => {
+    await allServices.fetchServices()
   })
 </script>

@@ -9,7 +9,6 @@
 
       <template v-slot:extension>
         <v-tabs v-model="tab" align-with-title background-color="primary" slider-color="white">
-          <v-tabs-slider color="white"></v-tabs-slider>
           <v-tab value="home">Home</v-tab>
           <v-tab value="edit">Edit</v-tab>
           <v-tab value="history">History</v-tab>
@@ -37,30 +36,15 @@
   html { overflow-y: auto }
 </style>
 
-<script lang='ts'>
-import {defineComponent, ref} from 'vue'
-import ViewHomeCard from "@/components/service/ViewHomeCard.vue";
-import ViewEditCard from "@/components/service/ViewEditCard.vue";
-import ViewHistoryCard from "@/components/service/ViewHistoryCard.vue";
+<script setup lang='ts'>
+  import {ref} from 'vue'
+  import ViewHomeCard from "@/components/service/view/ViewHomeCard.vue";
+  import ViewEditCard from "@/components/service/view/ViewEditCard.vue";
+  import ViewHistoryCard from "@/components/service/view/ViewHistoryCard.vue";
 
-  export default defineComponent({
-    props: {
-      id: Number,
-    },
-
-    setup(props) {
-      const tab = ref('home')
-
-      return {
-        props,
-        tab,
-      }
-    },
-
-    components: {
-      ViewHomeCard,
-      ViewEditCard,
-      ViewHistoryCard,
-    },
+  const props = defineProps({
+    id: Number,
   })
+
+  const tab = ref('home')
 </script>

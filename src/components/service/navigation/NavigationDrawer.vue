@@ -23,32 +23,18 @@
   </v-navigation-drawer>
 
   <v-dialog v-model="addDialog">
-    <add-card v-on:close="addDialog = false" />
+    <suspense>
+      <add-card v-on:close="addDialog = false" />
+    </suspense>
   </v-dialog>
 </template>
 
-<script lang='ts'>
-import {defineComponent, ref} from 'vue'
-import ServiceTypeSelect from "@/components/service/navigation/ServiceTypeSelect.vue";
-import CloudSelect from "@/components/service/navigation/CloudSelect.vue";
-import ProjectSelect from "@/components/service/navigation/ProjectSelect.vue";
-import AddCard from "@/components/service/AddCard.vue";
+<script setup lang='ts'>
+  import {ref} from 'vue'
+  import ServiceTypeSelect from "@/components/service/navigation/ServiceTypeSelect.vue";
+  import CloudSelect from "@/components/service/navigation/CloudSelect.vue";
+  import ProjectSelect from "@/components/service/navigation/ProjectSelect.vue";
+  import AddCard from "@/components/service/AddCard.vue";
 
-export default defineComponent({
-  setup() {
-
-    const addDialog = ref(false)
-
-    return {
-      addDialog,
-    }
-  },
-
-  components: {
-    ServiceTypeSelect,
-    CloudSelect,
-    ProjectSelect,
-    AddCard,
-  },
-})
+  const addDialog = ref(false)
 </script>

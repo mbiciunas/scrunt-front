@@ -27,42 +27,30 @@
   </v-select>
 </template>
 
-<script lang='ts'>
-import {defineComponent, computed, ref, onMounted, toRefs} from 'vue'
-import {useAllServicesStore} from "@/stores/allServices";
+<script setup lang='ts'>
+  import {computed, onMounted, toRefs} from 'vue'
+  import {useAllServicesStore} from "@/stores/allServices";
 
-export default defineComponent({
-  setup: function () {
-    const allServicesStore = useAllServicesStore();
-    const {serviceTypes, selectedServiceTypes} = toRefs(allServicesStore)
+  const allServicesStore = useAllServicesStore();
+  const {serviceTypes, selectedServiceTypes} = toRefs(allServicesStore)
 
-    onMounted(async () => {
-      await allServicesStore.fetchServiceTypes()
-    })
+  onMounted(async () => {
+    await allServicesStore.fetchServiceTypes()
+  })
 
-    const allServices = computed(() =>
-        selectedServiceTypes.value.length === serviceTypes.value.length
-    )
+  const allServices = computed(() =>
+      selectedServiceTypes.value.length === serviceTypes.value.length
+  )
 
-    const someServices = computed(() =>
-        selectedServiceTypes.value.length > 0
-    )
+  const someServices = computed(() =>
+      selectedServiceTypes.value.length > 0
+  )
 
-    function toggle() {
-      if (allServices.value) {
-        selectedServiceTypes.value = []
-      } else {
-        selectedServiceTypes.value = serviceTypes.value.map(({Id}) => Id)
-      }
+  function toggle() {
+    if (allServices.value) {
+      selectedServiceTypes.value = []
+    } else {
+      selectedServiceTypes.value = serviceTypes.value.map(({Id}) => Id)
     }
-
-    return {
-      allServices,
-      someServices,
-      toggle,
-      serviceTypes,
-      selectedServiceTypes,
-    }
-  },
-})
+  }
 </script>
