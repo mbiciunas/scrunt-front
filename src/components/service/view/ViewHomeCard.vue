@@ -4,10 +4,16 @@
       Service Home
     </v-card-title>
     <v-card-text>
-      {{scriptName}}
+      {{serviceName}}
     </v-card-text>
     <v-card-text>
-      {{scriptDescription}}
+      {{serviceDescription}}
+    </v-card-text>
+    <v-card-text>
+      {{serviceAddress}}
+    </v-card-text>
+    <v-card-text>
+      {{servicePort}}
     </v-card-text>
 
     <v-card-actions>
@@ -23,10 +29,10 @@
 
     <v-card-text>
       <v-form @submit.prevent="onSubmit" id="edit-home-form">
-        <v-text-field
-            label="Name"
-            v-model="scriptName"></v-text-field>
-        <v-textarea label="Description" v-model="scriptDescription"></v-textarea>
+        <v-text-field label="Name" v-model="serviceName"></v-text-field>
+        <v-textarea label="Description" v-model="serviceDescription"></v-textarea>
+        <v-text-field label="Address" v-model="serviceAddress"></v-text-field>
+        <v-text-field label="Port" v-model.number="servicePort" type="number"></v-text-field>
       </v-form>
     </v-card-text>
 
@@ -49,19 +55,27 @@
     'close'
   ])
 
-  const script = useScriptStore();
+  const service = useServiceStore();
   const editScript = ref(false)
-  let scriptName = ref("")
-  let scriptDescription = ref("")
+  let serviceName = ref("")
+  let serviceDescription = ref("")
+  let serviceAddress = ref("")
+  let servicePort = ref(0)
+  let serviceTypeId = ref(0)
+  let serviceCloudId = ref(0)
 
   onMounted(async () => {
-        await script.fetchScript(<number>props.id)
-        scriptName.value = script.getName
-        scriptDescription.value = script.getDescription
+    await service.fetchService(<number>props.id)
+    serviceName.value = service.getName
+    serviceDescription.value = service.getDescription
+    serviceAddress.value = service.getAddress
+    servicePort.value = service.getPort
+    serviceTypeId.value = service.getServiceTypeId
+    serviceCloudId.value = service.getCloudId
   })
 
   const onSubmit = () => {
-    script.putNameDescription(scriptName.value, scriptDescription.value)
+    service.putService(serviceName.value, serviceDescription.value, serviceAddress.value, servicePort.value, serviceTypeId.value, serviceCloudId.value)
     editScript.value = false
   }
 </script>

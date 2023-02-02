@@ -10,7 +10,7 @@
       <template v-slot:extension>
         <v-tabs v-model="tab" align-with-title background-color="primary" slider-color="white">
           <v-tab value="home">Home</v-tab>
-          <v-tab value="edit">Edit</v-tab>
+          <v-tab value="key">Keys</v-tab>
           <v-tab value="history">History</v-tab>
         </v-tabs>
       </template>
@@ -21,8 +21,8 @@
           <view-home-card :id=props.id v-on:close="$emit('close')"></view-home-card>
         </v-window-item>
 
-        <v-window-item value="edit">
-          <view-edit-card :id=props.id v-on:close="$emit('close')"></view-edit-card>
+        <v-window-item value="key">
+          <view-key-card :id=props.id v-on:close="$emit('close')"></view-key-card>
         </v-window-item>
 
         <v-window-item value="history">
@@ -39,7 +39,7 @@
 <script setup lang='ts'>
   import {ref} from 'vue'
   import ViewHomeCard from "@/components/service/view/ViewHomeCard.vue";
-  import ViewEditCard from "@/components/service/view/ViewEditCard.vue";
+  import ViewKeyCard from "@/components/service/view/ViewKeyCard.vue";
   import ViewHistoryCard from "@/components/service/view/ViewHistoryCard.vue";
 
   const props = defineProps({
