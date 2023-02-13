@@ -16,21 +16,21 @@
       </template>
     </v-toolbar>
 
-      <v-window v-model="tab">
-        <v-window-item value="home">
-          <view-home-card :id=props.id v-on:close="$emit('close')"></view-home-card>
-        </v-window-item>
+    <v-window v-model="tab">
+      <v-window-item value="home">
+        <view-home-card :id=props.id v-on:close="$emit('close')"></view-home-card>
+      </v-window-item>
 
-        <v-window-item value="key">
-          <suspense>
-            <view-key-card :service-id=props.id v-on:close="$emit('close')"></view-key-card>
-          </suspense>
-        </v-window-item>
+      <v-window-item value="key">
+        <suspense>
+          <view-key-card :service-id=props.id v-on:close="$emit('close')"></view-key-card>
+        </suspense>
+      </v-window-item>
 
-        <v-window-item value="history">
-          <view-history-card :id=props.id v-on:close="$emit('close')"></view-history-card>
-        </v-window-item>
-      </v-window>
+      <v-window-item value="history">
+        <view-history-card :id=props.id v-on:close="$emit('close')"></view-history-card>
+      </v-window-item>
+    </v-window>
   </v-sheet>
 </template>
 
@@ -39,7 +39,7 @@
 </style>
 
 <script setup lang='ts'>
-  import {ref} from 'vue'
+  import { ref } from 'vue'
   import ViewHomeCard from "@/components/service/view/ViewHomeCard.vue";
   import ViewKeyCard from "@/components/service/view/ViewKeyCard.vue";
   import ViewHistoryCard from "@/components/service/view/ViewHistoryCard.vue";

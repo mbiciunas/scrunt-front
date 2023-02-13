@@ -18,10 +18,10 @@
       <tr v-for="key in serviceKey" :key="key.ServiceKeyId" >
         <template v-if="editId !== key.ServiceKeyId">
           <td>
-            {{key.KeyName}}
+            {{ key.KeyName }}
           </td>
           <td>
-            {{key.KeyDescription}}
+            {{ key.KeyDescription }}
           </td>
           <td class="text-right">
             <v-btn icon="mdi-pencil" size="small" variant="plain" @click="editService(key.ServiceKeyId)"></v-btn>
@@ -39,12 +39,6 @@
             ></v-select>
           </td>
           <td>
-<!--            <v-text-field-->
-<!--                label="Unique Name"-->
-<!--                v-model="key.KeyName"-->
-<!--                type="input"-->
-<!--                hint="Valid python names only, no spaces"-->
-<!--            ></v-text-field>-->
           </td>
           <td class="text-right">
             <v-btn icon="mdi-content-save" size="small" variant="plain" @click="saveEdit()"></v-btn>
@@ -80,10 +74,6 @@ const props = defineProps({
     serviceId: { type: Number, required: true },
   })
 
-  // const emit = defineEmits(
-  //     ['update:modelValue']
-  // )
-
   const editId = ref(-1)
   const keyId = ref()
 
@@ -93,40 +83,27 @@ const props = defineProps({
   await serviceStore.fetchServiceKeys()
   serviceKey.value = serviceStore.getServiceKeys
 
-  console.log("RequiredKeys.setup - serviceKey", serviceKey.value)
-
   const submitAdd = async () => {
     editId.value = await serviceStore.addServiceKey()
-    console.log("RequiredServices.submitAdd - keys", props.keys)
-    console.log("RequiredServices.submitAdd - serviceKey", serviceKey.value)
   }
 
   const editService = (id: number) => {
     editId.value = id
-    console.log("RequiredServices.editService", id)
   }
 
   const cancelEdit = () => {
     editId.value = -1
-    console.log("RequiredServices.cancelEdit", editId.value)
   }
 
   const saveEdit = async () => {
-    // console.log("RequiredServices.saveEdit - keys", props.keys)
-    // console.log("RequiredServices.saveEdit - serviceKey", serviceKey.value)
-    console.log("RequiredServices.saveEdit - serviceId", props.serviceId)
-    console.log("RequiredServices.saveEdit - keyId", keyId.value)
-    // const result = props.keys.find(({Id}) => Id === keyId.value)
-    // console.log("RequiredServices.saveEdit - result", result)
     await serviceStore.postServiceKey(props.serviceId, keyId.value)
-    console.log("RequiredServices.saveEdit - serviceKey - before", serviceKey.value)
     serviceKey.value = serviceStore.getServiceKeys
-    console.log("RequiredServices.saveEdit - serviceKey - after", serviceKey.value)
     editId.value = -1
   }
 
-  const deleteService = (id: number) => {
-    console.log("RequiredServices.deleteService", id)
-    // serviceStore.deleteScriptService(id)
+  const deleteService = async (serviceKeyId: number) => {
+    await serviceStore.deleteServiceKey(props.serviceId, serviceKeyId)
+    serviceKey.value = serviceStore.getServiceKeys
+    editId.value = -1
   }
 </script>

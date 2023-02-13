@@ -23,29 +23,28 @@ export const useServiceStore = defineStore({
         serviceKeys: [] as ServiceKeys[],
     }),
     getters: {
-        getId(state){
+        getId(state) {
             return state.id
         },
-        getName(state){
+        getName(state) {
             return state.name
         },
-        getDescription(state){
+        getDescription(state) {
             return state.description
         },
-        getAddress(state){
+        getAddress(state) {
             return state.address
         },
-        getPort(state){
+        getPort(state) {
             return state.port
         },
-        getServiceTypeId(state){
+        getServiceTypeId(state) {
             return state.serviceTypeId
         },
-        getCloudId(state){
+        getCloudId(state) {
             return state.cloudId
         },
-        getServiceKeys(state){
-            console.log("service.getServiceKeys - state.serviceKeys", state.serviceKeys)
+        getServiceKeys(state) {
             return state.serviceKeys
         },
     },
@@ -71,9 +70,7 @@ export const useServiceStore = defineStore({
             try {
                 this.serviceKeys.splice(0)
 
-                console.log("service.fetchServiceKeys - this.id", this.id)
                 const data = await axios.get('http://localhost:8080/api/services/' + this.id + "/keys")
-                console.log("service.fetchServiceKeys - data", data)
 
                 if (data.data != null) {
                     this.serviceKeys = data.data.map((data: any) => {
@@ -88,10 +85,6 @@ export const useServiceStore = defineStore({
                         return newServiceKey
                     })
                 }
-                console.log("service.fetchServiceKeys - serviceKeys", this.serviceKeys)
-                // else {
-                //     this.serviceKeys.splice(0)
-                // }
             }
             catch (error) {
                 alert(error)
@@ -114,16 +107,25 @@ export const useServiceStore = defineStore({
         },
 
         async postServiceKey(serviceId: number, keyId: number) {
-            const data = <JSON><unknown>{
+            const data = <JSON><unknown> {
                 "KeyId": keyId,
                 "ServiceId": serviceId
             }
 
-            console.log("service.postServiceKey - data", data)
             try {
                 await axios.post('http://localhost:8080/api/services/' + this.id + "/keys", data)
 
-                console.log("service.postServiceKey - call fetchServiceKeys", this.serviceKeys)
+                await this.fetchServiceKeys()
+            }
+            catch (error) {
+                alert(error)
+            }
+        },
+
+        async deleteServiceKey(serviceId: number, serviceKeyId: number) {
+            try {
+                await axios.delete('http://localhost:8080/api/services/' + serviceId + "/keys/" + serviceKeyId)
+
                 await this.fetchServiceKeys()
             }
             catch (error) {
@@ -131,20 +133,6 @@ export const useServiceStore = defineStore({
                 console.log(error)
             }
         },
-
-        // async deleteScriptService(id: number) {
-        //     console.log("scripts.deleteScriptService - id", id)
-        //     console.log("scripts.deleteScriptService - scriptServices", this.scriptServices)
-        //     const indexOfObject = this.scriptServices.findIndex((object) => {
-        //         return object.Id === id;
-        //     })
-        //     console.log("scripts.deleteScriptService - indexOfObject", indexOfObject)
-        //
-        //     if (indexOfObject !== -1) {
-        //         this.scriptServices.splice(indexOfObject, 1)
-        //     }
-        //     console.log("scripts.deleteScriptService - scriptServices", this.scriptServices)
-        // },
 
         async putService(name: string, description: string, address: string, port: number, serviceTypeId: number, cloudId: number) {
             const data = <JSON><unknown>{
