@@ -40,46 +40,41 @@ export const useScriptStore = defineStore({
     actions: {
         async fetchScript(id: number) {
             try {
-                await console.log("fetchScript start get")
-
                 const data = await axios.get('http://localhost:8080/api/scripts/' + id)
-                await console.log("fetchScript end get")
-                await console.log("script.fetchScript - data", data.data.Id)
+
                 this.id = await data.data.Id
                 this.name = await data.data.Name
                 this.description = await data.data.Description
                 this.code = await data.data.Code
-
-                console.log("New Id", this.id)
-                console.log("New Name", this.name)
-                console.log("New Description", this.description)
-                console.log("New Code", this.code)
             }
             catch (error) {
                 alert(error)
                 console.log(error)
             }
         },
+
         async fetchScriptServices() {
             try {
                 const data = await axios.get('http://localhost:8080/api/scripts/' + this.id + "/services")
-                console.log("Original scripts", this.scriptServices)
-                console.log("Raw data", data.data)
-                this.scriptServices = data.data.map((data: any) => {
-                    console.log("id: " + data.Id, "name: " + data.ServiceTypeId, "name: " + data.Name)
-                    const newScriptService: ScriptServiceTypes = {Id: data.Id, ServiceTypeId: data.ServiceTypeId, Name: data.Name}
-                    console.log("newScriptService", newScriptService)
-                    return newScriptService
-                })
 
-                // this.scripts = data.data
-                console.log("new scripts", this.scriptServices)
+                if (data.data != null) {
+                    this.scriptServices = data.data.map((data: any) => {
+                        console.log("id: " + data.Id, "name: " + data.ServiceTypeId, "name: " + data.Name)
+                        const newScriptService: ScriptServiceTypes = {Id: data.Id, ServiceTypeId: data.ServiceTypeId, Name: data.Name}
+                        console.log("newScriptService", newScriptService)
+                        return newScriptService
+                    })
+                }
+                else {
+                    this.scriptServices.splice(0)
+                }
             }
             catch (error) {
                 alert(error)
                 console.log(error)
             }
         },
+
         async addScriptService() {
             const newScriptService: ScriptServiceTypes = {Id: 0, ServiceTypeId: 0, Name: ""}
             this.scriptServices.push(newScriptService)
@@ -118,6 +113,7 @@ export const useScriptStore = defineStore({
                 console.log(error)
             }
         },
+
         async putCode(code: string) {
             console.log("script.ts:putCode")
             const data = <JSON><unknown>{

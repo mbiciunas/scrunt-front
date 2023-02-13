@@ -22,7 +22,9 @@
         </v-window-item>
 
         <v-window-item value="key">
-          <view-key-card :id=props.id v-on:close="$emit('close')"></view-key-card>
+          <suspense>
+            <view-key-card :service-id=props.id v-on:close="$emit('close')"></view-key-card>
+          </suspense>
         </v-window-item>
 
         <v-window-item value="history">

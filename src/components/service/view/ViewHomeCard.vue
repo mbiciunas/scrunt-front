@@ -4,16 +4,16 @@
       Service Home
     </v-card-title>
     <v-card-text>
-      {{serviceName}}
+      {{ serviceName }}
     </v-card-text>
     <v-card-text>
-      {{serviceDescription}}
+      {{ serviceDescription }}
     </v-card-text>
     <v-card-text>
-      {{serviceAddress}}
+      {{ serviceAddress }}:{{ servicePort }}
     </v-card-text>
     <v-card-text>
-      {{servicePort}}
+      {{ servicePort }}
     </v-card-text>
 
     <v-card-actions>

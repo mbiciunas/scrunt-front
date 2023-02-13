@@ -1,11 +1,14 @@
 import { defineStore } from 'pinia'
 import axios from "axios"
 
-// export type ScriptServiceTypes = {
-//     Id: number;
-//     ServiceTypeId: number;
-//     Name: string;
-// }
+export type ServiceKeys = {
+    ServiceKeyId: number;
+    KeyId: number;
+    KeyName: string;
+    KeyDescription: string;
+    KeyTypeId: number;
+    KeyTypeName: string;
+}
 
 export const useServiceStore = defineStore({
     id: "service",
@@ -17,7 +20,7 @@ export const useServiceStore = defineStore({
         port: 0,
         serviceTypeId: 0,
         cloudId: 0,
-        // scriptServices: [] as ScriptServiceTypes[],
+        serviceKeys: [] as ServiceKeys[],
     }),
     getters: {
         getId(state){
@@ -41,6 +44,10 @@ export const useServiceStore = defineStore({
         getCloudId(state){
             return state.cloudId
         },
+        getServiceKeys(state){
+            console.log("service.getServiceKeys - state.serviceKeys", state.serviceKeys)
+            return state.serviceKeys
+        },
     },
     actions: {
         async fetchService(id: number) {
@@ -52,7 +59,7 @@ export const useServiceStore = defineStore({
                 this.address = await data.data.Address
                 this.port = await data.data.Port
                 this.serviceTypeId = await data.data.ServiceTypeId
-                this.cloudId = await data.data.CloudId
+                this.cloudId = data.data.CloudId
             }
             catch (error) {
                 alert(error)
@@ -60,33 +67,70 @@ export const useServiceStore = defineStore({
             }
         },
 
-        // async fetchScriptServices() {
-        //     try {
-        //         const data = await axios.get('http://localhost:8080/api/scripts/' + this.id + "/services")
-        //         console.log("Original scripts", this.scriptServices)
-        //         console.log("Raw data", data.data)
-        //         this.scriptServices = data.data.map((data: any) => {
-        //             console.log("id: " + data.Id, "name: " + data.ServiceTypeId, "name: " + data.Name)
-        //             const newScriptService: ScriptServiceTypes = {Id: data.Id, ServiceTypeId: data.ServiceTypeId, Name: data.Name}
-        //             console.log("newScriptService", newScriptService)
-        //             return newScriptService
-        //         })
-        //
-        //         // this.scripts = data.data
-        //         console.log("new scripts", this.scriptServices)
-        //     }
-        //     catch (error) {
-        //         alert(error)
-        //         console.log(error)
-        //     }
-        // },
+        async fetchServiceKeys() {
+            try {
+                this.serviceKeys.splice(0)
 
-        // async addScriptService() {
-        //     const newScriptService: ScriptServiceTypes = {Id: 0, ServiceTypeId: 0, Name: ""}
-        //     this.scriptServices.push(newScriptService)
-        //
-        //     return newScriptService.Id
-        // },
+                console.log("service.fetchServiceKeys - this.id", this.id)
+                const data = await axios.get('http://localhost:8080/api/services/' + this.id + "/keys")
+                console.log("service.fetchServiceKeys - data", data)
+
+                if (data.data != null) {
+                    this.serviceKeys = data.data.map((data: any) => {
+                        const newServiceKey: ServiceKeys = {
+                            ServiceKeyId: data.ServiceKeyId,
+                            KeyId: data.KeyId,
+                            KeyName: data.Name,
+                            KeyDescription: data.Description,
+                            KeyTypeId: data.KeyTypeId,
+                            KeyTypeName: data.KeyTypeName
+                        }
+                        return newServiceKey
+                    })
+                }
+                console.log("service.fetchServiceKeys - serviceKeys", this.serviceKeys)
+                // else {
+                //     this.serviceKeys.splice(0)
+                // }
+            }
+            catch (error) {
+                alert(error)
+                console.log(error)
+            }
+        },
+
+        async addServiceKey() {
+            const newServiceKey: ServiceKeys = {
+                ServiceKeyId: 0,
+                KeyId: 0,
+                KeyName: "addServiceKey",
+                KeyDescription: "",
+                KeyTypeId: 0,
+                KeyTypeName: ""
+            }
+            this.serviceKeys.push(newServiceKey)
+
+            return newServiceKey.ServiceKeyId
+        },
+
+        async postServiceKey(serviceId: number, keyId: number) {
+            const data = <JSON><unknown>{
+                "KeyId": keyId,
+                "ServiceId": serviceId
+            }
+
+            console.log("service.postServiceKey - data", data)
+            try {
+                await axios.post('http://localhost:8080/api/services/' + this.id + "/keys", data)
+
+                console.log("service.postServiceKey - call fetchServiceKeys", this.serviceKeys)
+                await this.fetchServiceKeys()
+            }
+            catch (error) {
+                alert(error)
+                console.log(error)
+            }
+        },
 
         // async deleteScriptService(id: number) {
         //     console.log("scripts.deleteScriptService - id", id)
@@ -122,38 +166,5 @@ export const useServiceStore = defineStore({
                 console.log(error)
             }
         },
-
-        // async putCode(code: string) {
-        //     console.log("script.ts:putCode")
-        //     const data = <JSON><unknown>{
-        //         "Name": this.name,
-        //         "Description": this.description,
-        //         "Code": code
-        //     }
-        //
-        //     console.log(data)
-        //
-        //     try {
-        //         await axios.put('http://localhost:8080/api/scripts/' + this.id, data)
-        //
-        //         await this.fetchScript(this.id)
-        //     }
-        //     catch (error) {
-        //         alert(error)
-        //         console.log(error)
-        //     }
-        // },
-
-        // async runScript(id: number) {
-        //     // let runId;
-        //     try {
-        //         const data = await axios.post('http://localhost:8080/api/scripts/' + id + '/run')
-        //         this.runId = await data.data.Id
-        //         await console.log("script.runScript - data", this.runId)
-        //     } catch (error) {
-        //         alert(error)
-        //         console.log(error)
-        //     }
-        // },
     },
 })

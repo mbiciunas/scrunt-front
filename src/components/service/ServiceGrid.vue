@@ -16,7 +16,6 @@
                   flat>
 
                 <v-card-title>
-                  {{gettersService.Id}}
                   {{gettersService.Name}}
                 </v-card-title>
 
