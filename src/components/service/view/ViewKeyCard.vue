@@ -28,4 +28,5 @@
 
   await allKeysStore.fetchKeys()
   keys.value = await allKeysStore.getKeys
+  console.log("ViewKeyCard.setup - keys", keys.value)
 </script>
