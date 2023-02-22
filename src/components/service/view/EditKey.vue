@@ -35,7 +35,7 @@
 <script setup lang='ts'>
   import { ref } from 'vue'
   import { useServiceStore } from "@/stores/service";
-  import type { Key } from "@/components/service/view/RequiredKeys.vue"
+  import type { Key } from "@/components/service/view/ViewKeyCard.vue"
   import type { PropType } from 'vue'
 
   const props = defineProps({
@@ -51,9 +51,6 @@
 
   const serviceStore = useServiceStore();
   const serviceKey = ref()
-
-  // await serviceStore.fetchServiceKeys()
-  // serviceKey.value = serviceStore.getServiceKeys
 
   const editService = () => {
     edit.value = true
