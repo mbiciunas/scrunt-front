@@ -21,12 +21,18 @@
         </thead>
 
         <tbody>
-        <tr v-for="key in serviceKey" :key="key.ServiceKeyId" >
-          <EditKey :service-key-id="key.ServiceKeyId" :name="key.KeyName" :description="key.KeyDescription" :service-id="serviceId" :keys="keys"></EditKey>
+        <tr v-for="keyItem in serviceKeys" :key="keyItem.ServiceKeyId" >
+          <td>
+          {{ serviceKeys }}
+<!--          {{ keyItem }}-->
+<!--          ServiceKeyId: {{ keyItem[0].ServiceKeyId }} Name: {{ keyItem[0].KeyName }} Description: {{ keyItem[0].KeyDescription }} ServiceId: {{ serviceId }}-->
+<!--          <EditKey :service-key-id="keyItem.ServiceKeyId" :name="keyItem.KeyName" :description="keyItem.KeyDescription" :service-id="serviceId" :keys="keys"></EditKey>-->
+          </td>
         </tr>
         <tr>
           <td>
             <v-btn v-on:click="submitAdd" color="primary">Add</v-btn>
+            <v-btn v-on:click="checkStuff" color="secondary">Check Stuff</v-btn>
           </td>
         </tr>
         </tbody>
@@ -65,14 +71,24 @@
   keys.value = await allKeysStore.getKeys
 
   const serviceStore = useServiceStore();
-  const serviceKey = ref()
 
   await serviceStore.fetchServiceKeys()
-  serviceKey.value = serviceStore.getServiceKeys
-  console.log("RequiredKeys.setup - serviceKey", serviceKey.value)
+  // const serviceKey = ref(serviceStore.serviceKeys)
+  const serviceKeys = ref()
+  serviceKeys.value = serviceStore.getServiceKeys
+  console.log("ViewKeyCard.setup - serviceKeys", serviceKeys.value)
+  // const myServiceKeys = [
+  //     {ServiceKeyId: 1, KeyId: 1, KeyName: 'RSA key', KeyDescription: 'RSA key for accessing database.'},
+  //     {ServiceKeyId: 42, KeyId: 2, KeyName: 'DSA key', KeyDescription: 'This is another key.'}
+  // ]
+  // console.log("ViewKeyCard.setup - myServiceKeys", myServiceKeys)
 
   const submitAdd = async () => {
     await serviceStore.addServiceKey()
+  }
+
+  const checkStuff = async () => {
+    console.log("ViewKeyCard.checkStuff - serviceKey", serviceKeys)
   }
 
 </script>

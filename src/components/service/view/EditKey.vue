@@ -24,7 +24,7 @@
       {{ description }}
     </td>
     <td class="text-right">
-      <v-btn icon="mdi-pencil" size="small" variant="plain" @click="editService()"></v-btn>
+<!--      <v-btn icon="mdi-pencil" size="small" variant="plain" @click="editService()"></v-btn>-->
       <v-btn icon="mdi-delete" size="small" variant="plain" @click="deleteService()"></v-btn>
     </td>
 
@@ -50,11 +50,11 @@
   const keyId = ref()
 
   const serviceStore = useServiceStore();
-  const serviceKey = ref()
+  // const serviceKey = ref()
 
-  const editService = () => {
-    edit.value = true
-  }
+  // const editService = () => {
+  //   edit.value = true
+  // }
 
   const cancelEdit = async () => {
     if (props.serviceKeyId == 0) {
@@ -67,13 +67,13 @@
 
   const saveEdit = async () => {
     await serviceStore.postServiceKey(props.serviceId, keyId.value)
-    serviceKey.value = serviceStore.getServiceKeys
+    // serviceKey.value = serviceStore.getServiceKeys
     edit.value = false
   }
 
   const deleteService = async () => {
     await serviceStore.deleteServiceKey(props.serviceId, props.serviceKeyId)
-    serviceKey.value = serviceStore.getServiceKeys
+    // serviceKey.value = serviceStore.getServiceKeys
     edit.value = false
   }
 </script>
