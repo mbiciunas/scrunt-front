@@ -22,12 +22,12 @@
 
         <tbody>
         <tr v-for="keyItem in serviceKeys" :key="keyItem.ServiceKeyId" >
-          <td>
-          {{ serviceKeys }}
+<!--          <td>-->
+<!--          {{ serviceKeys }}-->
 <!--          {{ keyItem }}-->
 <!--          ServiceKeyId: {{ keyItem[0].ServiceKeyId }} Name: {{ keyItem[0].KeyName }} Description: {{ keyItem[0].KeyDescription }} ServiceId: {{ serviceId }}-->
-<!--          <EditKey :service-key-id="keyItem.ServiceKeyId" :name="keyItem.KeyName" :description="keyItem.KeyDescription" :service-id="serviceId" :keys="keys"></EditKey>-->
-          </td>
+          <EditKey :service-key-id="keyItem.ServiceKeyId" :name="keyItem.KeyName" :description="keyItem.KeyDescription" :service-id="serviceId" :keys="keys"></EditKey>
+<!--          </td>-->
         </tr>
         <tr>
           <td>
@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang='ts'>
-  import { ref } from 'vue'
+import {reactive, ref} from 'vue'
   import { useAllKeysStore } from "@/stores/allKeys";
   import EditKey from "@/components/service/view/EditKey.vue";
   import {useServiceStore} from "@/stores/service";
@@ -73,10 +73,11 @@
   const serviceStore = useServiceStore();
 
   await serviceStore.fetchServiceKeys()
-  // const serviceKey = ref(serviceStore.serviceKeys)
-  const serviceKeys = ref()
-  serviceKeys.value = serviceStore.getServiceKeys
-  console.log("ViewKeyCard.setup - serviceKeys", serviceKeys.value)
+  const serviceKeys = reactive(serviceStore.getServiceKeys)
+  // const serviceKeys = ref()
+  // serviceKeys.value = serviceStore.getServiceKeys
+  // const serviceKeys = serviceStore.getServiceKeys
+  console.log("ViewKeyCard.setup - serviceKeys", serviceKeys)
   // const myServiceKeys = [
   //     {ServiceKeyId: 1, KeyId: 1, KeyName: 'RSA key', KeyDescription: 'RSA key for accessing database.'},
   //     {ServiceKeyId: 42, KeyId: 2, KeyName: 'DSA key', KeyDescription: 'This is another key.'}

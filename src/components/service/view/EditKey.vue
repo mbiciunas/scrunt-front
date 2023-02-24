@@ -72,6 +72,7 @@
   }
 
   const deleteService = async () => {
+    console.log("EditKey.deleteService", props.serviceId, props.serviceKeyId)
     await serviceStore.deleteServiceKey(props.serviceId, props.serviceKeyId)
     // serviceKey.value = serviceStore.getServiceKeys
     edit.value = false

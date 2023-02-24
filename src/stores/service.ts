@@ -45,7 +45,6 @@ export const useServiceStore = defineStore({
             return state.cloudId
         },
         getServiceKeys(state) {
-            console.log("service.getServiceKeys - state.serviceKeys", state.serviceKeys)
             return state.serviceKeys
         },
     },
@@ -68,13 +67,12 @@ export const useServiceStore = defineStore({
         },
 
         async fetchServiceKeys() {
+            console.log("service.fetchServiceKeys - serviceKeys before", this.serviceKeys)
             try {
-                this.serviceKeys.splice(0)
-
                 const data = await axios.get('http://localhost:8080/api/services/' + this.id + "/keys")
 
                 if (data.data != null) {
-                    this.serviceKeys.push(data.data.map((data: any) => {
+                    this.serviceKeys = data.data.map((data: any) => {
                         const newServiceKey: ServiceKeys = {
                             ServiceKeyId: data.ServiceKeyId,
                             KeyId: data.KeyId,
@@ -84,14 +82,14 @@ export const useServiceStore = defineStore({
                             KeyTypeName: data.KeyTypeName
                         }
                         return newServiceKey
-                    }))
+                    })
                 }
-                console.log("service.fetchServiceKeys - data", this.serviceKeys)
             }
             catch (error) {
                 alert(error)
                 console.log(error)
             }
+            console.log("service.fetchServiceKeys - serviceKeys after", this.serviceKeys)
         },
 
         async addServiceKey() {
