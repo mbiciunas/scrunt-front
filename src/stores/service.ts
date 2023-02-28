@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from "axios"
+import {ref} from "vue";
 
 export type ServiceKeys = {
     ServiceKeyId: number;
@@ -20,7 +21,7 @@ export const useServiceStore = defineStore({
         port: 0,
         serviceTypeId: 0,
         cloudId: 0,
-        serviceKeys: [] as ServiceKeys[],
+        serviceKeys: ref([] as ServiceKeys[]),
     }),
     getters: {
         getId(state) {
@@ -93,6 +94,7 @@ export const useServiceStore = defineStore({
         },
 
         async addServiceKey() {
+            console.log("service.addServiceKey - serviceKeys before", this.serviceKeys)
             const newServiceKey: ServiceKeys = {
                 ServiceKeyId: 0,
                 KeyId: 0,
@@ -102,6 +104,7 @@ export const useServiceStore = defineStore({
                 KeyTypeName: ""
             }
             this.serviceKeys.push(newServiceKey)
+            console.log("service.addServiceKey - serviceKeys after", this.serviceKeys)
 
             return newServiceKey.ServiceKeyId
         },
@@ -122,15 +125,38 @@ export const useServiceStore = defineStore({
             }
         },
 
-        async deleteServiceKey(serviceId: number, serviceKeyId: number) {
-            try {
-                await axios.delete('http://localhost:8080/api/services/' + serviceId + "/keys/" + serviceKeyId)
+        async putServiceKey(serviceKeyId: number, serviceId: number, keyId: number) {
+            const data = <JSON><unknown>{
+                "ServiceId": serviceId,
+                "KeyId": keyId
+            }
 
-                await this.fetchServiceKeys()
+            try {
+                await axios.put('http://localhost:8080/api/services/' + serviceId + "/keys/" + serviceKeyId, data)
+
+                await this.fetchService(this.id)
             }
             catch (error) {
                 alert(error)
                 console.log(error)
+            }
+        },
+
+        async deleteServiceKey(serviceKeyId: number, serviceId: number) {
+            console.log("service.deleteServiceKey - serviceKeyId", serviceKeyId)
+            if (serviceKeyId == 0) {
+
+            }
+            else {
+                try {
+                    await axios.delete('http://localhost:8080/api/services/' + serviceId + "/keys/" + serviceKeyId)
+
+                    await this.fetchServiceKeys()
+                }
+                catch (error) {
+                    alert(error)
+                    console.log(error)
+                }
             }
         },
 

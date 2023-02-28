@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang='ts'>
-import {reactive, ref} from 'vue'
+import {computed, reactive, ref} from 'vue'
   import { useAllKeysStore } from "@/stores/allKeys";
   import EditKey from "@/components/service/view/EditKey.vue";
   import {useServiceStore} from "@/stores/service";
@@ -73,7 +73,8 @@ import {reactive, ref} from 'vue'
   const serviceStore = useServiceStore();
 
   await serviceStore.fetchServiceKeys()
-  const serviceKeys = reactive(serviceStore.getServiceKeys)
+  // const serviceKeys = reactive(serviceStore.getServiceKeys)
+  const serviceKeys  = computed(() => serviceStore.getServiceKeys);
   // const serviceKeys = ref()
   // serviceKeys.value = serviceStore.getServiceKeys
   // const serviceKeys = serviceStore.getServiceKeys

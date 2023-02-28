@@ -24,7 +24,7 @@
       {{ description }}
     </td>
     <td class="text-right">
-<!--      <v-btn icon="mdi-pencil" size="small" variant="plain" @click="editService()"></v-btn>-->
+      <v-btn icon="mdi-pencil" size="small" variant="plain" @click="editService()"></v-btn>
       <v-btn icon="mdi-delete" size="small" variant="plain" @click="deleteService()"></v-btn>
     </td>
 
@@ -52,28 +52,32 @@
   const serviceStore = useServiceStore();
   // const serviceKey = ref()
 
-  // const editService = () => {
-  //   edit.value = true
-  // }
+  const editService = () => {
+    edit.value = true
+  }
 
   const cancelEdit = async () => {
     if (props.serviceKeyId == 0) {
-      await serviceStore.deleteServiceKey(props.serviceId, props.serviceKeyId)
+      //
+      // Add delete to just the store, not the database.  This may all be
+      // moved to the store.
+      //
     }
     else {
+      await serviceStore.deleteServiceKey(props.serviceId, props.serviceKeyId)
       edit.value = false
     }
   }
 
   const saveEdit = async () => {
-    await serviceStore.postServiceKey(props.serviceId, keyId.value)
+    await serviceStore.putServiceKey(props.serviceKeyId, props.serviceId, keyId.value)
     // serviceKey.value = serviceStore.getServiceKeys
     edit.value = false
   }
 
   const deleteService = async () => {
-    console.log("EditKey.deleteService", props.serviceId, props.serviceKeyId)
-    await serviceStore.deleteServiceKey(props.serviceId, props.serviceKeyId)
+    console.log("EditKey.deleteService", props.serviceKeyId, props.serviceId)
+    await serviceStore.deleteServiceKey(props.serviceKeyId, props.serviceId)
     // serviceKey.value = serviceStore.getServiceKeys
     edit.value = false
   }
