@@ -134,7 +134,7 @@ export const useServiceStore = defineStore({
             try {
                 await axios.put('http://localhost:8080/api/services/' + serviceId + "/keys/" + serviceKeyId, data)
 
-                await this.fetchService(this.id)
+                await this.fetchServiceKeys()
             }
             catch (error) {
                 alert(error)
@@ -145,7 +145,12 @@ export const useServiceStore = defineStore({
         async deleteServiceKey(serviceKeyId: number, serviceId: number) {
             console.log("service.deleteServiceKey - serviceKeyId", serviceKeyId)
             if (serviceKeyId == 0) {
-
+                const indexOfObject = this.serviceKeys.findIndex((object) => {
+                    return object.ServiceKeyId === serviceKeyId;
+                });
+                if (indexOfObject !== -1) {
+                    this.serviceKeys.splice(indexOfObject, 1);
+                }
             }
             else {
                 try {

@@ -22,17 +22,11 @@
 
         <tbody>
         <tr v-for="keyItem in serviceKeys" :key="keyItem.ServiceKeyId" >
-<!--          <td>-->
-<!--          {{ serviceKeys }}-->
-<!--          {{ keyItem }}-->
-<!--          ServiceKeyId: {{ keyItem[0].ServiceKeyId }} Name: {{ keyItem[0].KeyName }} Description: {{ keyItem[0].KeyDescription }} ServiceId: {{ serviceId }}-->
           <EditKey :service-key-id="keyItem.ServiceKeyId" :name="keyItem.KeyName" :description="keyItem.KeyDescription" :service-id="serviceId" :keys="keys"></EditKey>
-<!--          </td>-->
         </tr>
         <tr>
           <td>
             <v-btn v-on:click="submitAdd" color="primary">Add</v-btn>
-            <v-btn v-on:click="checkStuff" color="secondary">Check Stuff</v-btn>
           </td>
         </tr>
         </tbody>
@@ -42,10 +36,11 @@
 </template>
 
 <script setup lang='ts'>
-import {computed, reactive, ref} from 'vue'
-  import { useAllKeysStore } from "@/stores/allKeys";
-  import EditKey from "@/components/service/view/EditKey.vue";
-  import {useServiceStore} from "@/stores/service";
+  import {ref} from 'vue'
+    import { useAllKeysStore } from "@/stores/allKeys";
+    import EditKey from "@/components/service/view/key/EditKey.vue";
+    import { useServiceStore } from "@/stores/service";
+    import { storeToRefs } from "pinia";
 
   export interface Key {
     Id: number
@@ -73,24 +68,12 @@ import {computed, reactive, ref} from 'vue'
   const serviceStore = useServiceStore();
 
   await serviceStore.fetchServiceKeys()
-  // const serviceKeys = reactive(serviceStore.getServiceKeys)
-  const serviceKeys  = computed(() => serviceStore.getServiceKeys);
-  // const serviceKeys = ref()
-  // serviceKeys.value = serviceStore.getServiceKeys
-  // const serviceKeys = serviceStore.getServiceKeys
-  console.log("ViewKeyCard.setup - serviceKeys", serviceKeys)
-  // const myServiceKeys = [
-  //     {ServiceKeyId: 1, KeyId: 1, KeyName: 'RSA key', KeyDescription: 'RSA key for accessing database.'},
-  //     {ServiceKeyId: 42, KeyId: 2, KeyName: 'DSA key', KeyDescription: 'This is another key.'}
-  // ]
-  // console.log("ViewKeyCard.setup - myServiceKeys", myServiceKeys)
+
+  const { serviceKeys } = storeToRefs(useServiceStore());
+
+  console.log("ViewKeyCard.setup - getServiceKeys", serviceKeys)
 
   const submitAdd = async () => {
     await serviceStore.addServiceKey()
   }
-
-  const checkStuff = async () => {
-    console.log("ViewKeyCard.checkStuff - serviceKey", serviceKeys)
-  }
-
 </script>

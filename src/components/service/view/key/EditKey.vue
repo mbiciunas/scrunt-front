@@ -35,7 +35,7 @@
 <script setup lang='ts'>
   import { ref } from 'vue'
   import { useServiceStore } from "@/stores/service";
-  import type { Key } from "@/components/service/view/ViewKeyCard.vue"
+  import type { Key } from "@/components/service/view/key/ViewKeyCard.vue"
   import type { PropType } from 'vue'
 
   const props = defineProps({
@@ -50,7 +50,6 @@
   const keyId = ref()
 
   const serviceStore = useServiceStore();
-  // const serviceKey = ref()
 
   const editService = () => {
     edit.value = true
@@ -58,27 +57,28 @@
 
   const cancelEdit = async () => {
     if (props.serviceKeyId == 0) {
-      //
-      // Add delete to just the store, not the database.  This may all be
-      // moved to the store.
-      //
+      await serviceStore.deleteServiceKey(props.serviceKeyId, props.serviceId)
+      edit.value = false
     }
     else {
-      await serviceStore.deleteServiceKey(props.serviceId, props.serviceKeyId)
       edit.value = false
     }
   }
 
   const saveEdit = async () => {
-    await serviceStore.putServiceKey(props.serviceKeyId, props.serviceId, keyId.value)
-    // serviceKey.value = serviceStore.getServiceKeys
+    if (props.serviceKeyId == 0) {
+      await serviceStore.postServiceKey(props.serviceId, keyId.value)
+    }
+    else {
+      await serviceStore.putServiceKey(props.serviceKeyId, props.serviceId, keyId.value)
+    }
+
     edit.value = false
   }
 
   const deleteService = async () => {
-    console.log("EditKey.deleteService", props.serviceKeyId, props.serviceId)
     await serviceStore.deleteServiceKey(props.serviceKeyId, props.serviceId)
-    // serviceKey.value = serviceStore.getServiceKeys
+
     edit.value = false
   }
 </script>

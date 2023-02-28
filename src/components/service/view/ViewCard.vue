@@ -41,7 +41,7 @@
 <script setup lang='ts'>
   import { ref } from 'vue'
   import ViewHomeCard from "@/components/service/view/ViewHomeCard.vue";
-  import ViewKeyCard from "@/components/service/view/ViewKeyCard.vue";
+  import ViewKeyCard from "@/components/service/view/key/ViewKeyCard.vue";
   import ViewHistoryCard from "@/components/service/view/ViewHistoryCard.vue";
 
   const props = defineProps({
