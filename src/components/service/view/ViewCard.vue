@@ -11,7 +11,7 @@
         <v-tabs v-model="tab" align-with-title background-color="primary" slider-color="white">
           <v-tab value="home">Home</v-tab>
           <v-tab value="key">Keys</v-tab>
-          <v-tab value="history">History</v-tab>
+          <v-tab value="script">Scripts</v-tab>
         </v-tabs>
       </template>
     </v-toolbar>
@@ -27,8 +27,10 @@
         </suspense>
       </v-window-item>
 
-      <v-window-item value="history">
-        <view-history-card :id=props.id v-on:close="$emit('close')"></view-history-card>
+      <v-window-item value="script">
+        <suspense>
+          <view-script-card :service-id=props.id v-on:close="$emit('close')"></view-script-card>
+        </suspense>
       </v-window-item>
     </v-window>
   </v-sheet>
@@ -42,7 +44,7 @@
   import { ref } from 'vue'
   import ViewHomeCard from "@/components/service/view/ViewHomeCard.vue";
   import ViewKeyCard from "@/components/service/view/key/ViewKeyCard.vue";
-  import ViewHistoryCard from "@/components/service/view/ViewHistoryCard.vue";
+  import ViewScriptCard from "@/components/service/view/script/ViewScriptCard.vue";
 
   const props = defineProps({
     id: {type: Number, required: true},

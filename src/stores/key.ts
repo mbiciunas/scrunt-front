@@ -1,5 +1,15 @@
 import { defineStore } from 'pinia'
 import axios from "axios"
+import {ref} from "vue";
+
+export type KeyServices = {
+    ServiceKeyId: number;
+    ServiceId: number;
+    ServiceName: string;
+    ServiceDescription: string;
+    ServiceTypeId: number;
+    ServiceTypeName: string;
+}
 
 export const useKeyStore = defineStore({
     id: "key",
@@ -10,6 +20,7 @@ export const useKeyStore = defineStore({
         type: "",
         keyPrivate: "",
         keyPublic: "",
+        keyServices: ref([] as KeyServices[]),
     }),
     getters: {
         getId(state){
@@ -58,6 +69,33 @@ export const useKeyStore = defineStore({
                 console.log(error)
             }
         },
+
+        async fetchKeyServices() {
+            console.log("key.fetchKeyServices - keyServices before", this.keyServices)
+            try {
+                const data = await axios.get('http://localhost:8080/api/keys/' + this.id + "/services")
+
+                if (data.data != null) {
+                    this.keyServices = data.data.map((data: any) => {
+                        const newKeyService: KeyServices = {
+                            ServiceKeyId: data.ServiceKeyId,
+                            ServiceId: data.ServiceId,
+                            ServiceName: data.Name,
+                            ServiceDescription: data.Description,
+                            ServiceTypeId: data.ServiceTypeId,
+                            ServiceTypeName: data.ServiceTypeName
+                        }
+                        return newKeyService
+                    })
+                }
+            }
+            catch (error) {
+                alert(error)
+                console.log(error)
+            }
+            console.log("key.fetchKeyServices - keyServices after", this.keyServices)
+        },
+
         async putNameDescription(name: string, description: string) {
             console.log("Put Private", this.keyPrivate)
             console.log("Put Public", this.keyPublic)

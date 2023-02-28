@@ -72,77 +72,51 @@
   </v-dialog>
 
   <v-dialog v-model="viewDialog">
-    <view-card :id=getKeyById?.Id v-on:close="viewDialog = false; allKeys.fetchKeys()" />
+    <view-card :id=getKeyById?.Id :name=getKeyById?.Name v-on:close="viewDialog = false; allKeys.fetchKeys()" />
   </v-dialog>
 
 </template>
 
 
-<script lang='ts'>
-  import { defineComponent, ref } from 'vue'
-  import {onMounted, computed } from 'vue';
+<script setup lang='ts'>
+  import { ref } from 'vue'
+  import { onMounted, computed } from 'vue';
   import { useAllKeysStore } from '@/stores/allKeys';
   import QuickRunCard from "@/components/script/QuickRunCard.vue";
-  import AddCard from "@/components/key/AddCard.vue";
   import DeleteCard from "@/components/key/DeleteCard.vue";
-  import ViewCard from "@/components/key/ViewCard.vue";
+  import ViewCard from "@/components/key/view/ViewCard.vue";
 
-  export default defineComponent({
-    setup() {
-      const allKeys = useAllKeysStore();
+    const allKeys = useAllKeysStore();
 
-      const getKeys = computed(() => {
-        return allKeys.getFilterKeys
-      })
+    const getKeys = computed(() => {
+      return allKeys.getFilterKeys
+    })
 
-      const getKeyById = computed(() => {
-        return allKeys.getKeyById(keyId.value)
-      })
+    const getKeyById = computed(() => {
+      return allKeys.getKeyById(keyId.value)
+    })
 
-      const quickRunDialog = ref(false)
-      const deleteDialog = ref(false)
-      const viewDialog = ref(false)
-      const keyId = ref(0)
+    const quickRunDialog = ref(false)
+    const deleteDialog = ref(false)
+    const viewDialog = ref(false)
+    const keyId = ref(0)
 
-      const runKey = (gettersService: any) => {
-        keyId.value = gettersService.Id
-        quickRunDialog.value = true
-      }
+    const runKey = (gettersService: any) => {
+      keyId.value = gettersService.Id
+      quickRunDialog.value = true
+    }
 
-      const deleteKey = (gettersService: any) => {
-        keyId.value = gettersService.Id
-        deleteDialog.value = true
-      }
+    const deleteKey = (gettersService: any) => {
+      keyId.value = gettersService.Id
+      deleteDialog.value = true
+    }
 
-      const viewKey = (gettersService: any) => {
-        keyId.value = gettersService.Id
-        viewDialog.value = true
-      }
+    const viewKey = (gettersService: any) => {
+      keyId.value = gettersService.Id
+      viewDialog.value = true
+    }
 
-      onMounted(async () => {
-        await allKeys.fetchKeys()
-      })
-
-      return {
-        allKeys,
-        getKeys,
-        getKeyById,
-        runKey,
-        deleteKey,
-        viewKey,
-        quickRunDialog,
-        deleteDialog,
-        viewDialog,
-        keyId,
-      }
-    },
-
-    components: {
-      QuickRunCard,
-      AddCard,
-      DeleteCard,
-      ViewCard,
-    },
-
-  })
+    onMounted(async () => {
+      await allKeys.fetchKeys()
+    })
 </script>
