@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang='ts'>
-  import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
     import { useAllKeysStore } from "@/stores/allKeys";
     import EditKey from "@/components/service/view/key/EditKey.vue";
     import { useServiceStore } from "@/stores/service";
@@ -67,11 +67,16 @@
 
   const serviceStore = useServiceStore();
 
-  await serviceStore.fetchServiceKeys()
+  // await serviceStore.fetchServiceKeys()
 
   const { serviceKeys } = storeToRefs(useServiceStore());
 
   console.log("ViewKeyCard.setup - getServiceKeys", serviceKeys)
+
+  onMounted(async () => {
+    console.log("ViewKeyCard.onMounted")
+    await serviceStore.fetchServiceKeys()
+  })
 
   const submitAdd = async () => {
     await serviceStore.addServiceKey()

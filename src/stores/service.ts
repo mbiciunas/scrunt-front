@@ -72,7 +72,10 @@ export const useServiceStore = defineStore({
             try {
                 const data = await axios.get('http://localhost:8080/api/services/' + this.id + "/keys")
 
-                if (data.data != null) {
+                if (data.data == null) {
+                    this.serviceKeys.splice(0, this.serviceKeys.length)
+                }
+                else {
                     this.serviceKeys = data.data.map((data: any) => {
                         const newServiceKey: ServiceKeys = {
                             ServiceKeyId: data.ServiceKeyId,

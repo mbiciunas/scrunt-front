@@ -2,7 +2,6 @@
   <v-card>
     <v-card-title>
       Services
-      Services
     </v-card-title>
 
     <v-card-text>
@@ -23,7 +22,7 @@
 
         <tbody>
         <tr v-for="serviceItem in keyServices" :key="serviceItem.ServiceKeyId" >
-          <EditService :service-key-id="serviceItem.ServiceKeyId" :name="serviceItem.ServiceName" :description="serviceItem.ServiceDescription" :key-id="keyId" :services="services"></EditService>
+          <EditService :service-key-id="serviceItem.ServiceKeyId" :service-id="serviceItem.ServiceId" :name="serviceItem.ServiceName" :description="serviceItem.ServiceDescription" :key-id="keyId" :services="services"></EditService>
         </tr>
         <tr>
           <td>
@@ -37,7 +36,7 @@
 </template>
 
 <script setup lang='ts'>
-  import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
     import { useAllServicesStore } from "@/stores/allServices";
     import EditService from "@/components/key/view/service/EditService.vue";
     import { useKeyStore } from "@/stores/key";
@@ -68,13 +67,18 @@
 
   const keyStore = useKeyStore();
 
-  await keyStore.fetchKeyServices()
+  // await keyStore.fetchKeyServices()
 
   const { keyServices } = storeToRefs(useKeyStore());
 
   console.log("ViewServiceCard.setup - keyServices", keyServices)
 
+  onMounted(async () => {
+    console.log("ViewServiceCard.onMounted")
+    await keyStore.fetchKeyServices()
+  })
+
   const submitAdd = async () => {
-    await serviceStore.addServiceKey()
+    await keyStore.addKeyService()
   }
 </script>

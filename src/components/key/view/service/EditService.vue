@@ -3,10 +3,10 @@
     <td>
       <v-select
           v-model="serviceId"
-          :items="keys"
+          :items="services"
           item-title="Name"
           item-value="Id"
-          label="Key"
+          label="Service"
       ></v-select>
     </td>
     <td>
@@ -34,12 +34,13 @@
 
 <script setup lang='ts'>
   import { ref } from 'vue'
-  import { useServiceStore } from "@/stores/service";
+  import { useKeyStore } from "@/stores/key";
   import type { Service } from "@/components/key/view/service/ViewServiceCard.vue"
   import type { PropType } from 'vue'
 
   const props = defineProps({
     serviceKeyId: { type: Number, required: true },
+    serviceId: { type: Number, required: true },
     name: { type: String, required: true },
     description: { type: String, required: true },
     services: { type: Array as PropType<Array<Service>>, required: true },
@@ -49,7 +50,11 @@
   const edit = ref(props.serviceKeyId == 0)
   const serviceId = ref()
 
-  const serviceStore = useServiceStore();
+  if (props.serviceId != 0) {
+    serviceId.value = props.serviceId
+  }
+
+  const keyStore = useKeyStore();
 
   const editService = () => {
     edit.value = true
@@ -57,7 +62,7 @@
 
   const cancelEdit = async () => {
     if (props.serviceKeyId == 0) {
-      await serviceStore.deleteServiceKey(props.serviceKeyId, props.keyId)
+      await keyStore.deleteKeyService(props.serviceKeyId, props.keyId)
       edit.value = false
     }
     else {
@@ -67,17 +72,18 @@
 
   const saveEdit = async () => {
     if (props.serviceKeyId == 0) {
-      await serviceStore.postServiceKey(props.keyId, serviceId.value)
+      await keyStore.postServiceKey(props.keyId, serviceId.value)
     }
     else {
-      await serviceStore.putServiceKey(props.serviceKeyId, props.keyId, serviceId.value)
+      console.log("EditService.saveEdit - props.keyId", props.keyId, "serviceId.value", serviceId.value, "props.serviceKeyId", props.serviceKeyId)
+      await keyStore.putServiceKey(props.serviceKeyId, props.keyId, serviceId.value)
     }
 
     edit.value = false
   }
 
   const deleteService = async () => {
-    await serviceStore.deleteServiceKey(props.serviceKeyId, props.keyId)
+    await keyStore.deleteKeyService(props.serviceKeyId, props.keyId)
 
     edit.value = false
   }

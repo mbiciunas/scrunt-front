@@ -75,7 +75,10 @@ export const useKeyStore = defineStore({
             try {
                 const data = await axios.get('http://localhost:8080/api/keys/' + this.id + "/services")
 
-                if (data.data != null) {
+                if (data.data == null) {
+                    this.keyServices.splice(0, this.keyServices.length)
+                }
+                else {
                     this.keyServices = data.data.map((data: any) => {
                         const newKeyService: KeyServices = {
                             ServiceKeyId: data.ServiceKeyId,
@@ -94,6 +97,78 @@ export const useKeyStore = defineStore({
                 console.log(error)
             }
             console.log("key.fetchKeyServices - keyServices after", this.keyServices)
+        },
+
+        async addKeyService() {
+            console.log("key.addServiceKey - keyServices before", this.keyServices)
+            const newKeyService: KeyServices = {
+                ServiceKeyId: 0,
+                ServiceId: 0,
+                ServiceName: "",
+                ServiceDescription: "",
+                ServiceTypeId: 0,
+                ServiceTypeName: ""
+            }
+            this.keyServices.push(newKeyService)
+            console.log("key.addServiceKey - keyServices after", this.keyServices)
+
+            return newKeyService.ServiceKeyId
+        },
+
+        async postServiceKey(keyId: number, serviceId: number) {
+            const data = <JSON><unknown> {
+                "KeyId": keyId,
+                "ServiceId": serviceId
+            }
+
+            try {
+                await axios.post('http://localhost:8080/api/keys/' + this.id + "/services", data)
+
+                await this.fetchKeyServices()
+            }
+            catch (error) {
+                alert(error)
+            }
+        },
+
+        async putServiceKey(serviceKeyId: number, keyId: number, serviceId: number) {
+            const data = <JSON><unknown>{
+                "ServiceId": serviceId,
+                "KeyId": keyId
+            }
+
+            try {
+                await axios.put('http://localhost:8080/api/keys/' + this.id + "/services/" + serviceKeyId, data)
+
+                await this.fetchKeyServices()
+            }
+            catch (error) {
+                alert(error)
+                console.log(error)
+            }
+        },
+
+        async deleteKeyService(serviceKeyId: number, serviceId: number) {
+            console.log("key.deleteKeyService - serviceKeyId", serviceKeyId)
+            if (serviceKeyId == 0) {
+                const indexOfObject = this.keyServices.findIndex((object) => {
+                    return object.ServiceKeyId === serviceKeyId;
+                });
+                if (indexOfObject !== -1) {
+                    this.keyServices.splice(indexOfObject, 1);
+                }
+            }
+            else {
+                try {
+                    await axios.delete('http://localhost:8080/api/services/' + serviceId + "/keys/" + serviceKeyId)
+
+                    await this.fetchKeyServices()
+                }
+                catch (error) {
+                    alert(error)
+                    console.log(error)
+                }
+            }
         },
 
         async putNameDescription(name: string, description: string) {
