@@ -7,28 +7,23 @@
     <v-card-text>
       <v-table fixed-header height="300px">
         <thead>
-        <tr>
-          <th class="text-left">
-            Script
-          </th>
-          <th class="text-left">
-            Description
-          </th>
-          <th class="text-right">
-            Action
-          </th>
-        </tr>
+          <tr>
+            <th class="text-left">
+              Script
+            </th>
+            <th class="text-left">
+              Description
+            </th>
+            <th class="text-right">
+              Action
+            </th>
+          </tr>
         </thead>
 
         <tbody>
-        <tr v-for="keyItem in serviceKeys" :key="keyItem.ServiceKeyId" >
-          <EditScript :service-key-id="keyItem.ServiceKeyId" :name="keyItem.KeyName" :description="keyItem.KeyDescription" :service-id="serviceId" :keys="keys"></EditScript>
-        </tr>
-        <tr>
-          <td>
-            <v-btn v-on:click="submitAdd" color="primary">Add</v-btn>
-          </td>
-        </tr>
+          <tr v-for="scriptItem in serviceScripts" :key="scriptItem.ScriptId" >
+            <EditScript :script-id="scriptItem.ScriptId" :name="scriptItem.ScriptName" :description="scriptItem.ScriptDescription" :service-id="serviceId"></EditScript>
+          </tr>
         </tbody>
       </v-table>
     </v-card-text>
@@ -36,20 +31,9 @@
 </template>
 
 <script setup lang='ts'>
-  import {ref} from 'vue'
-    import { useAllKeysStore } from "@/stores/allKeys";
-    import EditScript from "@/components/service/view/script/EditScript.vue";
-    import { useServiceStore } from "@/stores/service";
-    import { storeToRefs } from "pinia";
-
-  export interface Key {
-    Id: number
-    Name: string
-    Description: number
-    key_type_id: number
-    key_type_name: string
-    services: Array<any>
-  }
+  import EditScript from "@/components/service/view/script/EditScript.vue";
+  import { useServiceScriptStore } from "@/stores/serviceScripts";
+  import { storeToRefs } from "pinia";
 
   const props = defineProps({
     serviceId: { type: Number, required: true },
@@ -59,21 +43,11 @@
     'close'
   ])
 
-  const allKeysStore = useAllKeysStore();
-  const keys = ref()
+  const serviceScriptStore = useServiceScriptStore();
 
-  await allKeysStore.fetchKeys()
-  keys.value = await allKeysStore.getKeys
+  await serviceScriptStore.fetchServiceScripts(props.serviceId)
 
-  const serviceStore = useServiceStore();
+  const { serviceScripts } = storeToRefs(useServiceScriptStore());
 
-  await serviceStore.fetchServiceKeys()
-
-  const { serviceKeys } = storeToRefs(useServiceStore());
-
-  console.log("ViewScriptCard.setup - getServiceKeys", serviceKeys)
-
-  const submitAdd = async () => {
-    await serviceStore.addServiceKey()
-  }
+  console.log("ViewScriptCard.setup - getServiceKeys", serviceScripts.value)
 </script>
