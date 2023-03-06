@@ -25,7 +25,7 @@
 
       <v-window-item value="prerequisite">
         <suspense>
-          <view-prerequisite-card :id=props.id v-on:close="$emit('close')"></view-prerequisite-card>
+          <view-prerequisite-card :script-id=props.id v-on:close="$emit('close')"></view-prerequisite-card>
         </suspense>
       </v-window-item>
 
